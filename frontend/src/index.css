@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+  --font-kalpurush: "kalpurush", sans-serif;
+  --color-primary: #062911;
+  --color-secondary: #2c4935;
+  --color-warning: #f09723;
+}
