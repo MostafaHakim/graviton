@@ -25,13 +25,13 @@ const userRouter = require("./router/user.route");
 const admissionRouter = require("./router/admission.route");
 
 // ===================MiddleWere=====================
-app.use(cors());
-// app.use(
-//   cors({
-//     origin: process.env.CLIENT_URL,
-//     credentials: true,
-//   })
-// );
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "*",
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
