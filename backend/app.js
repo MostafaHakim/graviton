@@ -14,6 +14,7 @@ const server = http.createServer(app);
 const userRouter = require("./router/user.route");
 const admissionRouter = require("./router/admission.route");
 const subjectRouter = require("./router/subject.route");
+const galleryRouter = require("./router/gallery.route");
 
 // ===================MiddleWere=====================
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("api/student", admissionRouter);
 app.use("/api/subjects", subjectRouter);
+app.use("/api/gallery", galleryRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

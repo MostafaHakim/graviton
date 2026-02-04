@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Camera,
   Video,
@@ -25,8 +25,20 @@ import {
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [galleryItems, setGalleryItems] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_BASE_URL}/api/gallery?category=${selectedCategory}`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setGalleryItems(data);
+        setLoading(false);
+      });
+  }, [selectedCategory]);
 
   const galleryCategories = [
     { id: "all", label: "সব ক্যাটাগরি", count: 156, icon: Grid },
@@ -67,109 +79,109 @@ const Gallery = () => {
     },
   ];
 
-  const galleryItems = [
-    {
-      id: 1,
-      title: "বার্ষিক সাংস্কৃতিক সন্ধ্যা ২০২৪",
-      category: "events",
-      type: "video",
-      image:
-        "https://images.unsplash.com/photo-1501281663645-0f8852d5dff8?w=800",
-      likes: 245,
-      comments: 34,
-      date: "১৫ মার্চ, ২০২৪",
-      description: "শিক্ষার্থীদের অংশগ্রহণে অসাধারণ সাংস্কৃতিক পরিবেশনা",
-      tags: ["সাংস্কৃতি", "নাচ", "গান", "প্রদর্শনী"],
-    },
-    {
-      id: 2,
-      title: "বিজ্ঞান মেলা - বিজয়ীদের সাথে",
-      category: "achievements",
-      type: "image",
-      image:
-        "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w-800",
-      likes: 189,
-      comments: 21,
-      date: "১০ মার্চ, ২০২৪",
-      description: "জাতীয় বিজ্ঞান মেলায় প্রথম পুরস্কার প্রাপ্তি",
-      tags: ["বিজ্ঞান", "প্রতিযোগিতা", "সাফল্য"],
-    },
-    {
-      id: 3,
-      title: "স্মার্ট ক্লাসরুমে শিক্ষাদান",
-      category: "classes",
-      type: "image",
-      image:
-        "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800",
-      likes: 156,
-      comments: 18,
-      date: "৮ মার্চ, ২০২৪",
-      description: "আধুনিক প্রযুক্তি ব্যবহার করে ইন্টার‍্যাকটিভ ক্লাস",
-      tags: ["শিক্ষাদান", "প্রযুক্তি", "ক্লাসরুম"],
-    },
-    {
-      id: 4,
-      title: "IELTS স্পিকিং ওয়ার্কশপ",
-      category: "events",
-      type: "video",
-      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800",
-      likes: 203,
-      comments: 29,
-      date: "৫ মার্চ, ২০২৪",
-      description: "IELTS স্পিকিং পরীক্ষার প্রস্তুতির বিশেষ সেশন",
-      tags: ["আইইএলটিএস", "ওয়ার্কশপ", "ইংরেজি"],
-    },
-    {
-      id: 5,
-      title: "গ্র্যাভিটন ক্রিকেট দল - চ্যাম্পিয়ন",
-      category: "achievements",
-      type: "image",
-      image:
-        "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800",
-      likes: 312,
-      comments: 42,
-      date: "১ মার্চ, ২০২৪",
-      description: "আন্তঃকলেজ ক্রিকেট টুর্নামেন্টে চ্যাম্পিয়নশিপ",
-      tags: ["ক্রীড়া", "ক্রিকেট", "চ্যাম্পিয়ন"],
-    },
-    {
-      id: 6,
-      title: "লাইব্রেরি দিবস উদযাপন",
-      category: "campus",
-      type: "image",
-      image:
-        "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800",
-      likes: 178,
-      comments: 15,
-      date: "২৮ ফেব্রুয়ারি, ২০২৪",
-      description: "পাঠাভ্যাস গড়ে তুলতে বিশেষ আয়োজন",
-      tags: ["লাইব্রেরি", "পড়াশুনা", "সাহিত্য"],
-    },
-    {
-      id: 7,
-      title: "ক্যারিয়ার কাউন্সেলিং সেশন",
-      category: "students",
-      type: "image",
-      image: "https://images.unsplash.com/photo-1551836026-d5c2c5af78e4?w=800",
-      likes: 134,
-      comments: 23,
-      date: "২৫ ফেব্রুয়ারি, ২০২৪",
-      description: "শিক্ষার্থীদের জন্য বিশেষ ক্যারিয়ার গাইডেন্স",
-      tags: ["ক্যারিয়ার", "গাইডেন্স", "কাউন্সেলিং"],
-    },
-    {
-      id: 8,
-      title: "ডিজিটাল আর্ট প্রদর্শনী",
-      category: "events",
-      type: "video",
-      image: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=800",
-      likes: 267,
-      comments: 31,
-      date: "২০ ফেব্রুয়ারি, ২০২৪",
-      description: "শিক্ষার্থীদের ডিজিটাল আর্ট ক্রিয়েটিভিটি প্রদর্শন",
-      tags: ["আর্ট", "ক্রিয়েটিভিটি", "প্রদর্শনী"],
-    },
-  ];
+  // const galleryItems = [
+  //   {
+  //     id: 1,
+  //     title: "বার্ষিক সাংস্কৃতিক সন্ধ্যা ২০২৪",
+  //     category: "events",
+  //     type: "video",
+  //     image:
+  //       "https://images.unsplash.com/photo-1501281663645-0f8852d5dff8?w=800",
+  //     likes: 245,
+  //     comments: 34,
+  //     date: "১৫ মার্চ, ২০২৪",
+  //     description: "শিক্ষার্থীদের অংশগ্রহণে অসাধারণ সাংস্কৃতিক পরিবেশনা",
+  //     tags: ["সাংস্কৃতি", "নাচ", "গান", "প্রদর্শনী"],
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "বিজ্ঞান মেলা - বিজয়ীদের সাথে",
+  //     category: "achievements",
+  //     type: "image",
+  //     image:
+  //       "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w-800",
+  //     likes: 189,
+  //     comments: 21,
+  //     date: "১০ মার্চ, ২০২৪",
+  //     description: "জাতীয় বিজ্ঞান মেলায় প্রথম পুরস্কার প্রাপ্তি",
+  //     tags: ["বিজ্ঞান", "প্রতিযোগিতা", "সাফল্য"],
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "স্মার্ট ক্লাসরুমে শিক্ষাদান",
+  //     category: "classes",
+  //     type: "image",
+  //     image:
+  //       "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800",
+  //     likes: 156,
+  //     comments: 18,
+  //     date: "৮ মার্চ, ২০২৪",
+  //     description: "আধুনিক প্রযুক্তি ব্যবহার করে ইন্টার‍্যাকটিভ ক্লাস",
+  //     tags: ["শিক্ষাদান", "প্রযুক্তি", "ক্লাসরুম"],
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "IELTS স্পিকিং ওয়ার্কশপ",
+  //     category: "events",
+  //     type: "video",
+  //     image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800",
+  //     likes: 203,
+  //     comments: 29,
+  //     date: "৫ মার্চ, ২০২৪",
+  //     description: "IELTS স্পিকিং পরীক্ষার প্রস্তুতির বিশেষ সেশন",
+  //     tags: ["আইইএলটিএস", "ওয়ার্কশপ", "ইংরেজি"],
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "গ্র্যাভিটন ক্রিকেট দল - চ্যাম্পিয়ন",
+  //     category: "achievements",
+  //     type: "image",
+  //     image:
+  //       "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800",
+  //     likes: 312,
+  //     comments: 42,
+  //     date: "১ মার্চ, ২০২৪",
+  //     description: "আন্তঃকলেজ ক্রিকেট টুর্নামেন্টে চ্যাম্পিয়নশিপ",
+  //     tags: ["ক্রীড়া", "ক্রিকেট", "চ্যাম্পিয়ন"],
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "লাইব্রেরি দিবস উদযাপন",
+  //     category: "campus",
+  //     type: "image",
+  //     image:
+  //       "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800",
+  //     likes: 178,
+  //     comments: 15,
+  //     date: "২৮ ফেব্রুয়ারি, ২০২৪",
+  //     description: "পাঠাভ্যাস গড়ে তুলতে বিশেষ আয়োজন",
+  //     tags: ["লাইব্রেরি", "পড়াশুনা", "সাহিত্য"],
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "ক্যারিয়ার কাউন্সেলিং সেশন",
+  //     category: "students",
+  //     type: "image",
+  //     image: "https://images.unsplash.com/photo-1551836026-d5c2c5af78e4?w=800",
+  //     likes: 134,
+  //     comments: 23,
+  //     date: "২৫ ফেব্রুয়ারি, ২০২৪",
+  //     description: "শিক্ষার্থীদের জন্য বিশেষ ক্যারিয়ার গাইডেন্স",
+  //     tags: ["ক্যারিয়ার", "গাইডেন্স", "কাউন্সেলিং"],
+  //   },
+  //   {
+  //     id: 8,
+  //     title: "ডিজিটাল আর্ট প্রদর্শনী",
+  //     category: "events",
+  //     type: "video",
+  //     image: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=800",
+  //     likes: 267,
+  //     comments: 31,
+  //     date: "২০ ফেব্রুয়ারি, ২০২৪",
+  //     description: "শিক্ষার্থীদের ডিজিটাল আর্ট ক্রিয়েটিভিটি প্রদর্শন",
+  //     tags: ["আর্ট", "ক্রিয়েটিভিটি", "প্রদর্শনী"],
+  //   },
+  // ];
 
   const filteredItems =
     selectedCategory === "all"

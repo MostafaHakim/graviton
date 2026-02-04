@@ -94,9 +94,9 @@ const AdminSidebar = () => {
     },
     {
       id: "exams",
-      label: "মক টেস্ট",
+      label: "গ্যালারী",
       icon: Target,
-      path: "/student/exams",
+      path: "/admin/gallery",
       color: "text-[#3E8BFF]",
       bg: "bg-[#EDF5FF]",
       border: "border-l-4 border-[#3E8BFF]",

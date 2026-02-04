@@ -34,6 +34,8 @@ import AdmissionById from "./pages/admin/AdmissionById";
 import AddSubject from "./components/features/subject/AddSubject";
 import ChapterContentPage from "./components/ChapterContentPage";
 import ChapterDetails from "./components/ChapterDetails";
+import GalleryUpload from "./components/GalleryUpload";
+import AdminGallery from "./pages/admin/AdminGallery";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -92,6 +94,8 @@ const AppRouter = () => {
           <Route path="admission" element={<AdmissionManagement />} />
           <Route path="admission/:id" element={<AdmissionById />} />
           <Route path="madeeasy/add" element={<AddSubject />} />
+          <Route path="gallery" element={<AdminGallery />} />
+          <Route path="gallery/upload" element={<GalleryUpload />} />
           <Route
             path="madeeasy/:subjectId/:classId/:paperId/:chapterIndex"
             element={<ChapterContentPage />}
