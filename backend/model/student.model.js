@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const admissionSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
     // Personal Info
-    studentName: {
+    studentId: {
       type: String,
       required: true,
       trim: true,
@@ -12,6 +14,21 @@ const admissionSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    studentName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    role: {
+      type: String,
+      default: "student",
     },
     fatherName: {
       type: String,
@@ -98,17 +115,34 @@ const admissionSchema = new mongoose.Schema(
     // Status
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
-      default: "pending",
-    },
-    admissionId: {
-      type: String,
+      enum: ["active", "block"],
+      default: "active",
     },
   },
   { timestamps: true },
 );
 
-const Admission =
-  mongoose.models.Admission || mongoose.model("Admission", admissionSchema);
+studentSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+});
 
-module.exports = Admission;
+studentSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+studentSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { id: this._id, username: this.studentName, role: this.role },
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: "24h" },
+  );
+  return token;
+};
+
+const Students =
+  mongoose.models.Students || mongoose.model("Students", studentSchema);
+
+module.exports = Students;

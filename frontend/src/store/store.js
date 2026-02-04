@@ -6,7 +6,7 @@ import subjectReducer from "./features/auth/subjectSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    students: admissionReducer,
+    admissions: admissionReducer,
     subject: subjectReducer,
   },
 });

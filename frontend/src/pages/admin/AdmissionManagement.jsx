@@ -58,7 +58,7 @@ import {
 import { getAdmission } from "../../store/features/auth/admissionSlice";
 
 const AdmissionManagement = () => {
-  const { students } = useSelector((state) => state.students);
+  const { admissions } = useSelector((state) => state.admissions);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -70,7 +70,7 @@ const AdmissionManagement = () => {
   }, []);
 
   // Filter students based on search and status
-  const filteredStudents = students?.filter((student) => {
+  const filteredStudents = admissions?.filter((student) => {
     const matchesSearch =
       student.studentName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.admissionId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,13 +83,13 @@ const AdmissionManagement = () => {
   });
 
   // Stats calculation
-  const totalStudents = students?.length || 0;
+  const totalStudents = admissions?.length || 0;
   const pendingStudents =
-    students?.filter((s) => s.status === "pending")?.length || 0;
+    admissions?.filter((s) => s.status === "pending")?.length || 0;
   const totalFees =
-    students?.reduce((sum, s) => sum + (s.totalFee || 0), 0) || 0;
+    admissions?.reduce((sum, s) => sum + (s.totalFee || 0), 0) || 0;
   const collectedFees =
-    students?.reduce((sum, s) => sum + (s.cashPayment || 0), 0) || 0;
+    admissions?.reduce((sum, s) => sum + (s.cashPayment || 0), 0) || 0;
 
   const containerVariants = {
     hidden: { opacity: 0 },

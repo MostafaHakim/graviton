@@ -36,6 +36,11 @@ import {
   Smartphone,
   Banknote,
 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAdmissionById,
+  handleApprove,
+} from "../../store/features/auth/admissionSlice";
 
 const AdmissionById = () => {
   const { id } = useParams();
@@ -44,37 +49,21 @@ const AdmissionById = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock data - Replace with your actual API call
+  const dispatch = useDispatch();
+  const { admission } = useSelector((state) => state.admissions);
+
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setStudent({
-        _id: "69821713c87af537f1d11e99",
-        admissionId: "GA-2026-00001",
-        studentName: "মোস্তফা",
-        fatherName: "Abdul Hakim",
-        motherName: "Foyjunnesa",
-        mobileNumber: "০১৭৪৪৮৪৪৮৮",
-        address: "gfdg",
-        class: "eight",
-        schoolCollege: "মডেল কলেজ",
-        courses: ["pre-primary"],
-        photo:
-          "https://res.cloudinary.com/doyhiacif/image/upload/v1770133267/rcfc1ckprpt7tyhgm0ec.jpg",
-        status: "pending",
-        totalFee: 500,
-        discount: 300,
-        cashPayment: 100,
-        duePayment: 100,
-        paymentMethod: "nagad",
-        transactionId: "hhdhd54454",
-        membershipCard: false,
-        createdAt: "2026-02-03T15:41:07.254Z",
-        updatedAt: "2026-02-03T15:41:07.254Z",
-      });
+    if (admission) {
+      setStudent(admission);
       setIsLoading(false);
-    }, 1000);
-  }, [id]);
+    }
+  }, [admission]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getAdmissionById(id));
+    }
+  }, [id, dispatch]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -116,7 +105,7 @@ const AdmissionById = () => {
         };
       case "pending":
         return {
-          text: "মুলতুবি",
+          text: "নতুন আবেদন",
           color: "bg-amber-500/20 text-amber-500 border-amber-500/30",
           icon: <Clock size={14} />,
         };
@@ -191,6 +180,24 @@ const AdmissionById = () => {
   const statusBadge = getStatusBadge(student.status);
   const progressPercentage = calculateProgress();
 
+  const clickToApprove = async () => {
+    try {
+      await dispatch(handleApprove({ id, status: "approved" })).unwrap();
+      dispatch(getAdmissionById(id));
+    } catch (error) {
+      console.error("Approve failed", error);
+    }
+  };
+
+  const clickToReject = async () => {
+    try {
+      await dispatch(handleApprove({ id, status: "rejected" })).unwrap();
+      dispatch(getAdmissionById(id));
+    } catch (error) {
+      console.error("Reject failed", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] p-4 md:p-6 rounded-2xl">
       {/* Animated Background */}
@@ -229,6 +236,26 @@ const AdmissionById = () => {
                     {statusBadge.icon}
                     {statusBadge.text}
                   </span>
+                  {student.status === "pending" && (
+                    <>
+                      <button
+                        onClick={() => {
+                          clickToApprove();
+                        }}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold bg-lime-500/20 text-lime-500 border-lime-500/30 capitalize cursor-pointer"
+                      >
+                        আনুমোদন দিন
+                      </button>
+                      <button
+                        onClick={() => {
+                          clickToReject();
+                        }}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold bg-rose-500/20 text-rose-500 border-rose-500/30 capitalize cursor-pointer"
+                      >
+                        বাতিল করুন
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

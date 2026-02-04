@@ -1,9 +1,11 @@
 const Admission = require("../model/admission.model");
+const Student = require("../model/student.model");
 const { generateAdmissionId } = require("../utils/generateAdmissionId");
 
 const createAdmission = async (req, res) => {
   try {
     const {
+      email,
       studentName,
       fatherName,
       motherName,
@@ -29,6 +31,7 @@ const createAdmission = async (req, res) => {
       Number(totalFee) - Number(discount || 0) - Number(cashPayment);
     const admissionId = await generateAdmissionId();
     const admission = await Admission.create({
+      email,
       studentName,
       fatherName,
       motherName,
@@ -60,6 +63,7 @@ const createAdmission = async (req, res) => {
 };
 
 const getAllAdmissions = async (req, res) => {
+  console.log("add");
   const data = await Admission.find().sort({ createdAt: -1 });
   res.json(data);
 };
@@ -86,10 +90,70 @@ const deleteAdmission = async (req, res) => {
   res.json({ success: true });
 };
 
+const approveAsStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.query; // 🔥 fix
+
+    if (!status || !["approved", "rejected"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const findAdmission = await Admission.findById(id);
+
+    if (!findAdmission) {
+      return res
+        .status(404)
+        .json({ message: "Admission Application Not Found" });
+    }
+
+    // যদি rejected হয় তাহলে শুধু status update
+    if (status === "rejected") {
+      findAdmission.status = "rejected";
+      await findAdmission.save();
+      return res.json({ message: "Admission Rejected" });
+    }
+
+    // ====== APPROVED FLOW ======
+
+    const lastUser = await Student.findOne().sort({ createdAt: -1 });
+
+    let nextNumber = 2555;
+    if (lastUser) {
+      const lastId = lastUser.studentId;
+      const numberPart = parseInt(lastId.slice(1));
+      nextNumber = numberPart + 1;
+    }
+
+    const paddedNumber = String(nextNumber).padStart(6, "0");
+    const studentId = "S" + paddedNumber;
+
+    const newStudent = new Student({
+      ...findAdmission.toObject(),
+      studentId,
+      password: "12345",
+      status: "active",
+    });
+
+    await newStudent.save();
+
+    findAdmission.status = "approved";
+    await findAdmission.save();
+
+    res.status(201).json({
+      message: "Admission Approved",
+      student: newStudent,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createAdmission,
   getAllAdmissions,
   getSingleAdmission,
   updateStatus,
   deleteAdmission,
+  approveAsStudent,
 };

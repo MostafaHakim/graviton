@@ -146,7 +146,8 @@ const StudentDashboard = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-800">
-                স্বাগতম, <span className="capitalize">{user.username}</span> !
+                স্বাগতম, <span className="capitalize">{user.studentName}</span>{" "}
+                !
               </h1>
               <p className="text-gray-600 mt-2">
                 আপনার শিক্ষা যাত্রায় এগিয়ে যান

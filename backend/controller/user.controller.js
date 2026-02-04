@@ -12,34 +12,27 @@ const createUser = async (req, res) => {
     }
 
     const isExistingUser = await User.findOne({
-      $or: [{ email }, { username }],
+      email,
     });
 
     if (isExistingUser) {
       return res.status(409).send("User already exists");
     }
 
-    const rolePrefix = {
-      admin: "A",
-      teacher: "T",
-      student: "S",
-    };
-
-    const lastUser = await User.findOne({ role }).sort({ createdAt: -1 });
+    const lastUser = await User.findOne().sort({ createdAt: -1 });
 
     let nextNumber = 3565;
 
     if (lastUser) {
-      const lastId = lastUser.userId; // e.g. A0004
+      const lastId = lastUser.userId;
       const numberPart = parseInt(lastId.slice(1));
       nextNumber = numberPart + 1;
     }
 
     let paddedNumber;
-    if (role === "student") paddedNumber = String(nextNumber).padStart(6, "0");
-    else paddedNumber = String(nextNumber).padStart(4, "0");
+    paddedNumber = String(nextNumber).padStart(4, "0");
 
-    const userId = rolePrefix[role] + paddedNumber;
+    const userId = "A" + paddedNumber;
 
     const newUser = new User({
       userId,
@@ -76,28 +69,28 @@ const getAllUsers = async (req, res) => {
 // =======================================Login User=============================================
 // ====================================================================================================
 
-const loginUser = async (req, res) => {
-  try {
-    const { username, password } = req.body;
+// const loginUser = async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
 
-    const user = await User.findOne({ username });
+//     const user = await User.findOne({ username });
 
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
+//     if (!user) {
+//       return res.status(404).send("User not found");
+//     }
 
-    const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return res.status(401).send("Invalid password");
-    }
+//     const isPasswordValid = await user.comparePassword(password);
+//     if (!isPasswordValid) {
+//       return res.status(401).send("Invalid password");
+//     }
 
-    const token = user.generateAuthToken();
+//     const token = user.generateAuthToken();
 
-    res.status(200).json({ user, token });
-  } catch (error) {
-    res.status(500).send("Internal Server Error");
-  }
-};
+//     res.status(200).json({ user, token });
+//   } catch (error) {
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
 
 // ====================================================================================================
 // =======================================Profile User=============================================
@@ -166,7 +159,6 @@ const deleteUser = async (req, res) => {
 module.exports = {
   createUser,
   getAllUsers,
-  loginUser,
   userProfile,
   updateUser,
   logoutUser,

@@ -32,8 +32,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "teacher", "student"],
-    default: "student",
+    default: "admin",
   },
   status: {
     type: String,
@@ -54,10 +53,13 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 userSchema.methods.generateAuthToken = function () {
-  console.log(SECRET_KEY);
-  const token = jwt.sign({ username: this.username }, SECRET_KEY, {
-    expiresIn: "24h",
-  });
+  const token = jwt.sign(
+    { id: this._id, username: this.username, role: this.role },
+    SECRET_KEY,
+    {
+      expiresIn: "24h",
+    },
+  );
   return token;
 };
 

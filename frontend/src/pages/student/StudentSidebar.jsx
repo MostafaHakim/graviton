@@ -241,7 +241,7 @@ const StudentSidebar = () => {
               transition={{ delay: 0.1 }}
               className="font-bold text-gray-900 font-kalpurush capitalize"
             >
-              {user.username}
+              {user.studentName}
             </motion.h3>
             <motion.p
               initial={{ opacity: 0, x: -10 }}
@@ -249,7 +249,7 @@ const StudentSidebar = () => {
               transition={{ delay: 0.15 }}
               className="text-sm text-gray-600 font-kalpurush"
             >
-              {user.userId}
+              {user.studentId}
             </motion.p>
           </div>
         </div>
@@ -264,8 +264,8 @@ const StudentSidebar = () => {
             whileHover={{ scale: 1.05 }}
             className="flex items-center gap-2 text-sm text-gray-700 font-kalpurush bg-gray-100 px-3 py-1 rounded-full"
           >
-            <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-            <span>{studentInfo.grade}</span>
+            <Star className="w-4 h-4 text-amber-500 fill-amber-500 capitalize" />
+            <span className="capitalize">{user.class}</span>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}

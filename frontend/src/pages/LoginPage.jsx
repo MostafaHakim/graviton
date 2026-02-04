@@ -6,7 +6,7 @@ import { User, Lock, LogIn, ArrowRight, AlertCircle } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -26,13 +26,13 @@ const LoginPage = () => {
 
     const data = {
       ...formData,
-      username: formData.username.toLowerCase(),
+      email: formData.email.toLowerCase(),
     };
 
     const result = await dispatch(loginUser(data));
 
     if (loginUser.fulfilled.match(result)) {
-      setFormData({ username: "", password: "" });
+      setFormData({ email: "", password: "" });
       navigate(`/${result.payload.user.role}`);
     }
   };
@@ -92,17 +92,17 @@ const LoginPage = () => {
 
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Field */}
+            {/* email Field */}
             <div>
               <label className="block text-sm font-medium text-white/90 mb-2 font-kalpurush">
                 <User className="w-4 h-4 inline mr-2" />
-                ব্যবহারকারী নাম
+                ব্যবহারকারী ইমেইল
               </label>
               <input
                 type="text"
-                value={formData.username}
+                value={formData.email}
                 onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#3BD480] focus:border-transparent transition text-white placeholder-white/50"
                 placeholder="আপনার ব্যবহারকারী নাম লিখুন"

@@ -6,7 +6,8 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (formData, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${baseUrl}/api/user/login`, {
+      console.log(formData);
+      const res = await fetch(`${baseUrl}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
