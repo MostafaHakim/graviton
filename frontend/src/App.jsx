@@ -36,6 +36,8 @@ import ChapterContentPage from "./components/ChapterContentPage";
 import ChapterDetails from "./components/ChapterDetails";
 import GalleryUpload from "./components/GalleryUpload";
 import AdminGallery from "./pages/admin/AdminGallery";
+import StudentManagement from "./pages/admin/StudentManagement";
+import TeacherManagement from "./pages/admin/TeacherManagement";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -90,6 +92,8 @@ const AppRouter = () => {
           }
         >
           <Route index element={<ManagementDashboard />} />
+          <Route path="student" element={<StudentManagement />} />
+          <Route path="teacher" element={<TeacherManagement />} />
           <Route path="madeeasy" element={<MadeEasyManagement />} />
           <Route path="admission" element={<AdmissionManagement />} />
           <Route path="admission/:id" element={<AdmissionById />} />

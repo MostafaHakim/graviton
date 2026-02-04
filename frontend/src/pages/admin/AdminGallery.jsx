@@ -465,18 +465,27 @@ const AdminGallery = () => {
 
                 {/* Thumbnail */}
                 <div
-                  className={`relative ${viewMode === "list" ? "w-1/3" : "aspect-video"}`}
+                  className={`${viewMode === "list" ? "w-1/3" : "aspect-square"} relative overflow-hidden `}
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
+                  {item.type === "video" ? (
+                    <video
+                      src={item.image}
+                      className="w-full h-full object-cover"
+                      controls
+                      poster={item.thumbnail || ""} // চাইলে থাম্বনেইল দিতে পারো
+                    />
+                  ) : (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  )}
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 left-3">
                     <div
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
                         item.type === "video"
                           ? "bg-red-500/90 text-white"
                           : "bg-blue-500/90 text-white"

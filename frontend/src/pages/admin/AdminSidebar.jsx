@@ -82,10 +82,10 @@ const AdminSidebar = () => {
       count: 2,
     },
     {
-      id: "assignments",
+      id: "teacher",
       label: "শিক্ষক",
       icon: GraduationCap,
-      path: "/student/assignments",
+      path: "/admin/teacher",
       color: "text-[#FFA2C0]",
       bg: "bg-[#FFF0F5]",
       border: "border-l-4 border-[#FFA2C0]",
