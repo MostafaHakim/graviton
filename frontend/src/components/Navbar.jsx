@@ -65,37 +65,16 @@ const Navbar = () => {
               </Link>
             </div>
           )}
-          {/* {user && (
-            <div className="flex flex-row items-center justify-end">
-              <button
-                onClick={() => navigate("/profile")}
-                className="relative p-2 rounded-lg hover:bg-gray-100"
+          {user && (
+            <div className="flex items-center space-x-4">
+              <Link
+                to={`/${user.role}`}
+                className="px-6 py-2 text-[#134C45]  border-2 border-[#134C45 ] rounded-lg hover:bg-[#134C45] hover:text-white font-kalpurush transition duration-300 cursor-pointer font-medium"
               >
-                <div className="flex items-center gap-3">
-                  <img
-                    src="https://picsum.photos/200/300"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="text-right">
-                    <p className="text-sm font-semibold capitalize">
-                      {user.username}
-                    </p>
-                    <p className="text-xs text-gray-400 capitalize">
-                      {user.role}
-                    </p>
-                  </div>
-                </div>{" "}
-              </button>
-              <button
-                onClick={() => {
-                  dispatch(logoutUser());
-                }}
-                className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
-              >
-                <LogOut size={18} />
-              </button>
+                ড্যাশবোর্ড
+              </Link>
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </nav>

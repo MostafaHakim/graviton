@@ -4,7 +4,6 @@ const {
   getAllUsers,
   loginUser,
   userProfile,
-
   updateUser,
   deleteUser,
   logoutUser,
@@ -14,18 +13,18 @@ const authUser = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/api/user/register", createUser);
+router.post("/register", createUser);
 
-router.get("/api/user", getAllUsers);
+router.get("/", getAllUsers);
 
-router.post("/api/user/login", loginUser);
+router.post("/login", loginUser);
 
-router.get("/api/user/profile", authUser, userProfile);
+router.get("/profile", authUser, userProfile);
 
-router.put("/api/user/:id", updateUser);
+router.put("/:id", updateUser);
 
-router.post("/api/user/logout", authUser, logoutUser);
+router.post("/logout", authUser, logoutUser);
 
-router.delete("/api/user/:id", deleteUser);
+router.delete("/:id", deleteUser);
 
 module.exports = router;

@@ -272,7 +272,7 @@ const AdminSidebar = () => {
                 >
                   <NavLink
                     to={item.path}
-                    end="/admin"
+                    end={item.path === "/admin"}
                     className={({ isActive }) =>
                       `flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden group ${
                         isActive
@@ -281,66 +281,59 @@ const AdminSidebar = () => {
                       }`
                     }
                   >
-                    {/* Active Indicator */}
-                    {({ isActive }) =>
-                      isActive && (
-                        <motion.div
-                          layoutId="activeIndicator"
-                          className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-current to-transparent opacity-20"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 0.2 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      )
-                    }
+                    {({ isActive }) => (
+                      <>
+                        {/* Active Indicator */}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-current to-transparent opacity-30"
+                          />
+                        )}
 
-                    {/* Hover Effect */}
-                    {activeHover === item.id && (
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-                        initial={{ x: "-100%" }}
-                        animate={{ x: "100%" }}
-                        transition={{ duration: 0.6 }}
-                      />
+                        {/* Hover Shine */}
+                        {activeHover === item.id && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                            initial={{ x: "-100%" }}
+                            animate={{ x: "100%" }}
+                            transition={{ duration: 0.6 }}
+                          />
+                        )}
+
+                        {/* Left Side */}
+                        <div className="flex items-center gap-3 relative z-10">
+                          <div className={`p-2.5 rounded-lg ${item.iconBg}`}>
+                            <Icon className={`w-5 h-5 ${item.color}`} />
+                          </div>
+                          <span className={`font-medium ${item.color}`}>
+                            {item.label}
+                          </span>
+                        </div>
+
+                        {/* Right Side */}
+                        <div className="flex items-center gap-2 relative z-10">
+                          {item.count && (
+                            <span className="px-2 py-1 text-xs font-bold bg-[#6C5DD3] text-white rounded-full min-w-6 text-center shadow-sm">
+                              {item.count}
+                            </span>
+                          )}
+                          {item.premium && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FF754C] to-[#FF9E7D] text-white rounded-full shadow-sm">
+                              PRO
+                            </span>
+                          )}
+                          {item.new && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#59C3D1] to-[#8BD9E3] text-white rounded-full shadow-sm">
+                              NEW
+                            </span>
+                          )}
+                          <ChevronRight
+                            className={`w-4 h-4 transition-transform duration-300 ${item.color} group-hover:translate-x-1`}
+                          />
+                        </div>
+                      </>
                     )}
-
-                    {/* Left Side */}
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2.5 rounded-lg ${item.iconBg}`}>
-                        <Icon className={`w-5 h-5 ${item.color}`} />
-                      </div>
-                      <span
-                        className={`font-medium ${
-                          item.path ? item.color : "text-gray-700"
-                        }`}
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-
-                    {/* Right Side */}
-                    <div className="flex items-center gap-2">
-                      {item.count && (
-                        <span className="px-2 py-1 text-xs font-bold bg-[#6C5DD3] text-white rounded-full min-w-6 text-center shadow-sm">
-                          {item.count}
-                        </span>
-                      )}
-                      {item.premium && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FF754C] to-[#FF9E7D] text-white rounded-full shadow-sm">
-                          PRO
-                        </span>
-                      )}
-                      {item.new && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#59C3D1] to-[#8BD9E3] text-white rounded-full shadow-sm">
-                          NEW
-                        </span>
-                      )}
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform duration-300 ${
-                          item.path ? item.color : "text-gray-400"
-                        } group-hover:translate-x-1`}
-                      />
-                    </div>
                   </NavLink>
                 </motion.div>
               );

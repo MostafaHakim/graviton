@@ -31,6 +31,9 @@ import StudentDashboard from "./components/features/dashboard/StudentDashboard";
 import MadeEasyManagement from "./pages/admin/MadeEasyManagement";
 import AdmissionManagement from "./pages/admin/AdmissionManagement";
 import AdmissionById from "./pages/admin/AdmissionById";
+import AddSubject from "./components/features/subject/AddSubject";
+import ChapterContentPage from "./components/ChapterContentPage";
+import ChapterDetails from "./components/ChapterDetails";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -59,6 +62,10 @@ const AppRouter = () => {
         >
           <Route index element={<StudentDashboard />} />
           <Route path="madeeasy" element={<MadeEasy />} />
+          <Route
+            path="madeeasy/:subjectId/:classId/:paperId/:chapterIndex"
+            element={<ChapterDetails />}
+          />
           <Route path="club" element={<Club />} />
           <Route path="abroad" element={<FlyToAbroad />} />
         </Route>
@@ -84,6 +91,11 @@ const AppRouter = () => {
           <Route path="madeeasy" element={<MadeEasyManagement />} />
           <Route path="admission" element={<AdmissionManagement />} />
           <Route path="admission/:id" element={<AdmissionById />} />
+          <Route path="madeeasy/add" element={<AddSubject />} />
+          <Route
+            path="madeeasy/:subjectId/:classId/:paperId/:chapterIndex"
+            element={<ChapterContentPage />}
+          />
         </Route>
 
         <Route path="/" element={<Navigate to="/login" />} />

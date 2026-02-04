@@ -65,8 +65,6 @@ const AdmissionManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(students);
-
   useEffect(() => {
     dispatch(getAdmission());
   }, []);

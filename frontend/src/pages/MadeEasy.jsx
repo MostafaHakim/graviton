@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BookOpen,
   Globe,
@@ -13,123 +14,134 @@ import {
   Sparkles,
   ArrowRight,
 } from "lucide-react";
+import { loadSubjects } from "../store/features/auth/subjectSlice";
+import { useNavigate } from "react-router-dom";
 
 const MadeEasy = () => {
   const [expandedSubject, setExpandedSubject] = useState(null);
   const [expandedClass, setExpandedClass] = useState(null);
   const [expandedPaper, setExpandedPaper] = useState(null);
+  const { subjects } = useSelector((state) => state.subject);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const subjects = [
-    {
-      id: 1,
-      name: "বাংলা",
-      description: "সাহিত্য, ব্যাকরণ ও রচনা সহজ উপায়ে আয়ত্ত করুন",
-      color: "from-emerald-500 to-green-500",
-      icon: BookOpen,
-      classes: [
-        {
-          id: "class-9",
-          name: "নবম শ্রেণি",
-          papers: [
-            {
-              id: "paper-1",
-              name: "১ম পত্র",
-              chapters: ["ব্যাকরণ", "রচনা", "সাহিত্য"],
-              hasPaper: true,
-            },
-            {
-              id: "paper-2",
-              name: "২য় পত্র",
-              chapters: ["নাটক", "উপন্যাস", "কবিতা"],
-              hasPaper: true,
-            },
-          ],
-        },
-        {
-          id: "class-10",
-          name: "দশম শ্রেণি",
-          papers: [
-            {
-              id: "paper-1",
-              name: "১ম পত্র",
-              chapters: ["ব্যাকরণ", "রচনা", "সাহিত্য"],
-              hasPaper: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "ইংরেজি",
-      description: "ব্যাকরণ, লিখন ও কথোপকথন দক্ষতা উন্নয়ন",
-      color: "from-blue-500 to-cyan-500",
-      icon: Globe,
-      classes: [
-        {
-          id: "class-9",
-          name: "Class 9",
-          papers: [
-            {
-              id: "grammar",
-              name: "Grammar",
-              chapters: ["Tenses", "Parts of Speech", "Sentence Structure"],
-              hasPaper: false,
-            },
-            {
-              id: "composition",
-              name: "Composition",
-              chapters: ["Essay Writing", "Letter Writing", "Report Writing"],
-              hasPaper: false,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "গণিত",
-      description: "জটিল সমস্যা সহজ সমাধান ও ধারণা বোধগম্য",
-      color: "from-purple-500 to-pink-500",
-      icon: Calculator,
-      classes: [
-        {
-          id: "class-9",
-          name: "নবম শ্রেণি",
-          papers: [
-            {
-              id: "paper-1",
-              name: "বাংলা ভার্সন",
-              chapters: ["বীজগণিত", "জ্যামিতি", "ত্রিকোণমিতি"],
-              hasPaper: true,
-            },
-            {
-              id: "paper-2",
-              name: "ইংরেজি ভার্সন",
-              chapters: ["Algebra", "Geometry", "Trigonometry"],
-              hasPaper: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "বিজ্ঞান",
-      description: "পদার্থ, রসায়ন ও জীববিজ্ঞানের ব্যবহারিক ধারণা",
-      color: "from-amber-500 to-orange-500",
-      icon: Microscope,
-      classes: [
-        {
-          id: "class-9",
-          name: "নবম শ্রেণি",
-          papers: null,
-          chapters: ["পদার্থ বিজ্ঞান", "রসায়ন বিজ্ঞান", "জীববিজ্ঞান"],
-          hasPaper: false,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    dispatch(loadSubjects());
+  }, []);
+
+  console.log(subjects);
+
+  // const subjects = [
+  //   {
+  //     id: 1,
+  //     name: "বাংলা",
+  //     description: "সাহিত্য, ব্যাকরণ ও রচনা সহজ উপায়ে আয়ত্ত করুন",
+  //     color: "from-emerald-500 to-green-500",
+  //     icon: BookOpen,
+  //     classes: [
+  //       {
+  //         id: "class-9",
+  //         name: "নবম শ্রেণি",
+  //         papers: [
+  //           {
+  //             id: "paper-1",
+  //             name: "১ম পত্র",
+  //             chapters: ["ব্যাকরণ", "রচনা", "সাহিত্য"],
+  //             hasPaper: true,
+  //           },
+  //           {
+  //             id: "paper-2",
+  //             name: "২য় পত্র",
+  //             chapters: ["নাটক", "উপন্যাস", "কবিতা"],
+  //             hasPaper: true,
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         id: "class-10",
+  //         name: "দশম শ্রেণি",
+  //         papers: [
+  //           {
+  //             id: "paper-1",
+  //             name: "১ম পত্র",
+  //             chapters: ["ব্যাকরণ", "রচনা", "সাহিত্য"],
+  //             hasPaper: true,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "ইংরেজি",
+  //     description: "ব্যাকরণ, লিখন ও কথোপকথন দক্ষতা উন্নয়ন",
+  //     color: "from-blue-500 to-cyan-500",
+  //     icon: Globe,
+  //     classes: [
+  //       {
+  //         id: "class-9",
+  //         name: "Class 9",
+  //         papers: [
+  //           {
+  //             id: "grammar",
+  //             name: "Grammar",
+  //             chapters: ["Tenses", "Parts of Speech", "Sentence Structure"],
+  //             hasPaper: false,
+  //           },
+  //           {
+  //             id: "composition",
+  //             name: "Composition",
+  //             chapters: ["Essay Writing", "Letter Writing", "Report Writing"],
+  //             hasPaper: false,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "গণিত",
+  //     description: "জটিল সমস্যা সহজ সমাধান ও ধারণা বোধগম্য",
+  //     color: "from-purple-500 to-pink-500",
+  //     icon: Calculator,
+  //     classes: [
+  //       {
+  //         id: "class-9",
+  //         name: "নবম শ্রেণি",
+  //         papers: [
+  //           {
+  //             id: "paper-1",
+  //             name: "বাংলা ভার্সন",
+  //             chapters: ["বীজগণিত", "জ্যামিতি", "ত্রিকোণমিতি"],
+  //             hasPaper: true,
+  //           },
+  //           {
+  //             id: "paper-2",
+  //             name: "ইংরেজি ভার্সন",
+  //             chapters: ["Algebra", "Geometry", "Trigonometry"],
+  //             hasPaper: true,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "বিজ্ঞান",
+  //     description: "পদার্থ, রসায়ন ও জীববিজ্ঞানের ব্যবহারিক ধারণা",
+  //     color: "from-amber-500 to-orange-500",
+  //     icon: Microscope,
+  //     classes: [
+  //       {
+  //         id: "class-9",
+  //         name: "নবম শ্রেণি",
+  //         papers: null,
+  //         chapters: ["পদার্থ বিজ্ঞান", "রসায়ন বিজ্ঞান", "জীববিজ্ঞান"],
+  //         hasPaper: false,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const toggleSubject = (subjectId) => {
     if (expandedSubject === subjectId) {
@@ -168,11 +180,10 @@ const MadeEasy = () => {
     }
   };
 
-  const handleChapterClick = (subjectName, className, paperName, chapter) => {
-    alert(
-      `${subjectName} - ${className} - ${paperName ? paperName + " - " : ""}${chapter} চ্যাপ্টারে রিডিরেক্ট করা হবে`,
+  const handleChapterClick = (subjectId, classId, paperId, chapterIndex) => {
+    navigate(
+      `/student/madeeasy/${subjectId}/${classId}/${paperId}/${chapterIndex}`,
     );
-    // এখানে রাউটিং লজিক যুক্ত করতে হবে
   };
 
   return (
@@ -219,7 +230,7 @@ const MadeEasy = () => {
         {/* Subjects Accordion */}
         <div className="space-y-6">
           {subjects.map((subject) => {
-            const Icon = subject.icon;
+            const Icon = BookOpen;
             const isSubjectExpanded = expandedSubject === subject.id;
 
             return (
@@ -359,10 +370,10 @@ const MadeEasy = () => {
                                                       key={index}
                                                       onClick={() =>
                                                         handleChapterClick(
-                                                          subject.name,
-                                                          classItem.name,
-                                                          paper.name,
-                                                          chapter,
+                                                          subject._id,
+                                                          classItem.classId,
+                                                          paper.paperId,
+                                                          index,
                                                         )
                                                       }
                                                       className="w-full flex items-center justify-between p-2 rounded hover:bg-white/10 transition-colors"
@@ -372,7 +383,7 @@ const MadeEasy = () => {
                                                           {index + 1}
                                                         </div>
                                                         <span className="text-white/90 font-kalpurush">
-                                                          {chapter}
+                                                          {chapter.name}
                                                         </span>
                                                       </div>
                                                       <ArrowRight className="w-4 h-4 text-white/50" />
@@ -483,24 +494,6 @@ const MadeEasy = () => {
             <p className="text-white/70 font-kalpurush">
               ক্লিক করে এক্সপেন্ড ও সিলেক্ট করুন
             </p>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4 font-kalpurush">
-            শুরু করুন আপনার লার্নিং জার্নি
-          </h2>
-          <p className="text-white/70 mb-6 max-w-2xl mx-auto font-kalpurush">
-            আমাদের স্ট্রাকচার্ড লার্নিং সিস্টেমের মাধ্যমে ধাপে ধাপে শিখুন
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-8 py-3 bg-[#3BD480] text-white font-bold rounded-xl hover:bg-[#2da866] transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl shadow-[#3BD480]/30 font-kalpurush">
-              এক্সপ্লোর করুন
-            </button>
-            <button className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/30 transition-all duration-300 border border-white/30 font-kalpurush">
-              টিউটোরিয়াল দেখুন
-            </button>
           </div>
         </div>
       </div>

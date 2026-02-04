@@ -10,10 +10,10 @@ const express = require("express");
 
 const router = express.Router();
 
-router.post("/api/student", createAdmission);
-router.get("/api/student", getAllAdmissions);
-router.get("/api/student/:id", getSingleAdmission);
-router.put("/api/student/:id/status", updateStatus);
-router.delete("/api/student/:id", deleteAdmission);
+router.post("/", createAdmission);
+router.get("/", getAllAdmissions);
+router.get("/:id", getSingleAdmission);
+router.put("/:id/status", updateStatus);
+router.delete("/:id", deleteAdmission);
 
 module.exports = router;
