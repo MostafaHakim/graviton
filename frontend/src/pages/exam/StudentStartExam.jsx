@@ -201,10 +201,15 @@ export default function StudentStartExam() {
         :{(timeLeft % 60).toString().padStart(2, "0")}
       </p>
 
+      {currentTest.audio?.secure_url && (
+        <audio controls src={currentTest.audio.secure_url} className="w-full my-4">
+          Your browser does not support the audio element.
+        </audio>
+      )}
+
       {currentTest.questions?.map((q) => (
         <div key={q._id} className="mb-4">
           <p className="font-medium">{q.question}</p>
-
           {q.options && q.options.length > 0 ? (
             q.options.map((opt) => (
               <label key={opt} className="block">

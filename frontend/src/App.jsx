@@ -43,6 +43,7 @@ import AdminExamManagement from "./pages/admin/AdminExamManagement";
 import ExamDetail from "./pages/exam/ExamDetail";
 import AddQuestion from "./pages/exam/AddQuestion";
 import StudentStartExam from "./pages/exam/StudentStartExam";
+import AllExamForAdmin from "./pages/exam/AllExamForAdmin";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -99,7 +100,7 @@ const AppRouter = () => {
         >
           <Route index element={<ManagementDashboard />} />
           <Route path="student" element={<StudentManagement />} />
-          <Route path="exams" element={<AdminExamManagement />} />
+          <Route path="exams" element={<AllExamForAdmin />} />
           <Route path="exams/add" element={<CreateExam />} />
           <Route path="exams/:id" element={<ExamDetail />} />
           <Route path="tests/:id" element={<AddQuestion />} />

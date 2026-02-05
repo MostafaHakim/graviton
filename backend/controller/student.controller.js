@@ -2,6 +2,7 @@ const Exam = require("../model/exam.model");
 const Test = require("../model/test.model");
 const Question = require("../model/questions.model");
 const ExamAttempt = require("../model/examattempt.model");
+const TestResult = require("../model/testresult.model");
 
 const startExam = async (req, res) => {
   try {
@@ -30,7 +31,7 @@ const startExam = async (req, res) => {
     const tests = await Test.find({ exam: examId, isActive: true })
       .populate({
         path: "questions",
-        select: "question options marks audio correctAnswer",
+        select: "question options marks correctAnswer",
       })
       .lean();
 

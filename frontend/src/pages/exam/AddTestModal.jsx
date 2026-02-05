@@ -6,15 +6,25 @@ export default function AddTestModal({ examId, close, reload }) {
   const [type, setType] = useState("mcq");
   const [marks, setMarks] = useState(10);
   const [time, setTime] = useState(30);
+  const [audio, setAudio] = useState(null);
 
   const save = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("type", type);
+    formData.append("totalMarks", marks);
+    formData.append("timeLimit", time);
+    if (audio) {
+      formData.append("audio", audio);
+    }
+
     await axios.post(
       `${import.meta.env.VITE_BASE_URL}/api/user/exams/${examId}/tests`,
+      formData,
       {
-        title,
-        type,
-        totalMarks: marks,
-        timeLimit: time,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
     );
     reload();
@@ -22,7 +32,7 @@ export default function AddTestModal({ examId, close, reload }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/70 bg-opacity-40 flex items-center justify-center">
       <div className="bg-white p-6 rounded w-96">
         <h2 className="font-bold text-lg mb-4">Add Test</h2>
 
@@ -41,6 +51,15 @@ export default function AddTestModal({ examId, close, reload }) {
           <option value="writing">Writing</option>
           <option value="file">File</option>
         </select>
+
+        {type === "audio" && (
+          <input
+            type="file"
+            accept="audio/*"
+            className="border p-2 w-full mb-2"
+            onChange={(e) => setAudio(e.target.files[0])}
+          />
+        )}
 
         <input
           type="number"

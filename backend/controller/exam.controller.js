@@ -28,25 +28,47 @@ const getExamById = async (req, res) => {
     // only published exams
     const exam = await Exam.findOne({
       _id: examId,
-      // isActive: true
+    }).populate({
+      path: "tests",
+      populate: {
+        path: "questions",
+      },
     });
 
     if (!exam) {
       return res.status(404).json({ message: "Exam not found" });
     }
 
-    const tests = await Test.find({
-      exam: examId,
-      isActive: true,
-    }).select("title type totalMarks timeLimit");
+    // const tests = await Test.find({
+    //   exam: examId,
+    //   isActive: true,
+    // }).select("title type totalMarks timeLimit");
 
     res.json({
       exam,
-      tests,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+const getAllExam = async (req, res) => {
+  try {
+    const exam = await Exam.find().populate({
+      path: "tests",
+      populate: {
+        path: "questions",
+      },
+    });
+    if (!exam) {
+      return res.status(404).json({ message: "Exam not found" });
+    }
+
+    res.status(200).json({
+      exam,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-module.exports = { createExam, publishExam, getExamById };
+module.exports = { createExam, publishExam, getExamById, getAllExam };
