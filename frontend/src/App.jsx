@@ -38,6 +38,11 @@ import GalleryUpload from "./components/GalleryUpload";
 import AdminGallery from "./pages/admin/AdminGallery";
 import StudentManagement from "./pages/admin/StudentManagement";
 import TeacherManagement from "./pages/admin/TeacherManagement";
+import CreateExam from "./pages/exam/CreateExam";
+import AdminExamManagement from "./pages/admin/AdminExamManagement";
+import ExamDetail from "./pages/exam/ExamDetail";
+import AddQuestion from "./pages/exam/AddQuestion";
+import StudentStartExam from "./pages/exam/StudentStartExam";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -72,6 +77,7 @@ const AppRouter = () => {
           />
           <Route path="club" element={<Club />} />
           <Route path="abroad" element={<FlyToAbroad />} />
+          <Route path="abroad/exams/:id" element={<StudentStartExam />} />
         </Route>
         {/* ========================Teacher===================================== */}
         <Route
@@ -93,6 +99,10 @@ const AppRouter = () => {
         >
           <Route index element={<ManagementDashboard />} />
           <Route path="student" element={<StudentManagement />} />
+          <Route path="exams" element={<AdminExamManagement />} />
+          <Route path="exams/add" element={<CreateExam />} />
+          <Route path="exams/:id" element={<ExamDetail />} />
+          <Route path="tests/:id" element={<AddQuestion />} />
           <Route path="teacher" element={<TeacherManagement />} />
           <Route path="madeeasy" element={<MadeEasyManagement />} />
           <Route path="admission" element={<AdmissionManagement />} />

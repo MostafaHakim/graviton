@@ -16,6 +16,7 @@ const admissionRouter = require("./router/admission.route");
 const subjectRouter = require("./router/subject.route");
 const galleryRouter = require("./router/gallery.route");
 const loginRouter = require("./router/login.route");
+const studentRoute = require("./router/student.route");
 
 // ===================MiddleWere=====================
 
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/login", loginRouter);
 app.use("/api/user", userRouter);
+app.use("/api/student", studentRoute);
 app.use("/api/admission", admissionRouter);
 app.use("/api/subjects", subjectRouter);
 app.use("/api/gallery", galleryRouter);

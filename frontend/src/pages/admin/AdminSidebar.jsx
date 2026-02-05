@@ -106,7 +106,7 @@ const AdminSidebar = () => {
       id: "abroad",
       label: "বিদেশ যাত্রা",
       icon: Globe,
-      path: "/student/abroad",
+      path: "/admin/exams",
       color: "text-[#59C3D1]",
       bg: "bg-[#EFF9FA]",
       border: "border-l-4 border-[#59C3D1]",
