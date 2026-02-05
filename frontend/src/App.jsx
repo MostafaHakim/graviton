@@ -101,7 +101,7 @@ const AppRouter = () => {
           <Route index element={<ManagementDashboard />} />
           <Route path="student" element={<StudentManagement />} />
           <Route path="exams" element={<AllExamForAdmin />} />
-          <Route path="exams/add" element={<CreateExam />} />
+          <Route path="exams/create" element={<CreateExam />} />
           <Route path="exams/:id" element={<ExamDetail />} />
           <Route path="tests/:id" element={<AddQuestion />} />
           <Route path="teacher" element={<TeacherManagement />} />
