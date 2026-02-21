@@ -16,7 +16,10 @@ const admissionRouter = require("./router/admission.route");
 const subjectRouter = require("./router/subject.route");
 const galleryRouter = require("./router/gallery.route");
 const loginRouter = require("./router/login.route");
-const studentRoute = require("./router/student.route");
+const examRoute = require("./router/exam.route");
+const testRoute = require("./router/test.route");
+const skillRoute = require("./router/skill.route");
+const questionsRoute = require("./router/question.route");
 
 // ===================MiddleWere=====================
 
@@ -38,10 +41,13 @@ app.get("/", (req, res) => {
 
 app.use("/api/login", loginRouter);
 app.use("/api/user", userRouter);
-app.use("/api/student", studentRoute);
 app.use("/api/admission", admissionRouter);
 app.use("/api/subjects", subjectRouter);
 app.use("/api/gallery", galleryRouter);
+app.use("/api/exams", examRoute);
+app.use("/api/tests", testRoute);
+app.use("/api/skills", skillRoute);
+app.use("/api/questions", questionsRoute);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

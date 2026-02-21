@@ -1,273 +1,6 @@
-// import { useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
-
-// export default function CreateExam() {
-//   const [name, setName] = useState("");
-//   const [description, setDescription] = useState("");
-//   const navigate = useNavigate();
-//   const submit = async () => {
-//     const { data } = await axios.post(
-//       `${import.meta.env.VITE_BASE_URL}/api/user/exams`,
-//       {
-//         name,
-//         description,
-//       },
-//     );
-//     navigate(`/admin/exams/${data._id}`);
-//   };
-
-//   return (
-//     <div className="max-w-xl mx-auto mt-10 bg-white p-6 shadow rounded">
-//       <h2 className="text-2xl font-bold mb-4">Create Exam</h2>
-
-//       <input
-//         placeholder="Exam Name"
-//         className="border p-2 w-full mb-3"
-//         onChange={(e) => setName(e.target.value)}
-//       />
-
-//       <textarea
-//         placeholder="Description"
-//         className="border p-2 w-full mb-3"
-//         onChange={(e) => setDescription(e.target.value)}
-//       />
-
-//       <button
-//         onClick={submit}
-//         className="bg-blue-600 text-white px-4 py-2 rounded w-full"
-//       >
-//         Create Exam
-//       </button>
-//     </div>
-//   );
-// }
-
-// import { useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
-// import {
-//   PlusCircle,
-//   BookOpen,
-//   FileText,
-//   ArrowLeft,
-//   Loader2,
-// } from "lucide-react";
-
-// export default function CreateExam() {
-//   const [name, setName] = useState("");
-//   const [description, setDescription] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [error, setError] = useState("");
-//   const navigate = useNavigate();
-
-//   const submit = async () => {
-//     if (!name.trim()) {
-//       setError("Exam name is required");
-//       return;
-//     }
-
-//     setIsLoading(true);
-//     setError("");
-
-//     try {
-//       const { data } = await axios.post(
-//         `${import.meta.env.VITE_BASE_URL}/api/user/exams`,
-//         {
-//           name,
-//           description,
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         },
-//       );
-//       navigate(`/admin/exams/${data._id}`);
-//     } catch (err) {
-//       setError(
-//         err.response?.data?.message ||
-//           "Failed to create exam. Please try again.",
-//       );
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const handleCancel = () => {
-//     navigate("/admin/exams");
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-6">
-//       <div className="max-w-2xl mx-auto">
-//         {/* Header */}
-//         <div className="mb-8">
-//           <button
-//             onClick={() => navigate("/admin/exams")}
-//             className="flex items-center text-gray-600 hover:text-blue-600 mb-4 transition-colors"
-//           >
-//             <ArrowLeft className="w-5 h-5 mr-2" />
-//             Back to Exams
-//           </button>
-
-//           <div className="flex items-center mb-2">
-//             <BookOpen className="w-10 h-10 text-blue-600 mr-3" />
-//             <h1 className="text-3xl font-bold text-gray-800">
-//               Create New Exam
-//             </h1>
-//           </div>
-//           <p className="text-gray-600">
-//             Create a new exam and customize it according to your needs
-//           </p>
-//         </div>
-
-//         {/* Main Card */}
-//         <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
-//           {/* Card Header */}
-//           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
-//             <div className="flex items-center">
-//               <PlusCircle className="w-8 h-8 text-white mr-3" />
-//               <h2 className="text-xl font-semibold text-white">Exam Details</h2>
-//             </div>
-//           </div>
-
-//           {/* Form Section */}
-//           <div className="p-6 md:p-8">
-//             {error && (
-//               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-//                 <p className="text-red-600 text-sm">{error}</p>
-//               </div>
-//             )}
-
-//             {/* Exam Name Input */}
-//             <div className="mb-6">
-//               <label className="flex items-center text-gray-700 font-medium mb-3">
-//                 <FileText className="w-5 h-5 mr-2 text-blue-500" />
-//                 Exam Name *
-//               </label>
-//               <div className="relative">
-//                 <input
-//                   type="text"
-//                   placeholder="e.g., Final Mathematics Examination 2024"
-//                   className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-//                   onChange={(e) => {
-//                     setName(e.target.value);
-//                     setError("");
-//                   }}
-//                   value={name}
-//                 />
-//                 <BookOpen className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-//               </div>
-//               <p className="text-sm text-gray-500 mt-2">
-//                 Choose a descriptive name for your exam
-//               </p>
-//             </div>
-
-//             {/* Description Input */}
-//             <div className="mb-8">
-//               <label className="flex items-center text-gray-700 font-medium mb-3">
-//                 <FileText className="w-5 h-5 mr-2 text-blue-500" />
-//                 Description
-//               </label>
-//               <textarea
-//                 placeholder="Provide a detailed description of the exam, including objectives, instructions, or any special notes..."
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all min-h-[120px] resize-y"
-//                 onChange={(e) => setDescription(e.target.value)}
-//                 value={description}
-//                 rows={4}
-//               />
-//               <div className="flex justify-between mt-2">
-//                 <p className="text-sm text-gray-500">
-//                   Optional but recommended for clarity
-//                 </p>
-//                 <span className="text-sm text-gray-500">
-//                   {description.length}/500 characters
-//                 </span>
-//               </div>
-//             </div>
-
-//             {/* Character Counter */}
-
-//             {/* Preview Card */}
-//             <div className="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-//               <h3 className="font-medium text-gray-700 mb-2">Preview</h3>
-//               <div className="p-3 bg-white rounded border">
-//                 <h4 className="font-medium text-gray-800">
-//                   {name || "Exam Name"}
-//                 </h4>
-//                 <p className="text-sm text-gray-600 mt-1 truncate">
-//                   {description || "No description provided"}
-//                 </p>
-//               </div>
-//             </div>
-
-//             {/* Action Buttons */}
-//             <div className="flex flex-col sm:flex-row gap-4">
-//               <button
-//                 onClick={handleCancel}
-//                 className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-//                 disabled={isLoading}
-//               >
-//                 Cancel
-//               </button>
-//               <button
-//                 onClick={submit}
-//                 disabled={isLoading}
-//                 className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg font-medium flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
-//               >
-//                 {isLoading ? (
-//                   <>
-//                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-//                     Creating...
-//                   </>
-//                 ) : (
-//                   <>
-//                     <PlusCircle className="w-5 h-5 mr-2" />
-//                     Create Exam
-//                   </>
-//                 )}
-//               </button>
-//             </div>
-
-//             {/* Help Text */}
-//             <div className="mt-6 pt-6 border-t border-gray-100">
-//               <p className="text-sm text-gray-500">
-//                 <span className="font-medium">Note:</span> After creating the
-//                 exam, you'll be redirected to add questions, set time limits,
-//                 and configure other settings.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Stats/Info Section */}
-//         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-//           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-//             <div className="text-sm text-gray-600 mb-1">Status</div>
-//             <div className="flex items-center">
-//               <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-//               <span className="font-medium">Draft</span>
-//             </div>
-//           </div>
-//           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-//             <div className="text-sm text-gray-600 mb-1">Questions</div>
-//             <div className="font-medium text-gray-800">0</div>
-//           </div>
-//           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-//             <div className="text-sm text-gray-600 mb-1">Duration</div>
-//             <div className="font-medium text-gray-800">Not set</div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -307,6 +40,7 @@ export default function CreateExam() {
   const [error, setError] = useState("");
   const [activeStep, setActiveStep] = useState(1);
   const [examType, setExamType] = useState("regular");
+  const [subCatagory, setSubCategory] = useState("listing");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const navigate = useNavigate();
 
@@ -352,6 +86,7 @@ export default function CreateExam() {
           name,
           description,
           examType,
+          subCategory,
           createdAt: new Date().toISOString(),
         },
         {
@@ -386,13 +121,13 @@ export default function CreateExam() {
 
   const examTypes = [
     {
-      id: "regular",
-      name: "নিয়মিত এক্সাম",
+      id: "ielts",
+      name: "আই ই এল টি এস",
       icon: BookOpen,
       color: colors.accent,
     },
-    { id: "quiz", name: "কুইজ টেস্ট", icon: Brain, color: "#8B5CF6" },
-    { id: "mock", name: "মক টেস্ট", icon: Target, color: "#F59E0B" },
+    { id: "sat", name: "SAT", icon: Brain, color: "#8B5CF6" },
+    { id: "olympiad", name: "Olympiad", icon: Target, color: "#F59E0B" },
     { id: "practice", name: "প্র্যাকটিস সেশন", icon: Zap, color: "#10B981" },
     { id: "final", name: "ফাইনাল এক্সাম", icon: Trophy, color: "#EF4444" },
   ];

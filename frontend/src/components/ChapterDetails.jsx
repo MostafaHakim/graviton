@@ -49,7 +49,7 @@ const ChapterDetails = () => {
         // Load subject
         const subjectRes = await fetch(`${BASE}/${subjectId}`);
         const subjectData = await subjectRes.json();
-
+        console.log("Loaded Subject Data:", subjectData);
         if (!subjectData) {
           toast.error("বিষয় পাওয়া যায়নি");
           setLoading(false);

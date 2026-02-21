@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
 
+const chapterTestSchema = new mongoose.Schema({
+  question: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ChapterTestQuestion",
+  },
+  titel: String,
+  subtitle: String,
+});
+
 /* ===== Chapter Schema ===== */
 const chapterSchema = new mongoose.Schema({
   name: {
@@ -16,6 +25,7 @@ const chapterSchema = new mongoose.Schema({
       pdf: String,
     },
   ],
+  tests: [chapterTestSchema],
 });
 
 /* ===== Paper Schema ===== */

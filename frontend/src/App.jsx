@@ -44,6 +44,12 @@ import ExamDetail from "./pages/exam/ExamDetail";
 import AddQuestion from "./pages/exam/AddQuestion";
 import StudentStartExam from "./pages/exam/StudentStartExam";
 import AllExamForAdmin from "./pages/exam/AllExamForAdmin";
+import Skill from "./pages/exam/Skill";
+import AdminAddSkill from "./pages/exam/AdminAddSkill";
+import AdminAddTest from "./pages/exam/AdminAddTest";
+import AdminTestList from "./pages/exam/AdminTestList";
+import AdminAddQuestion from "./pages/exam/AdminAddQuestion";
+import StudentExam from "./pages/student/StudentExam";
 
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
@@ -78,7 +84,8 @@ const AppRouter = () => {
           />
           <Route path="club" element={<Club />} />
           <Route path="abroad" element={<FlyToAbroad />} />
-          <Route path="abroad/exams/:id" element={<StudentStartExam />} />
+          <Route path="abroad/:examSlug/:skillSlug" element={<Skill />} />
+          <Route path="abroad/exams/:testId" element={<StudentExam />} />
         </Route>
         {/* ========================Teacher===================================== */}
         <Route
@@ -100,7 +107,10 @@ const AppRouter = () => {
         >
           <Route index element={<ManagementDashboard />} />
           <Route path="student" element={<StudentManagement />} />
-          <Route path="exams" element={<AllExamForAdmin />} />
+          <Route path="exams" element={<AdminTestList />} />
+          <Route path="exams/skills" element={<AdminAddSkill />} />
+          <Route path="exams/tests" element={<AdminAddTest />} />
+          <Route path="exams/questions" element={<AdminAddQuestion />} />
           <Route path="exams/create" element={<CreateExam />} />
           <Route path="exams/:id" element={<ExamDetail />} />
           <Route path="tests/:id" element={<AddQuestion />} />

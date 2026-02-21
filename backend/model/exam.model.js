@@ -2,8 +2,13 @@ const mongoose = require("mongoose");
 
 const examSchema = new mongoose.Schema(
   {
-    name: String, // IELTS, SAT, Olympiad
+    name: String,
     description: String,
+    category: {
+      type: String,
+      enum: ["ielts", "sat", "olympiad", "practice", "final"],
+      required: true,
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",
@@ -12,7 +17,6 @@ const examSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 examSchema.virtual("tests", {
   ref: "tests",
   localField: "_id",

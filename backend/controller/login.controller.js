@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       user = await Student.findOne({ email });
     }
-    console.log(user);
+
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).send("Invalid password");

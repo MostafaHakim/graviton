@@ -33,8 +33,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   Filter,
-  UserPlus,
-  Download,
   Eye,
   Edit,
   Trash2,
@@ -43,17 +41,12 @@ import {
   Clock,
   UserCheck,
   GraduationCap,
-  BookOpen,
   Phone,
-  Mail,
-  Calendar,
   Hash,
-  School,
   Users,
   ChevronRight,
   TrendingUp,
   CreditCard,
-  FileText,
 } from "lucide-react";
 import { getAdmission } from "../../store/features/auth/admissionSlice";
 

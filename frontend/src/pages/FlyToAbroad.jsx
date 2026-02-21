@@ -347,7 +347,7 @@ const FlyToAbroad = () => {
                   ?.skills.map((skill) => (
                     <Link
                       key={skill.id}
-                      to={`/abroad/${selectedExam}/${skill.id}`}
+                      to={`/student/abroad/${selectedExam}/${skill.id}`}
                       onClick={() => setSelectedSkill(skill.id)}
                       className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#3BD480] transition-all duration-300 group"
                     >

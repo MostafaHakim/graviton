@@ -1,12 +1,42 @@
 const mongoose = require("mongoose");
-const questionSchema = new mongoose.Schema({
-  test: { type: mongoose.Schema.Types.ObjectId, ref: "tests" },
 
-  question: String,
+const questionSchema = new mongoose.Schema(
+  {
+    test: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tests",
+      required: true,
+    },
 
-  options: [String], // MCQ
-  correctAnswer: String,
+    questionText: {
+      type: String,
+      required: true,
+    },
 
-  marks: Number,
-});
+    options: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+
+    correctAnswer: {
+      type: String,
+      required: true,
+    },
+
+    marks: {
+      type: Number,
+      default: 1,
+    },
+
+    type: {
+      type: String,
+      enum: ["mcq", "truefalse"],
+      default: "mcq",
+    },
+  },
+  { timestamps: true },
+);
+
 module.exports = mongoose.model("questions", questionSchema);

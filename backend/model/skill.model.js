@@ -1,24 +1,22 @@
 const mongoose = require("mongoose");
 
-const testSchema = new mongoose.Schema(
+const skillSchema = new mongoose.Schema(
   {
     exam: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "exams",
       required: true,
     },
-    skill: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "skills",
-      required: true,
-    },
-    title: {
+    name: {
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true, // reading, writing, math
+      lowercase: true,
+    },
     description: String,
-    duration: Number, // minutes
-    totalMarks: Number,
     isActive: {
       type: Boolean,
       default: true,
@@ -27,4 +25,4 @@ const testSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("tests", testSchema);
+module.exports = mongoose.model("skills", skillSchema);
