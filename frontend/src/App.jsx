@@ -33,15 +33,15 @@ import GalleryUpload from "./components/GalleryUpload";
 import AdminGallery from "./pages/admin/AdminGallery";
 import StudentManagement from "./pages/admin/StudentManagement";
 import TeacherManagement from "./pages/admin/TeacherManagement";
-
 import MadeEasyManagement from "./pages/admin/MadeEasyManagement";
 import ClassManageMent from "./pages/admin/ClassManageMent";
 import SubjectManagement from "./pages/admin/SubjectManagement";
 import ChapterManagement from "./pages/admin/ChapterManagement";
-
 import AdminTestManagement from "./components/AdminTestManagement";
-import TestGuidLine from "./pages/admin/TestGuidLine";
 import TestDetails from "./pages/admin/TestDetails";
+import StudentClassWise from "./pages/admin/StudentClassWise";
+
+// =======================Admin Student=======================
 
 const AppRouter = () => {
   return (
@@ -89,7 +89,9 @@ const AppRouter = () => {
           }
         >
           <Route index element={<ManagementDashboard />} />
+          {/* ========================Student Management====================== */}
           <Route path="student" element={<StudentManagement />} />
+          <Route path="student/:classId" element={<StudentClassWise />} />
 
           {/* ========================Made Easy Management with Class Subject=================== */}
 

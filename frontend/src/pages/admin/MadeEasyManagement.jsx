@@ -18,7 +18,7 @@ const MadeEasyManagement = () => {
   }, [dispatch]);
 
   const handleAddClass = (className) => {
-    dispatch(createClass({ name: className }));
+    dispatch(createClass({ name: className.toLowerCase() }));
     console.log("Adding class:", className);
     setShowAddModal(false);
   };

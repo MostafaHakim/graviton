@@ -5,6 +5,7 @@ import classesReducer from "./features/auth/classesSlice";
 import subjectsReducer from "./features/auth/subjectSlice";
 import chapterReducer from "./features/auth/chapterSlice";
 import testsReducer from "./features/auth/testSlice";
+import studentsReducer from "./features/auth/studentsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     subjects: subjectsReducer,
     chapters: chapterReducer,
     tests: testsReducer,
+    students: studentsReducer,
   },
 });

@@ -23,10 +23,11 @@ const createAdmission = async (req, res) => {
       photo,
       public_id,
     } = req.body;
+
     if (!photo) {
       return res.status(400).json({ message: "Photo is required" });
     }
-
+    console.log(req.body);
     const duePayment =
       Number(totalFee) - Number(discount || 0) - Number(cashPayment);
     const admissionId = await generateAdmissionId();
@@ -51,7 +52,7 @@ const createAdmission = async (req, res) => {
       admissionId,
       public_id,
     });
-
+    console.log(admission);
     res.status(201).json({
       success: true,
       message: "Admission Submitted Successfully",
@@ -99,7 +100,7 @@ const approveAsStudent = async (req, res) => {
     }
 
     const findAdmission = await Admission.findById(id);
-
+    console.log(findAdmission);
     if (!findAdmission) {
       return res
         .status(404)

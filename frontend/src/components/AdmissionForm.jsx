@@ -1089,14 +1089,14 @@ const AdmissionForm = () => {
       // Prepare submission data
       const submissionData = {
         ...formData,
-        photo: photoUrl?.secure_url || null,
+        photo: photoUrl?.url || null,
         public_id: photoUrl?.public_id || null,
         admissionId: `GRA${Date.now().toString().slice(-6)}`,
         duePayment: calculateDue(),
         submissionDate: new Date().toISOString(),
         status: "pending",
       };
-
+      console.log(submissionData);
       // Submit to Redux
       await dispatch(createAdmission(submissionData));
 
