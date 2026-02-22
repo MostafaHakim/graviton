@@ -1,17 +1,41 @@
 const express = require("express");
 const {
-  getTestsByExamAndSkill,
+  ceateNewTest,
+  addQuestion,
+  bulkAddQuestions,
+  getTestByChapter,
   getTestById,
+  getQuestionsByTestId,
+  deleteQuestion,
+  deleteTest,
 } = require("../controller/test.controller");
-
-const createTest = require("../controller/admin.test.controller");
-
 const router = express.Router();
 
-router.get("/", getTestsByExamAndSkill);
-router.get("/:testId", getTestById);
+// --- Create Test ---
+router.post("/", ceateNewTest);
 
-// post by admin==============================
+// ---get test by chapter--------
+router.get("/:chapterId", getTestByChapter);
 
-router.post("/create", createTest);
+// ---get questions by Id--------
+router.get("/questions/:testId", getQuestionsByTestId);
+// ---get test by Id--------
+router.get("/single/:testId", getTestById);
+
+// --- Add Single Question ---
+router.post("/questions", addQuestion);
+
+// --- Bulk Question Upload (JSON/CSV) ---
+router.post("/questions/bulk/:testId", bulkAddQuestions);
+
+// =========================================================
+// =================Delete===========================
+// =========================================================
+
+// --- test by Id--------
+router.delete("/:id", deleteTest);
+
+// --- questions by Id--------
+router.delete("/questions/:id", deleteQuestion);
+
 module.exports = router;

@@ -15,7 +15,6 @@ const getAllGallery = async (req, res) => {
 
 // Create gallery item (admin)
 const createGallery = async (req, res) => {
-  console.log(req.body);
   const item = await Gallery.create(req.body);
   res.json(item);
 };

@@ -13,14 +13,12 @@ const server = http.createServer(app);
 // =======================Route Require======================
 const userRouter = require("./router/user.route");
 const admissionRouter = require("./router/admission.route");
-const subjectRouter = require("./router/subject.route");
 const galleryRouter = require("./router/gallery.route");
 const loginRouter = require("./router/login.route");
-const examRoute = require("./router/exam.route");
-const testRoute = require("./router/test.route");
-const skillRoute = require("./router/skill.route");
-const questionsRoute = require("./router/question.route");
-
+const classRouter = require("./router/classes.route");
+const subjectRouter = require("./router/subjects.route");
+const chapterRouter = require("./router/chapter.router");
+const testRouter = require("./router/test.route");
 // ===================MiddleWere=====================
 
 app.use(
@@ -42,12 +40,11 @@ app.get("/", (req, res) => {
 app.use("/api/login", loginRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admission", admissionRouter);
-app.use("/api/subjects", subjectRouter);
 app.use("/api/gallery", galleryRouter);
-app.use("/api/exams", examRoute);
-app.use("/api/tests", testRoute);
-app.use("/api/skills", skillRoute);
-app.use("/api/questions", questionsRoute);
+app.use("/api/classes", classRouter);
+app.use("/api/subjects", subjectRouter);
+app.use("/api/chapters", chapterRouter);
+app.use("/api/tests", testRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

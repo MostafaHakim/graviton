@@ -63,7 +63,6 @@ const createAdmission = async (req, res) => {
 };
 
 const getAllAdmissions = async (req, res) => {
-  console.log("add");
   const data = await Admission.find().sort({ createdAt: -1 });
   res.json(data);
 };

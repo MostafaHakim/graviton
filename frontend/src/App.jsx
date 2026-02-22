@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Provider, useSelector, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import { store } from "./store/store";
 
 // Import Components
@@ -19,7 +19,6 @@ import ManagementDashboard from "./components/features/dashboard/AdminDashboard"
 // =============================Pages===================
 import Home from "./pages/Home";
 import Club from "./pages/Club";
-import MadeEasy from "./pages/MadeEasy";
 import AdmissionForm from "./components/AdmissionForm";
 import FeedBack from "./pages/FeedBack";
 import FlyToAbroad from "./pages/FlyToAbroad";
@@ -28,32 +27,23 @@ import Membership from "./pages/Membership";
 import AdminLayout from "./pages/admin/AdminLayout";
 import StudentLayout from "./pages/student/StudentLayout";
 import StudentDashboard from "./components/features/dashboard/StudentDashboard";
-import MadeEasyManagement from "./pages/admin/MadeEasyManagement";
 import AdmissionManagement from "./pages/admin/AdmissionManagement";
 import AdmissionById from "./pages/admin/AdmissionById";
-import AddSubject from "./components/features/subject/AddSubject";
-import ChapterContentPage from "./components/ChapterContentPage";
-import ChapterDetails from "./components/ChapterDetails";
 import GalleryUpload from "./components/GalleryUpload";
 import AdminGallery from "./pages/admin/AdminGallery";
 import StudentManagement from "./pages/admin/StudentManagement";
 import TeacherManagement from "./pages/admin/TeacherManagement";
-import CreateExam from "./pages/exam/CreateExam";
-import AdminExamManagement from "./pages/admin/AdminExamManagement";
-import ExamDetail from "./pages/exam/ExamDetail";
-import AddQuestion from "./pages/exam/AddQuestion";
-import StudentStartExam from "./pages/exam/StudentStartExam";
-import AllExamForAdmin from "./pages/exam/AllExamForAdmin";
-import Skill from "./pages/exam/Skill";
-import AdminAddSkill from "./pages/exam/AdminAddSkill";
-import AdminAddTest from "./pages/exam/AdminAddTest";
-import AdminTestList from "./pages/exam/AdminTestList";
-import AdminAddQuestion from "./pages/exam/AdminAddQuestion";
-import StudentExam from "./pages/student/StudentExam";
+
+import MadeEasyManagement from "./pages/admin/MadeEasyManagement";
+import ClassManageMent from "./pages/admin/ClassManageMent";
+import SubjectManagement from "./pages/admin/SubjectManagement";
+import ChapterManagement from "./pages/admin/ChapterManagement";
+
+import AdminTestManagement from "./components/AdminTestManagement";
+import TestGuidLine from "./pages/admin/TestGuidLine";
+import TestDetails from "./pages/admin/TestDetails";
 
 const AppRouter = () => {
-  const { user } = useSelector((state) => state.auth);
-
   return (
     <Router>
       <Routes>
@@ -77,15 +67,8 @@ const AppRouter = () => {
           }
         >
           <Route index element={<StudentDashboard />} />
-          <Route path="madeeasy" element={<MadeEasy />} />
-          <Route
-            path="madeeasy/:subjectId/:classId/:paperId/:chapterIndex"
-            element={<ChapterDetails />}
-          />
           <Route path="club" element={<Club />} />
           <Route path="abroad" element={<FlyToAbroad />} />
-          <Route path="abroad/:examSlug/:skillSlug" element={<Skill />} />
-          <Route path="abroad/exams/:testId" element={<StudentExam />} />
         </Route>
         {/* ========================Teacher===================================== */}
         <Route
@@ -107,24 +90,32 @@ const AppRouter = () => {
         >
           <Route index element={<ManagementDashboard />} />
           <Route path="student" element={<StudentManagement />} />
-          <Route path="exams" element={<AdminTestList />} />
-          <Route path="exams/skills" element={<AdminAddSkill />} />
-          <Route path="exams/tests" element={<AdminAddTest />} />
-          <Route path="exams/questions" element={<AdminAddQuestion />} />
-          <Route path="exams/create" element={<CreateExam />} />
-          <Route path="exams/:id" element={<ExamDetail />} />
-          <Route path="tests/:id" element={<AddQuestion />} />
-          <Route path="teacher" element={<TeacherManagement />} />
+
+          {/* ========================Made Easy Management with Class Subject=================== */}
+
           <Route path="madeeasy" element={<MadeEasyManagement />} />
+          <Route path="madeeasy/:classId" element={<ClassManageMent />} />
+          <Route
+            path="madeeasy/:classId/:subjectId"
+            element={<SubjectManagement />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId"
+            element={<ChapterManagement />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/newtest"
+            element={<AdminTestManagement />}
+          />
+          <Route path="madeeasy/tests/:testId" element={<TestDetails />} />
+
+          {/* =============================END====================================== */}
+
+          <Route path="teacher" element={<TeacherManagement />} />
           <Route path="admission" element={<AdmissionManagement />} />
           <Route path="admission/:id" element={<AdmissionById />} />
-          <Route path="madeeasy/add" element={<AddSubject />} />
           <Route path="gallery" element={<AdminGallery />} />
           <Route path="gallery/upload" element={<GalleryUpload />} />
-          <Route
-            path="madeeasy/:subjectId/:classId/:paperId/:chapterIndex"
-            element={<ChapterContentPage />}
-          />
         </Route>
 
         <Route path="/" element={<Navigate to="/login" />} />
