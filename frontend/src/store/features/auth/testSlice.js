@@ -133,7 +133,7 @@ export const deleteQuestion = createAsyncThunk(
         return rejectWithValue(data.message || "tests failed to fetch");
       }
       const data = res.json();
-      return data.data;
+      return data.data._id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -244,7 +244,7 @@ const testsSlice = createSlice({
       .addCase(deleteQuestion.fulfilled, (state, action) => {
         state.loading = false;
         state.questions = state.questions.filter(
-          (question) => question !== action.payload,
+          (question) => question._id !== action.payload,
         );
       })
       .addCase(deleteQuestion.rejected, (state, action) => {

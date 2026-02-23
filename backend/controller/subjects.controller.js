@@ -16,6 +16,7 @@ exports.getAllSubjects = async (req, res) => {
 exports.createSubject = async (req, res) => {
   try {
     const { name, description, classId } = req.body;
+
     const newSubject = new Subjets({ name, description, classId });
     const savedSubject = await newSubject.save();
     const cls = await Class.findById(classId);
@@ -35,6 +36,28 @@ exports.createSubject = async (req, res) => {
 exports.getSubjectById = async (req, res) => {
   try {
     const subject = await Subjets.findById(req.params.id).populate("chapter");
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+    res.status(200).json(subject);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch subject", error: error.message });
+  }
+};
+// Get subject by ID
+exports.getSubjectByClassName = async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    const cls = await Class.findOne({ name }).populate("subjects");
+
+    if (!cls) {
+      res.status(404).json({ messasge: "Class Not Found" });
+    }
+
+    const subject = await Subjets.find({ classId: cls._id });
     if (!subject) {
       return res.status(404).json({ message: "Subject not found" });
     }

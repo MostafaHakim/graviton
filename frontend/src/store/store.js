@@ -6,6 +6,8 @@ import subjectsReducer from "./features/auth/subjectSlice";
 import chapterReducer from "./features/auth/chapterSlice";
 import testsReducer from "./features/auth/testSlice";
 import studentsReducer from "./features/auth/studentsSlice";
+import paperReducer from "./features/auth/paperSlice";
+import attemptReducer from "./features/auth/attemptSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +18,7 @@ export const store = configureStore({
     chapters: chapterReducer,
     tests: testsReducer,
     students: studentsReducer,
+    papers: paperReducer,
+    attempt: attemptReducer,
   },
 });

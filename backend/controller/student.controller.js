@@ -4,7 +4,6 @@ const getAllStudents = async (req, res) => {
   try {
     const { classId } = req.params;
 
-    console.log(classId);
     const students = await Student.find({ class: classId });
     if (!students) {
       res.status(404).json({

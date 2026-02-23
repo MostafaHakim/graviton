@@ -6,6 +6,7 @@ export const createSubject = createAsyncThunk(
   "subjects/create",
   async (formData, { rejectWithValue }) => {
     try {
+      console.log(formData);
       const res = await fetch(`${baseUrl}/api/subjects`, {
         method: "POST",
         headers: {
@@ -66,6 +67,26 @@ export const getSubjectById = createAsyncThunk(
   },
 );
 
+export const getSubjectByClassName = createAsyncThunk(
+  "subjects/getByClass",
+  async (name, { rejectWithValue }) => {
+    console.log("Fetching subject with ID:", name);
+    try {
+      const res = await fetch(`${baseUrl}/api/subjects/class/${name}`);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Subject failed to fetch");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const subjectsSlice = createSlice({
   name: "subjects",
   initialState: {
@@ -106,6 +127,20 @@ const subjectsSlice = createSlice({
       .addCase(getSubjectById.rejected, (state, action) => {
         state.loading = false;
         state.subject = null;
+        state.error = action.payload;
+      })
+
+      //   Subject by class
+      .addCase(getSubjectByClassName.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSubjectByClassName.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subjects = action.payload;
+      })
+      .addCase(getSubjectByClassName.rejected, (state, action) => {
+        state.loading = false;
+        state.subjects = null;
         state.error = action.payload;
       })
 

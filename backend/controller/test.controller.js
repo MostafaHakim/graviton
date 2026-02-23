@@ -97,7 +97,9 @@ const deleteTest = async (req, res) => {
 const deleteQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    const question = await Question.findOneAndDelete(id);
+
+    const question = await Question.findByIdAndDelete(id);
+
     res.status(201).json({
       massage: "Question Delete Successfully",
       data: question,

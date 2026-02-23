@@ -4,6 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
@@ -40,6 +41,13 @@ import ChapterManagement from "./pages/admin/ChapterManagement";
 import AdminTestManagement from "./components/AdminTestManagement";
 import TestDetails from "./pages/admin/TestDetails";
 import StudentClassWise from "./pages/admin/StudentClassWise";
+import CreatePaper from "./components/CreatePaper";
+import PaperList from "./components/PaperList";
+import MadeEasy from "./pages/student/MadeEasy";
+import Subject from "./pages/student/Subject";
+import Chapter from "./pages/student/Chapter";
+import TestGuidLine from "./pages/student/TestGuidLine";
+import Exam from "./pages/student/Exam";
 
 // =======================Admin Student=======================
 
@@ -69,6 +77,17 @@ const AppRouter = () => {
           <Route index element={<StudentDashboard />} />
           <Route path="club" element={<Club />} />
           <Route path="abroad" element={<FlyToAbroad />} />
+          <Route path="madeeasy" element={<MadeEasy />} />
+          <Route path="madeeasy/subject/:subjectId" element={<Subject />} />
+          <Route
+            path="madeeasy/subject/:subjectId/:chapterId"
+            element={<Chapter />}
+          />
+          <Route
+            path="madeeasy/subject/:subjectId/:chapterId/:paperId/guidline"
+            element={<TestGuidLine />}
+          />
+          <Route path="madeeasy/:paperId/start" element={<Exam />} />
         </Route>
         {/* ========================Teacher===================================== */}
         <Route
@@ -89,7 +108,7 @@ const AppRouter = () => {
           }
         >
           <Route index element={<ManagementDashboard />} />
-          {/* ========================Student Management====================== */}
+          {/* ========================Student Management By Admin====================== */}
           <Route path="student" element={<StudentManagement />} />
           <Route path="student/:classId" element={<StudentClassWise />} />
 
@@ -109,7 +128,15 @@ const AppRouter = () => {
             path="madeeasy/:classId/:subjectId/:chapterId/newtest"
             element={<AdminTestManagement />}
           />
-          <Route path="madeeasy/tests/:testId" element={<TestDetails />} />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/:testId"
+            element={<TestDetails />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/:testId/create-paper"
+            element={<CreatePaper />}
+          />
+          <Route path="madeeasy/paper" element={<PaperList />} />
 
           {/* =============================END====================================== */}
 
@@ -143,6 +170,7 @@ function App() {
   return (
     <Provider store={store}>
       <AppRouter />
+      <ToastContainer />
     </Provider>
   );
 }

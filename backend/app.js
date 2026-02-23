@@ -20,6 +20,8 @@ const studentsRouter = require("./router/student.route");
 const subjectRouter = require("./router/subjects.route");
 const chapterRouter = require("./router/chapter.router");
 const testRouter = require("./router/test.route");
+const paperRouter = require("./router/paper.route");
+const attemptRouter = require("./router/attempt.route");
 // ===================MiddleWere=====================
 
 app.use(
@@ -47,6 +49,8 @@ app.use("/api/students", studentsRouter);
 app.use("/api/subjects", subjectRouter);
 app.use("/api/chapters", chapterRouter);
 app.use("/api/tests", testRouter);
+app.use("/api/papers", paperRouter);
+app.use("/api/attempts", attemptRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

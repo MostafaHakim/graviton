@@ -348,6 +348,7 @@ const ChapterManagement = () => {
             </div>
           )}
         </div>
+
         <div className="p-8">
           <div className="flex flex-row items-center justify-between ">
             <h2>এই অধ্যায়ের পরিক্ষা সমুহ</h2>
@@ -363,7 +364,7 @@ const ChapterManagement = () => {
               tests.length > 0 &&
               tests?.map((test, i) => (
                 <div className="flex flex-row items-center justify-between border p-6 rounded">
-                  <Link key={i} to={`/admin/madeeasy/tests/${test._id}`}>
+                  <Link key={i} to={test._id}>
                     <h2>{test.title}</h2>
                   </Link>
                   <button
