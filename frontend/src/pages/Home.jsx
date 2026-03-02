@@ -10,7 +10,7 @@ const Home = () => {
   const { pathname } = useLocation();
 
   const isHome = pathname === "/";
-  console.log(user.role);
+
   return (
     <div className="">
       <div className="hidden md:block sticky top-0 z-50">
@@ -33,9 +33,9 @@ const Home = () => {
       <div>
         <Footer />
       </div>
-      {user.role === "admin" ? (
+      {user && user.role === "admin" ? (
         <AdminMobileNav />
-      ) : user.role === "teacher" ? (
+      ) : user && user.role === "teacher" ? (
         <AdminMobileNav />
       ) : (
         <StudentMobileNav />
