@@ -8,6 +8,7 @@ import testsReducer from "./features/auth/testSlice";
 import studentsReducer from "./features/auth/studentsSlice";
 import paperReducer from "./features/auth/paperSlice";
 import attemptReducer from "./features/auth/attemptSlice";
+import memberReducer from "./features/auth//memberSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     students: studentsReducer,
     papers: paperReducer,
     attempt: attemptReducer,
+    members: memberReducer,
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import uploadToCloudinary from "../utils/cloudinery";
 
-const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
+const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -70,7 +70,7 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white w-[600px] max-h-[90vh] overflow-y-auto rounded-lg p-6 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Add New Chapter</h2>
+        <h2 className="text-xl font-bold mb-4 uppercase">{headline}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Title */}
@@ -109,7 +109,9 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Image */}
           <div className="border p-3 rounded bg-gray-50">
-            <label className="block font-medium mb-1 italic text-blue-600">Upload Image / Thumbnail</label>
+            <label className="block font-medium mb-1 italic text-blue-600">
+              Upload Image / Thumbnail
+            </label>
             <input
               type="file"
               accept="image/*"
@@ -127,7 +129,9 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Video */}
           <div className="border p-3 rounded bg-gray-50">
-            <label className="block font-medium mb-1 italic text-blue-600">Upload Video Lecture</label>
+            <label className="block font-medium mb-1 italic text-blue-600">
+              Upload Video Lecture
+            </label>
             <input
               type="file"
               accept="video/*"
@@ -135,13 +139,17 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
               className="text-sm"
             />
             {formData.content.videoUrl && (
-              <p className="text-green-600 text-sm mt-1 font-bold">✓ Video Uploaded</p>
+              <p className="text-green-600 text-sm mt-1 font-bold">
+                ✓ Video Uploaded
+              </p>
             )}
           </div>
 
           {/* PDF */}
           <div className="border p-3 rounded bg-gray-50">
-            <label className="block font-medium mb-1 italic text-blue-600">Upload PDF Study Material</label>
+            <label className="block font-medium mb-1 italic text-blue-600">
+              Upload PDF Study Material
+            </label>
             <input
               type="file"
               accept="application/pdf"
@@ -150,7 +158,9 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit }) => {
             />
             {formData.content.pdfUrl && (
               <div className="mt-1 flex items-center justify-between">
-                <p className="text-green-600 text-sm font-bold">✓ PDF Uploaded</p>
+                <p className="text-green-600 text-sm font-bold">
+                  ✓ PDF Uploaded
+                </p>
                 <p className="text-blue-600 text-xs font-bold uppercase">
                   Pages detected: {formData.content.pageCount}
                 </p>

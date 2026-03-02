@@ -12,6 +12,7 @@ import {
   Star,
   Sparkles,
   ChevronRight,
+  BarChart,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -38,33 +39,7 @@ const StudentSidebar = () => {
       bg: "bg-emerald-50",
       border: "border-emerald-200",
     },
-    // {
-    //   id: "classes",
-    //   label: "আমার ক্লাস",
-    //   icon: Users,
-    //   path: "/student/classes",
-    //   color: "text-purple-600",
-    //   bg: "bg-purple-50",
-    //   border: "border-purple-200",
-    // },
-    // {
-    //   id: "assignments",
-    //   label: "অ্যাসাইনমেন্ট",
-    //   icon: FileText,
-    //   path: "/student/assignments",
-    //   color: "text-amber-600",
-    //   bg: "bg-amber-50",
-    //   border: "border-amber-200",
-    // },
-    // {
-    //   id: "exams",
-    //   label: "পরীক্ষা",
-    //   icon: BarChart,
-    //   path: "/student/exams",
-    //   color: "text-red-600",
-    //   bg: "bg-red-50",
-    //   border: "border-red-200",
-    // },
+
     {
       id: "abroad",
       label: "বিদেশ যাত্রা",
@@ -74,49 +49,13 @@ const StudentSidebar = () => {
       bg: "bg-cyan-50",
       border: "border-cyan-200",
     },
-    // {
-    //   id: "club",
-    //   label: "ক্লাব",
-    //   icon: GraduationCap,
-    //   path: "/student/club",
-    //   color: "text-pink-600",
-    //   bg: "bg-pink-50",
-    //   border: "border-pink-200",
-    // },
-    // {
-    //   id: "feedback",
-    //   label: "ফিডব্যাক",
-    //   icon: MessageSquare,
-    //   path: "/student/feedback",
-    //   color: "text-indigo-600",
-    //   bg: "bg-indigo-50",
-    //   border: "border-indigo-200",
-    // },
-    // {
-    //   id: "gallery",
-    //   label: "গ্যালারি",
-    //   icon: Image,
-    //   path: "/student/gallery",
-    //   color: "text-teal-600",
-    //   bg: "bg-teal-50",
-    //   border: "border-teal-200",
-    // },
-    // {
-    //   id: "achievements",
-    //   label: "অর্জনসমূহ",
-    //   icon: Award,
-    //   path: "/student/achievements",
-    //   color: "text-orange-600",
-    //   bg: "bg-orange-50",
-    //   border: "border-orange-200",
-    // },
   ];
 
   const bottomItems = [
     {
       label: "প্রোফাইল",
       icon: UserCircle,
-      path: "/student/profile",
+      path: `/student/profile`,
       color: "text-gray-600",
     },
     {
@@ -412,7 +351,7 @@ const StudentSidebar = () => {
           className="mt-4 pt-4 border-t border-gray-200 text-center"
         >
           <p className="text-xs text-gray-500 font-kalpurush">
-            © ২০২৪ গ্র্যাভিটন একাডেমি
+            © ২০২৬ গ্র্যাভিটন একাডেমি
           </p>
         </motion.div>
       </div>

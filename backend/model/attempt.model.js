@@ -9,7 +9,7 @@ const attemptSchema = new mongoose.Schema(
     },
     paper: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Paper",
+      ref: "Papers",
       required: true,
     },
     answers: [

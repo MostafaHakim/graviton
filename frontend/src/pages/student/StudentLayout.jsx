@@ -2,8 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import StudentSidebar from "./StudentSidebar";
-import AdminMobileNav from "../admin/AdminMobileNav";
-import AdminHeader from "../admin/AdminHeader";
+import StudentMobileNav from "./StudentMobileNav";
 
 const StudentLayout = () => {
   return (
@@ -15,11 +14,11 @@ const StudentLayout = () => {
       <div className="flex-1 flex flex-row">
         <StudentSidebar />
 
-        <main className="flex-1 p-4 ">
+        <main className="flex-1 lg:p-4 ">
           <Outlet />
         </main>
 
-        <AdminMobileNav />
+        <StudentMobileNav />
       </div>
     </div>
   );

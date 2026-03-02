@@ -111,17 +111,8 @@ const Gallery = () => {
     },
   ];
 
-  const featuredVideo = {
-    title: "গ্র্যাভিটন একাডেমি - এক নজরে",
-    description: "আমাদের শিক্ষা ব্যবস্থা, সুযোগ-সুবিধা ও সাফল্যের গল্প",
-    views: "১২,৫০০+",
-    duration: "৪:৩০",
-    thumbnail:
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800",
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8  sm:px-6 lg:px-8">
       {/* Mesh Grid Background */}
       <div className="absolute inset-0">
         <svg
@@ -183,54 +174,6 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Featured Video */}
-        <div className="mb-12">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="flex flex-col lg:flex-row items-center gap-8">
-              <div className="lg:w-2/3 relative group">
-                <div className="relative rounded-xl overflow-hidden">
-                  <img
-                    src={featuredVideo.thumbnail}
-                    alt={featuredVideo.title}
-                    className="w-full h-64 lg:h-80 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <button className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-[#3BD480] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-8 h-8 text-white ml-1" />
-                    </div>
-                  </button>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center justify-between text-white">
-                    <span className="flex items-center gap-2">
-                      <Play className="w-4 h-4" />
-                      {featuredVideo.views} ভিউ
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      {featuredVideo.duration}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:w-1/3">
-                <h3 className="text-2xl font-bold text-white mb-3 font-kalpurush">
-                  {featuredVideo.title}
-                </h3>
-                <p className="text-white/80 mb-6 font-kalpurush">
-                  {featuredVideo.description}
-                </p>
-                <button className="w-full py-3 bg-gradient-to-r from-[#3BD480] to-[#134C45] text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-kalpurush">
-                  <Play className="w-5 h-5" />
-                  সম্পূর্ণ ভিডিও দেখুন
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
           {/* Categories */}
@@ -287,7 +230,7 @@ const Gallery = () => {
 
         {/* Gallery Grid */}
         <div
-          className={`mb-12 ${viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" : "space-y-6"}`}
+          className={`mb-12 ${viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6" : "space-y-6"}`}
         >
           {filteredItems.map((item) => (
             <div

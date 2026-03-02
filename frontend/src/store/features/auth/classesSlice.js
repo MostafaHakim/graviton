@@ -5,6 +5,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export const createClass = createAsyncThunk(
   "classes/create",
   async (formData, { rejectWithValue }) => {
+    console.log(formData);
     try {
       const res = await fetch(`${baseUrl}/api/classes`, {
         method: "POST",
@@ -37,6 +38,25 @@ export const getClasses = createAsyncThunk(
       console.log("Fetched classes data:", data);
       if (!res.ok) {
         return rejectWithValue(data.message || "Classes failed to fetch");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const getSkills = createAsyncThunk(
+  "classes/getSkills",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/classes/skills`);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Skill failed to fetch");
       }
 
       return data;
@@ -118,6 +138,21 @@ const classesSlice = createSlice({
         state.classes = action.payload;
       })
       .addCase(getClasses.rejected, (state, action) => {
+        state.loading = false;
+        state.classes = [];
+        state.error = action.payload;
+      })
+      //============================================================
+      //=================== Get All Skill===========================
+      //===========================================================
+      .addCase(getSkills.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSkills.fulfilled, (state, action) => {
+        state.loading = false;
+        state.classes = action.payload;
+      })
+      .addCase(getSkills.rejected, (state, action) => {
         state.loading = false;
         state.classes = [];
         state.error = action.payload;

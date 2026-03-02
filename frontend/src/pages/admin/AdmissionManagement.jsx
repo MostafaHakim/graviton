@@ -1,31 +1,3 @@
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getAdmission } from "../../store/features/auth/admissionSlice";
-
-// const AdmissionManagement = () => {
-//   const { students } = useSelector((state) => state.students);
-
-//   const dispatch = useDispatch();
-
-//   console.log(students);
-
-//   useEffect(() => {
-//     dispatch(getAdmission());
-//   }, []);
-
-//   return (
-//     <div>
-//       <div>
-//         {students?.map((std) => (
-//           <h2>{std.studentName}</h2>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdmissionManagement;
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";

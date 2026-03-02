@@ -11,7 +11,7 @@ const AdminLayout = () => {
       <div className=" flex flex-row">
         <AdminSidebar />
 
-        <main className="flex-1 p-4 ">
+        <main className="flex-1 lg:p-4 ">
           <Outlet />
         </main>
 

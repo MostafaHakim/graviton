@@ -13,6 +13,10 @@ const paperSchema = new mongoose.Schema({
   guidline: String,
   duration: Number,
   totalMarks: Number,
+  isSkill: {
+    type: Boolean,
+    default: false,
+  },
   questions: [
     {
       type: mongoose.Schema.Types.ObjectId,

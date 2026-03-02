@@ -106,65 +106,30 @@ const AdminSidebar = () => {
       id: "abroad",
       label: "বিদেশ যাত্রা",
       icon: Globe,
-      path: "/admin/exams",
+      path: "/admin/abord",
       color: "text-[#59C3D1]",
       bg: "bg-[#EFF9FA]",
       border: "border-l-4 border-[#59C3D1]",
       iconBg: "bg-[#59C3D1]/10",
       new: true,
     },
-    {
-      id: "progress",
-      label: "প্রোগ্রেস",
-      icon: TrendingUp,
-      path: "/student/progress",
-      color: "text-[#A461D8]",
-      bg: "bg-[#F5F0FA]",
-      border: "border-l-4 border-[#A461D8]",
-      iconBg: "bg-[#A461D8]/10",
-    },
-    {
-      id: "club",
-      label: "ক্লাব",
-      icon: Trophy,
-      path: "/admin/club",
-      color: "text-[#FFC224]",
-      bg: "bg-[#FFF9EB]",
-      border: "border-l-4 border-[#FFC224]",
-      iconBg: "bg-[#FFC224]/10",
-    },
+    // {
+    //   id: "club",
+    //   label: "ক্লাব",
+    //   icon: Trophy,
+    //   path: "/admin/club",
+    //   color: "text-[#FFC224]",
+    //   bg: "bg-[#FFF9EB]",
+    //   border: "border-l-4 border-[#FFC224]",
+    //   iconBg: "bg-[#FFC224]/10",
+    // },
   ];
 
   const bottomItems = [
     {
       label: "প্রোফাইল",
       icon: UserCircle,
-      path: "/student/profile",
-      color: "text-gray-600",
-    },
-    {
-      label: "নোটিফিকেশন",
-      icon: Bell,
-      path: "/student/notifications",
-      color: "text-gray-600",
-      count: 12,
-    },
-    {
-      label: "সেভ করা",
-      icon: Bookmark,
-      path: "/student/saved",
-      color: "text-gray-600",
-    },
-    {
-      label: "সেটিংস",
-      icon: Settings,
-      path: "/student/settings",
-      color: "text-gray-600",
-    },
-    {
-      label: "সাহায্য",
-      icon: HelpCircle,
-      path: "/student/help",
+      path: "/admin/profile",
       color: "text-gray-600",
     },
   ];
@@ -309,28 +274,6 @@ const AdminSidebar = () => {
                           <span className={`font-medium ${item.color}`}>
                             {item.label}
                           </span>
-                        </div>
-
-                        {/* Right Side */}
-                        <div className="flex items-center gap-2 relative z-10">
-                          {item.count && (
-                            <span className="px-2 py-1 text-xs font-bold bg-[#6C5DD3] text-white rounded-full min-w-6 text-center shadow-sm">
-                              {item.count}
-                            </span>
-                          )}
-                          {item.premium && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#FF754C] to-[#FF9E7D] text-white rounded-full shadow-sm">
-                              PRO
-                            </span>
-                          )}
-                          {item.new && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-[#59C3D1] to-[#8BD9E3] text-white rounded-full shadow-sm">
-                              NEW
-                            </span>
-                          )}
-                          <ChevronRight
-                            className={`w-4 h-4 transition-transform duration-300 ${item.color} group-hover:translate-x-1`}
-                          />
                         </div>
                       </>
                     )}

@@ -60,6 +60,26 @@ export const getAllPapers = createAsyncThunk(
     }
   },
 );
+//
+// ================= GET ALL SKILL PAPERS =================
+//
+export const getAllSkillPapers = createAsyncThunk(
+  "paper/getAllSkillPaper",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/papers/skills`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message);
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
 
 //
 // ================= GET PAPER BY ID =================
@@ -158,6 +178,18 @@ const paperSlice = createSlice({
         state.papers = action.payload;
       })
       .addCase(getAllPapers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // GET ALL SKILLS PAPERS
+      .addCase(getAllSkillPapers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllSkillPapers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.papers = action.payload;
+      })
+      .addCase(getAllSkillPapers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

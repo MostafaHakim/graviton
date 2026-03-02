@@ -8,12 +8,12 @@ const BlackListToken = require("../model/blackListTokenModel");
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { userId, password } = req.body;
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ userId });
 
     if (!user) {
-      user = await Student.findOne({ email });
+      user = await Student.findOne({ studentId: userId });
     }
 
     const isPasswordValid = await user.comparePassword(password);

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -18,17 +18,26 @@ import {
   Search,
   Download,
   Filter,
+  User,
 } from "lucide-react";
+import { useEffect } from "react";
+import { getAllStudents } from "../../../store/features/auth/studentsSlice";
 
 const AdminDashboard = () => {
   const { user } = useSelector((state) => state.auth);
+  const { students } = useSelector((state) => state.students);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllStudents());
+  }, [dispatch]);
 
   const stats = [
     {
       label: "মোট শিক্ষার্থী",
-      value: "২,৮৪৫",
+      value: students.length,
       change: "+১২%",
-      icon: Users,
+      icon: User,
       color: "from-blue-500 to-cyan-500",
       bgColor: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
     },
@@ -126,7 +135,7 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] p-4 md:p-6 rounded-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] p-4 md:p-6 lg:rounded-2xl pb-20">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-[#3BD480]/5 to-transparent rounded-full blur-3xl"></div>
@@ -149,28 +158,9 @@ const AdminDashboard = () => {
               <p className="text-gray-300 mt-2">
                 স্বাগতম,{" "}
                 <span className="text-[#3BD480] font-semibold">
-                  {user?.name || "এডমিন"}!
+                  {user?.username || "এডমিন"}!
                 </span>
               </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Search
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="খুঁজুন..."
-                  className="pl-12 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3BD480] focus:border-transparent w-64"
-                />
-              </div>
-              <button className="p-2.5 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <Bell className="w-5 h-5 text-white" />
-              </button>
-              <div className="px-4 py-2 bg-gradient-to-r from-[#3BD480] to-[#2da866] text-[#17202F] rounded-xl font-semibold">
-                এডমিন একাউন্ট
-              </div>
             </div>
           </div>
 
@@ -186,10 +176,10 @@ const AdminDashboard = () => {
                 className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 ${stat.bgColor} rounded-xl`}>
-                    <stat.icon
-                      className={`w-6 h-6 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
-                    />
+                  <div
+                    className={`p-3 bg-gradient-to-r ${stat.color} rounded-xl`}
+                  >
+                    <stat.icon className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 rounded-lg">
                     <TrendingUp className="w-3 h-3 text-green-500" />

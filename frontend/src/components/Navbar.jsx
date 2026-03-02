@@ -1,21 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
-import { useDispatch, useSelector } from "react-redux";
-import { LogOut } from "lucide-react";
-import { logoutUser } from "../store/features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const navItems = [
     { path: "/", label: "হোম" },
-    { path: "/club", label: "ক্লাব" },
+    // { path: "/club", label: "ক্লাব" },
     { path: "/feedback", label: "ফিডব্যাক" },
-    { path: "/studyabroad", label: "বিদেশ পড়াশুনা" },
+    // { path: "/studyabroad", label: "বিদেশ পড়াশুনা" },
     { path: "/gallery", label: "গ্যালারি" },
     { path: "/membership", label: "মেম্বারশিপ" },
   ];
 
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto ">

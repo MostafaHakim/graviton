@@ -6,10 +6,13 @@ const {
   createClass,
   getClassById,
   deleteClass,
+  getAllSkills,
 } = require("../controller/classes.controller");
 
 // Get all classes
 router.get("/", getAllClasses);
+
+router.get("/skills", getAllSkills);
 
 // Create a new class
 router.post("/", createClass);

@@ -2,13 +2,12 @@ import { LogOut } from "lucide-react";
 import Logo from "../../assets/logo.jpg";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../store/features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 const AdminHeader = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-3 hidden lg:block">
       <div className="flex justify-between items-center">
@@ -44,15 +43,6 @@ const AdminHeader = () => {
                 <p className="text-xs text-gray-400 capitalize">{user.role}</p>
               </div>
             </div>{" "}
-          </button>
-
-          <button
-            onClick={() => {
-              dispatch(logoutUser());
-            }}
-            className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
-          >
-            <LogOut size={18} />
           </button>
         </div>
       </div>

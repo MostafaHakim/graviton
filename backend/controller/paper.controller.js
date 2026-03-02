@@ -11,6 +11,7 @@ const createPaper = async (req, res) => {
       duration,
       totalMarks,
       questionIds,
+      isSkill,
     } = req.body;
 
     // Validate question existence
@@ -33,6 +34,7 @@ const createPaper = async (req, res) => {
       totalMarks,
       guidline,
       questions: questionIds,
+      isSkill,
     });
 
     res.status(201).json({
@@ -46,7 +48,24 @@ const createPaper = async (req, res) => {
 
 const getAllPaper = async (req, res) => {
   try {
-    const paper = await Paper.find().populate("questions").populate("test");
+    const paper = await Paper.find({ isSkill: false })
+      .populate("questions")
+      .populate("test");
+
+    if (!paper) {
+      return res.status(404).json({ message: "Paper not found" });
+    }
+
+    res.json(paper);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getAllSkillPaper = async (req, res) => {
+  try {
+    const paper = await Paper.find({ isSkill: true })
+      .populate("questions")
+      .populate("test");
 
     if (!paper) {
       return res.status(404).json({ message: "Paper not found" });
@@ -95,4 +114,5 @@ module.exports = {
   getPaperById,
   getAllPaper,
   getPaperByChapterId,
+  getAllSkillPaper,
 };

@@ -3,43 +3,47 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-const userSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
+const userSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
 
-  email: {
-    type: String,
-    required: true,
-    trim: true,
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["teacher", "admin"],
+      default: "teacher",
+    },
+    status: {
+      type: String,
+      enum: ["active", "block", "pending"],
+      default: "pending",
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    default: "admin",
-  },
-  status: {
-    type: String,
-    enum: ["active", "block"],
-    default: "active",
-  },
-});
+  { timestamps: true },
+);
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

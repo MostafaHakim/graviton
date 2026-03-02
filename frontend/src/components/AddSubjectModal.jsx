@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddSubjectModal = ({ onClose, onSave, classId }) => {
+const AddSubjectModal = ({ onClose, onSave, classId, title }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -15,7 +15,7 @@ const AddSubjectModal = ({ onClose, onSave, classId }) => {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
       <div className="bg-white p-6 rounded">
-        <h3>Add New Subject</h3>
+        <h3>{title}</h3>
         <input
           className="border p-2 w-full mt-2"
           placeholder="Enter subject name"

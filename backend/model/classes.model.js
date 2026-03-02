@@ -6,6 +6,10 @@ const classSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  isSkill: {
+    type: Boolean,
+    default: false,
+  },
   subjects: [
     {
       type: mongoose.Schema.Types.ObjectId,

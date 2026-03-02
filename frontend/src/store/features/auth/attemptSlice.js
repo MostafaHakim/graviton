@@ -45,6 +45,24 @@ export const checkExam = createAsyncThunk(
   },
 );
 
+export const checkExamByStudent = createAsyncThunk(
+  "attempt/checkExamByStudent",
+  async (studentId, { rejectWithValue }) => {
+    console.log(studentId);
+    try {
+      const res = await fetch(`${baseUrl}/api/attempts/student/${studentId}`);
+
+      const data = await res.json();
+      if (!res.ok) {
+        return rejectWithValue(data.message);
+      }
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const attemptSlice = createSlice({
   name: "attempt",
   initialState: {
@@ -70,6 +88,19 @@ const attemptSlice = createSlice({
         toast.error(action.payload || "কিছু একটা সমস্যা হয়েছে!");
       })
 
+      //   ============Check By StudentId===============
+      .addCase(checkExamByStudent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(checkExamByStudent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.check = action.payload;
+      })
+      .addCase(checkExamByStudent.rejected, (state, action) => {
+        state.loading = false;
+        state.check = null;
+        state.error = action.payload;
+      })
       //   ============Check===============
       .addCase(checkExam.pending, (state) => {
         state.loading = true;

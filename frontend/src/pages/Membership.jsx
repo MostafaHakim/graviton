@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Crown,
   Star,
@@ -26,65 +26,19 @@ import {
   ArrowRight,
   UserCheck,
 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllMember } from "../store/features/auth/memberSlice";
+import { useNavigate } from "react-router-dom";
 
 const Membership = () => {
-  const [selectedPlan, setSelectedPlan] = useState("premium");
   const [activeTab, setActiveTab] = useState("plans");
+  const navigate = useNavigate();
+  const { members } = useSelector((state) => state.members);
+  const dispatch = useDispatch();
 
-  const membershipPlans = [
-    {
-      id: "basic",
-      name: "বেসিক মেম্বার",
-      price: "৳৫০০",
-      period: "মাসিক",
-      color: "from-blue-500 to-cyan-500",
-      features: [
-        "প্রতিদিন ২টি লাইভ ক্লাস",
-        "বেসিক স্টাডি মেটেরিয়াল",
-        "সাপ্তাহিক মক টেস্ট",
-        "কমিউনিটি ফোরাম এক্সেস",
-        "সীমিত ডাউনলোড (১০/মাস)",
-      ],
-      recommended: false,
-      icon: Star,
-    },
-    {
-      id: "premium",
-      name: "প্রিমিয়াম মেম্বার",
-      price: "৳১২০০",
-      period: "মাসিক",
-      color: "from-[#3BD480] to-[#134C45]",
-      features: [
-        "আনলিমিটেড লাইভ ক্লাস",
-        "সম্পূর্ণ স্টাডি মেটেরিয়াল",
-        "ডেইলি মক টেস্ট ও এনালাইসিস",
-        "ব্যক্তিগত ডাউট সলভিং",
-        "আনলিমিটেড ডাউনলোড",
-        "স্পেশাল ওয়ার্কশপ এক্সেস",
-        "মাসিক ১-১ কাউন্সেলিং",
-      ],
-      recommended: true,
-      icon: Crown,
-    },
-    {
-      id: "elite",
-      name: "এলিট মেম্বার",
-      price: "৳২৫০০",
-      period: "মাসিক",
-      color: "from-purple-500 to-pink-500",
-      features: [
-        "প্রিমিয়াম সব সুবিধা",
-        "ডেডিকেটেড মেন্টর",
-        "সাপ্তাহিক পার্সোনালাইজড ফিডব্যাক",
-        "প্রাইভেট স্টাডি গ্রুপ",
-        "ইন্টার্নশিপ সুযোগ",
-        "জব প্লেসমেন্ট সাপোর্ট",
-        "ফ্রী মেরিট সার্টিফিকেট",
-      ],
-      recommended: false,
-      icon: Award,
-    },
-  ];
+  useEffect(() => {
+    dispatch(getAllMember());
+  }, [dispatch]);
 
   const membershipBenefits = [
     {
@@ -209,7 +163,7 @@ const Membership = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8  sm:px-6 lg:px-8">
       {/* Mesh Grid Background */}
       <div className="absolute inset-0">
         <svg
@@ -285,7 +239,7 @@ const Membership = () => {
                   : "bg-white/10 text-white/90 hover:bg-white/20"
               }`}
             >
-              {tab === "plans" && "মেম্বারশিপ প্ল্যান"}
+              {tab === "plans" && "প্রিমিয়াম মেম্বার"}
               {tab === "benefits" && "সুবিধাসমূহ"}
               {tab === "stories" && "সাফল্যের গল্প"}
               {tab === "faq" && "সাধারণ প্রশ্ন"}
@@ -301,98 +255,47 @@ const Membership = () => {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {membershipPlans.map((plan) => (
+              {members.map((member, index) => (
                 <div
-                  key={plan.id}
-                  className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-2 ${
-                    selectedPlan === plan.id
-                      ? "border-[#3BD480] ring-2 ring-[#3BD480]/30"
-                      : "border-white/20 hover:border-[#3BD480]/50"
-                  }`}
+                  key={index}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 p-6 border border-gray-100"
                 >
-                  {/* Recommended Badge */}
-                  {plan.recommended && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <div className="bg-gradient-to-r from-[#3BD480] to-[#134C45] text-white px-4 py-1 rounded-full text-sm font-medium font-kalpurush">
-                        সর্বাধিক জনপ্রিয়
-                      </div>
+                  {/* Profile Section */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xl font-bold">
+                      {member.name.charAt(0)}
                     </div>
-                  )}
-
-                  {/* Plan Header */}
-                  <div className="text-center mb-6">
-                    <div
-                      className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${plan.color} mb-4`}
-                    >
-                      <plan.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 font-kalpurush">
-                      {plan.name}
-                    </h3>
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold text-white">
-                        {plan.price}
-                      </span>
-                      <span className="text-white/70 font-kalpurush">
-                        /{plan.period}
-                      </span>
+                    <div>
+                      <h2 className="text-xl font-semibold text-gray-800">
+                        {member.name}
+                      </h2>
+                      <p className="text-sm text-yellow-600 font-medium">
+                        ⭐ Premium Member
+                      </p>
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, index) => (
-                      <li
-                        key={index}
-                        className="flex items-start gap-3 text-white/80 font-kalpurush"
-                      >
-                        <CheckCircle className="w-5 h-5 text-[#3BD480] mt-0.5 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Divider */}
+                  <div className="my-4 border-t"></div>
 
-                  {/* Select Button */}
-                  <button
-                    onClick={() => setSelectedPlan(plan.id)}
-                    className={`w-full py-3 rounded-xl font-medium transition-all duration-300 font-kalpurush ${
-                      selectedPlan === plan.id
-                        ? "bg-white text-[#134C45] hover:bg-white/90"
-                        : "bg-gradient-to-r from-[#3BD480] to-[#134C45] text-white hover:opacity-90"
-                    }`}
-                  >
-                    {selectedPlan === plan.id
-                      ? "নির্বাচিত"
-                      : "প্ল্যান নির্বাচন করুন"}
+                  {/* Info Section */}
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <p>Email: {member.email || "Not Provided"}</p>
+                    <p>Plan: {member.subscription?.planName || "Gold Plan"}</p>
+                    <p>
+                      Status:
+                      <span className="ml-2 px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        Active
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Button */}
+                  <button className="mt-5 w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-2 rounded-xl font-medium hover:opacity-90 transition">
+                    {member.subscription?.planName || "Gold Plan"}
                   </button>
-
-                  {/* Trial Info */}
-                  <p className="text-center text-white/60 text-sm mt-4 font-kalpurush">
-                    <Clock className="w-4 h-4 inline mr-1" />৭ দিন ফ্রি ট্রায়াল
-                  </p>
                 </div>
               ))}
-            </div>
-
-            {/* Selected Plan CTA */}
-            <div className="mt-12 bg-gradient-to-r from-[#3BD480] to-[#134C45] rounded-2xl p-8 text-center">
-              <h3 className="text-2xl font-bold text-white mb-4 font-kalpurush">
-                {membershipPlans.find((p) => p.id === selectedPlan)?.name}{" "}
-                প্ল্যান নির্বাচিত হয়েছে
-              </h3>
-              <p className="text-white/90 mb-6 font-kalpurush">
-                এখনই জয়েন করুন এবং বিশেষ সুযোগ-সুবিধা উপভোগ করুন
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="px-8 py-3 bg-white text-[#134C45] font-bold rounded-xl hover:bg-white/90 transition-all duration-300 flex items-center gap-2 font-kalpurush">
-                  <CreditCard className="w-5 h-5" />
-                  এখনই পেমেন্ট করুন
-                </button>
-                <button className="px-8 py-3 bg-white/20 text-white font-bold rounded-xl hover:bg-white/30 transition-all duration-300 border border-white/30 font-kalpurush">
-                  <Zap className="w-5 h-5" />
-                  ফ্রি ট্রায়াল শুরু করুন
-                </button>
-              </div>
             </div>
           </div>
         )}
@@ -585,15 +488,14 @@ const Membership = () => {
               হাজারো শিক্ষার্থীর সাথে যোগ দিন যারা গ্র্যাভিটন মেম্বারশিপের
               মাধ্যমে তাদের পড়াশুনার লক্ষ্যে পৌঁছেছে।
             </p>
-            <button className="px-8 py-3 bg-white text-[#134C45] font-bold rounded-xl hover:bg-white/90 transition-all duration-300 hover:scale-105 flex items-center gap-2 mx-auto font-kalpurush">
+            <button
+              onClick={() => navigate("/membership/create")}
+              className="cursor-pointer px-8 py-3 bg-white text-[#134C45] font-bold rounded-xl hover:bg-white/90 transition-all duration-300 hover:scale-105 flex items-center gap-2 mx-auto font-kalpurush"
+            >
               <Crown className="w-5 h-5" />
-              ফ্রি ট্রায়াল শুরু করুন
+              মেম্বারশীপের জন্য আবেদন করুন
               <ArrowRight className="w-5 h-5" />
             </button>
-            <p className="text-white/70 text-sm mt-4 font-kalpurush">
-              কোনো ক্রেডিট কার্ডের প্রয়োজন নেই • ৭ দিন ফ্রি ট্রায়াল • যেকোনো
-              সময় ক্যান্সেল
-            </p>
           </div>
         </div>
       </div>

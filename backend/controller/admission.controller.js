@@ -17,9 +17,12 @@ const createAdmission = async (req, res) => {
       paymentMethod,
       transactionId,
       totalFee,
-      discount,
+      discountPercent,
+      duePayment,
       cashPayment,
       membershipCard,
+      promoDiscount,
+      appliedPromoCode,
       photo,
       public_id,
     } = req.body;
@@ -27,9 +30,10 @@ const createAdmission = async (req, res) => {
     if (!photo) {
       return res.status(400).json({ message: "Photo is required" });
     }
+    console.log(req.body);
+    const percentDiscount = (Number(totalFee) * Number(discountPercent)) / 100;
+    const totalDiscount = percentDiscount + Number(promoDiscount);
 
-    const duePayment =
-      Number(totalFee) - Number(discount || 0) - Number(cashPayment);
     const admissionId = await generateAdmissionId();
     const admission = await Admission.create({
       email,
@@ -44,15 +48,21 @@ const createAdmission = async (req, res) => {
       paymentMethod,
       transactionId,
       totalFee,
-      discount,
+      discount: totalDiscount,
       cashPayment,
       duePayment,
       membershipCard,
       photo,
       admissionId,
+      promo: [
+        {
+          appliedPromoCode,
+          promoDiscount,
+        },
+      ],
       public_id,
     });
-
+    console.log(admission);
     res.status(201).json({
       success: true,
       message: "Admission Submitted Successfully",
@@ -69,7 +79,9 @@ const getAllAdmissions = async (req, res) => {
 };
 
 const getSingleAdmission = async (req, res) => {
-  const data = await Admission.findById(req.params.id);
+  const { admissionId } = req.params;
+  const data = await Admission.findOne({ admissionId });
+  console.log(data);
   res.json(data);
 };
 

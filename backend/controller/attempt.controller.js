@@ -117,7 +117,7 @@ const checkAttemptById = async (req, res) => {
       paper: paperId,
       student: studentId,
     });
-    console.log(attempt);
+
     if (!attempt || attempt.length === 0) {
       return res.status(404).json({ message: "Attempt not found" });
     }

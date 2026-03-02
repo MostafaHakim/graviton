@@ -2,10 +2,10 @@ import { NavLink } from "react-router-dom";
 import { Home, BookOpen, ClipboardCheck, User } from "lucide-react";
 
 const nav = [
-  { path: "/admin", label: "Home", icon: Home },
-  { path: "/teacher/homework", label: "Home work", icon: BookOpen },
-  { path: "/teacher/attendance", label: "Attendance", icon: ClipboardCheck },
-  { path: "/teacher/profile", label: "Profile", icon: User },
+  { path: "/", label: "Home", icon: Home },
+  { path: "/admin/madeeasy", label: "Made Easy", icon: BookOpen },
+  { path: "/admin/abord", label: "Fly Abord", icon: ClipboardCheck },
+  { path: "/admin/profile", label: "Profile", icon: User },
 ];
 
 const AdminMobileNav = () => {

@@ -26,7 +26,6 @@ const admissionSchema = new mongoose.Schema(
     class: {
       type: String,
       required: true,
-      enum: ["six", "seven", "eight", "nine-ten", "11th-12th", "others"],
     },
 
     // Contact Info
@@ -59,7 +58,9 @@ const admissionSchema = new mongoose.Schema(
     },
     transactionId: {
       type: String,
-      required: true,
+      required: function () {
+        return this.paymentMethod !== "cash";
+      },
     },
 
     totalFee: {
@@ -78,7 +79,12 @@ const admissionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-
+    promo: [
+      {
+        appliedPromoCode: String,
+        promoDiscount: Number,
+      },
+    ],
     // Extra
     membershipCard: {
       type: Boolean,

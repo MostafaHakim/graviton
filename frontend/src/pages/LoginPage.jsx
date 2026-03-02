@@ -6,7 +6,7 @@ import { User, Lock, LogIn, ArrowRight, AlertCircle } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    userId: "",
     password: "",
   });
 
@@ -26,13 +26,13 @@ const LoginPage = () => {
 
     const data = {
       ...formData,
-      email: formData.email.toLowerCase(),
+      userId: formData.userId,
     };
 
     const result = await dispatch(loginUser(data));
 
     if (loginUser.fulfilled.match(result)) {
-      setFormData({ email: "", password: "" });
+      setFormData({ userId: "", password: "" });
       navigate(`/${result.payload.user.role}`);
     }
   };
@@ -96,13 +96,13 @@ const LoginPage = () => {
             <div>
               <label className="block text-sm font-medium text-white/90 mb-2 font-kalpurush">
                 <User className="w-4 h-4 inline mr-2" />
-                ব্যবহারকারী ইমেইল
+                ব্যবহারকারীর ইউজার আইডি
               </label>
               <input
                 type="text"
-                value={formData.email}
+                value={formData.userId}
                 onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
+                  setFormData({ ...formData, userId: e.target.value })
                 }
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#3BD480] focus:border-transparent transition text-white placeholder-white/50"
                 placeholder="আপনার ব্যবহারকারী নাম লিখুন"
@@ -197,7 +197,7 @@ const LoginPage = () => {
         {/* Footer Note */}
         <div className="mt-6 text-center">
           <p className="text-white/50 text-xs font-kalpurush">
-            © ২০২৪ গ্র্যাভিটন একাডেমি। সকল অধিকার সংরক্ষিত।
+            © ২০২৬ গ্র্যাভিটন একাডেমি। সকল অধিকার সংরক্ষিত।
           </p>
         </div>
       </div>

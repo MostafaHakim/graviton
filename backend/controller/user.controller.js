@@ -5,9 +5,9 @@ const BlackListToken = require("../model/blackListTokenModel");
 // ====================================================================================================
 const createUser = async (req, res) => {
   try {
-    const { username, email, password, phone, role } = req.body;
+    const { username, email, password, phone } = req.body;
 
-    if (!username || !email || !password || !phone || !role) {
+    if (!username || !email || !password || !phone) {
       return res.status(400).send("Missing required fields");
     }
 
@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
     let paddedNumber;
     paddedNumber = String(nextNumber).padStart(4, "0");
 
-    const userId = "A" + paddedNumber;
+    const userId = "T" + paddedNumber;
 
     const newUser = new User({
       userId,
@@ -40,7 +40,6 @@ const createUser = async (req, res) => {
       email,
       password,
       phone,
-      role,
     });
 
     const user = await newUser.save();
@@ -63,33 +62,6 @@ const getAllUsers = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
-// ====================================================================================================
-// =======================================Login User=============================================
-// ====================================================================================================
-
-// const loginUser = async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-
-//     const user = await User.findOne({ username });
-
-//     if (!user) {
-//       return res.status(404).send("User not found");
-//     }
-
-//     const isPasswordValid = await user.comparePassword(password);
-//     if (!isPasswordValid) {
-//       return res.status(401).send("Invalid password");
-//     }
-
-//     const token = user.generateAuthToken();
-
-//     res.status(200).json({ user, token });
-//   } catch (error) {
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 
 // ====================================================================================================
 // =======================================Profile User=============================================
@@ -121,7 +93,52 @@ const updateUser = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+// ====================================================================================================
+// =======================================Update User Role=============================================
+// ====================================================================================================
 
+const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await User.findById(id).select("-password");
+    if (!user) return res.status(404).send("User not found");
+
+    const newRole = user.role === "teacher" ? "admin" : "teacher";
+    const numberPart = user.userId.substring(1);
+    const prefix = newRole === "admin" ? "A" : "T";
+
+    user.role = newRole;
+    user.userId = prefix + numberPart;
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+// ====================================================================================================
+// =======================================Update User Status=============================================
+// ====================================================================================================
+
+const updateUserStatus = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const { status } = req.query;
+
+    const user = await User.findById(id).select("-password");
+    if (!user) return res.status(404).send("User not found");
+
+    user.status = status;
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
 // ====================================================================================================
 // =======================================Logout============================================
 // ====================================================================================================
@@ -129,10 +146,21 @@ const updateUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
-  await BlackListToken.create({ token });
-  res.status(200).json({ message: "Logout" });
+  if (!token) {
+    return res.status(400).json({ message: "No token provided" });
+  }
+
+  try {
+    await BlackListToken.create({ token });
+
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
 };
 
+module.exports = { logoutUser };
 // ====================================================================================================
 // =======================================Delete============================================
 // ====================================================================================================
@@ -162,4 +190,6 @@ module.exports = {
   updateUser,
   logoutUser,
   deleteUser,
+  updateUserRole,
+  updateUserStatus,
 };

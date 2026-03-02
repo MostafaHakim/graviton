@@ -57,7 +57,7 @@ const GalleryUpload = () => {
 
       const payload = {
         ...formData,
-        image: uploadData.secure_url,
+        image: uploadData.url,
         public_id: uploadData.public_id,
         tags: formData.tags.split(",").map((t) => t.trim()),
         likes: Math.floor(Math.random() * 300) + 50,

@@ -22,6 +22,7 @@ const chapterRouter = require("./router/chapter.router");
 const testRouter = require("./router/test.route");
 const paperRouter = require("./router/paper.route");
 const attemptRouter = require("./router/attempt.route");
+const memberRouter = require("./router/premiumMember.route");
 // ===================MiddleWere=====================
 
 app.use(
@@ -51,6 +52,7 @@ app.use("/api/chapters", chapterRouter);
 app.use("/api/tests", testRouter);
 app.use("/api/papers", paperRouter);
 app.use("/api/attempts", attemptRouter);
+app.use("/api/member", memberRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

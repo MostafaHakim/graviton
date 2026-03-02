@@ -45,12 +45,17 @@ const TestGuidLine = () => {
         >
           Back Test List
         </button>
-        <Link
-          to={`/student/madeeasy/${paperId}/start`}
-          className={`px-4 py-2   rounded ${check !== null ? "disabled:cursor-not-allowed bg-gray-400 text-gray-300" : "bg-green-500 text-white"}`}
+        <button
+          disabled={check !== null}
+          onClick={() => navigate(`/student/madeeasy/${paperId}/start`)}
+          className={`px-4 py-2 rounded ${
+            check !== null
+              ? "cursor-not-allowed bg-gray-400 text-gray-300"
+              : "bg-green-500 text-white"
+          }`}
         >
           Start Test
-        </Link>
+        </button>
       </div>
     </div>
   );

@@ -2,7 +2,16 @@ const Class = require("../model/classes.model");
 
 const getAllClasses = async (req, res) => {
   try {
-    const classes = await Class.find();
+    const classes = await Class.find({ isSkill: false });
+
+    res.status(200).json(classes);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching classes", error });
+  }
+};
+const getAllSkills = async (req, res) => {
+  try {
+    const classes = await Class.find({ isSkill: true });
 
     res.status(200).json(classes);
   } catch (error) {
@@ -11,9 +20,16 @@ const getAllClasses = async (req, res) => {
 };
 
 const createClass = async (req, res) => {
-  const { name } = req.body;
+  const { name, isSkill } = req.body;
+  console.log(req.body);
   try {
-    const newClass = new Class({ name });
+    const existing = await Class.findOne({ name: name.toLowerCase() });
+
+    if (existing) {
+      return res.status(400).json({ message: "Class/Skill already exists" });
+    }
+
+    const newClass = new Class({ name, isSkill });
     await newClass.save();
     res.status(201).json(newClass);
   } catch (error) {
@@ -54,4 +70,5 @@ module.exports = {
   createClass,
   getClassById,
   deleteClass,
+  getAllSkills,
 };

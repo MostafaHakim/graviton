@@ -31,7 +31,6 @@ export const getAdmission = createAsyncThunk(
   "admission/get",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("get Addmin");
       const res = await fetch(`${baseUrl}/api/admission`);
 
       const data = await res.json();
@@ -49,9 +48,9 @@ export const getAdmission = createAsyncThunk(
 
 export const getAdmissionById = createAsyncThunk(
   "admission/getSingle",
-  async (id, { rejectWithValue }) => {
+  async (admissionId, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${baseUrl}/api/admission/${id}`);
+      const res = await fetch(`${baseUrl}/api/admission/${admissionId}`);
 
       const data = await res.json();
 
@@ -115,11 +114,11 @@ const admissionSlice = createSlice({
       })
       .addCase(createAdmission.fulfilled, (state, action) => {
         state.loading = false;
-        state.admissions = action.payload;
+        state.admission = action.payload;
       })
       .addCase(createAdmission.rejected, (state, action) => {
         state.loading = false;
-        state.admissions = [];
+        state.admission = null;
         state.error = action.payload;
       })
       .addCase(getAdmission.pending, (state) => {
@@ -151,6 +150,7 @@ const admissionSlice = createSlice({
       })
       .addCase(handleApprove.fulfilled, (state, action) => {
         state.loading = false;
+        state.admission = action.payload;
       })
       .addCase(handleApprove.rejected, (state, action) => {
         state.loading = false;

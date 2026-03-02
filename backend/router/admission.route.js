@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/", createAdmission);
 router.get("/", getAllAdmissions);
-router.get("/:id", getSingleAdmission);
+router.get("/:admissionId", getSingleAdmission);
 router.put("/:id/status", updateStatus);
 router.delete("/:id", deleteAdmission);
 router.patch("/:id/approve", approveAsStudent);
