@@ -13,7 +13,7 @@ const StudentDashboard = () => {
   }, [user, dispatch]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br bg-white p-4 font-kalpurush rounded-2xl">
+    <div className="min-h-screen bg-gradient-to-br bg-white lg:p-4 font-kalpurush rounded-2xl">
       <div className="">
         {/* Welcome Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
