@@ -1,14 +1,43 @@
 import { NavLink } from "react-router-dom";
-import { Home, BookOpen, ClipboardCheck, User, Navigation } from "lucide-react";
-
-const nav = [
-  { path: "/", label: "Home", icon: Home },
-  { path: "/student/madeeasy", label: "Made Easy", icon: BookOpen },
-  { path: "/student/abroad", label: "Fly Abord", icon: Navigation },
-  { path: "/student/profile", label: "Profile", icon: User },
-];
+import {
+  Home,
+  BookOpen,
+  User,
+  Navigation,
+  LayoutGrid,
+  Image,
+  Users2,
+  MessageSquareHeart,
+  LogIn,
+} from "lucide-react";
 
 const StudentMobileNav = () => {
+  const user = JSON.parse(localStorage.getItem("user")) || null;
+
+  const nav = [
+    { path: "/", label: "Home", icon: Home },
+    {
+      path: `/${user !== null ? "student/madeeasy" : "gallery"}`,
+      label: user !== null ? "Made Easy" : "Gallery",
+      icon: user !== null ? BookOpen : Image,
+    },
+    {
+      path: `/${user !== null ? "student" : "membership"}`,
+      label: user !== null ? "Dashboard" : "Membership",
+      icon: user !== null ? LayoutGrid : Users2,
+    },
+    {
+      path: `/${user !== null ? "student/abroad" : "feedback"}`,
+      label: user !== null ? "Fly Abord" : "Feedback",
+      icon: user !== null ? Navigation : MessageSquareHeart,
+    },
+    {
+      path: `/${user !== null ? "student/profile" : "login"}`,
+      label: user !== null ? "Profile" : "Login",
+      icon: user !== null ? User : LogIn,
+    },
+  ];
+
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
       <div className="flex justify-around py-2 items-center">

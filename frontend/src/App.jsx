@@ -72,8 +72,8 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Home />}>
+          <Route path="login" element={<LoginPage />} />
           <Route path="club" element={<Club />} />
           <Route path="admission" element={<AdmissionForm />} />
           <Route path="view/:admissionId" element={<AdmissionPrint />} />

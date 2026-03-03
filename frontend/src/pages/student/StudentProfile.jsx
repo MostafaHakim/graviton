@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getStudentsByStudentId } from "../../store/features/auth/studentsSlice";
 import { checkExamByStudent } from "../../store/features/auth/attemptSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { logoutUser } from "../../store/features/auth/authSlice";
 
@@ -12,6 +12,7 @@ const StudentProfile = () => {
 
   const { student } = useSelector((state) => state.students);
   const { check } = useSelector((state) => state.attempt);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,8 +21,28 @@ const StudentProfile = () => {
     dispatch(checkExamByStudent(studentId));
   }, [studentId, dispatch]);
 
-  if (!student) {
-    return <div>No Student Found</div>;
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 text-center max-w-md">
+          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-200">
+            <User className="w-8 h-8 text-gray-400" />
+          </div>
+          <h2 className="text-xl font-light text-gray-900 mb-2">
+            No user found
+          </h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Please log in to view your profile
+          </p>
+          <button
+            onClick={() => navigate("/login")}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

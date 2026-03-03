@@ -36,7 +36,6 @@ const Gallery = () => {
       .then((res) => res.json())
       .then((data) => {
         setGalleryItems(data);
-        setLoading(false);
       });
   }, [selectedCategory]);
 

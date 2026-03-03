@@ -46,7 +46,6 @@ exports.getSubjectById = async (req, res) => {
       .json({ message: "Failed to fetch subject", error: error.message });
   }
 };
-// Get subject by ID
 exports.getSubjectByClassName = async (req, res) => {
   try {
     const { name } = req.params;
@@ -54,18 +53,21 @@ exports.getSubjectByClassName = async (req, res) => {
     const cls = await Class.findOne({ name }).populate("subjects");
 
     if (!cls) {
-      res.status(404).json({ messasge: "Class Not Found" });
+      return res.status(404).json({ message: "Class Not Found" });
     }
 
-    const subject = await Subjets.find({ classId: cls._id });
-    if (!subject) {
+    const subjects = await Subjets.find({ classId: cls._id });
+
+    if (!subjects || subjects.length === 0) {
       return res.status(404).json({ message: "Subject not found" });
     }
-    res.status(200).json(subject);
+
+    return res.status(200).json(subjects);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch subject", error: error.message });
+    return res.status(500).json({
+      message: "Failed to fetch subject",
+      error: error.message,
+    });
   }
 };
 

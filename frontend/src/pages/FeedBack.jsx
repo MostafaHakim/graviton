@@ -788,25 +788,27 @@ const FeedBack = () => {
                   <label className="block text-sm font-medium text-white/90 mb-3 font-kalpurush">
                     সামগ্রিক রেটিং *
                   </label>
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setRating(star)}
-                        onMouseEnter={() => setHoverRating(star)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        className="p-1"
-                      >
-                        <Star
-                          className={`w-10 h-10 transition-colors ${
-                            star <= (hoverRating || rating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-white/40"
-                          }`}
-                        />
-                      </button>
-                    ))}
+                  <div className="flex flex-col lg:flex-row  gap-1 items-center">
+                    <div className="flex flex-row">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setRating(star)}
+                          onMouseEnter={() => setHoverRating(star)}
+                          onMouseLeave={() => setHoverRating(0)}
+                          className="p-1"
+                        >
+                          <Star
+                            className={`w-10 h-10 transition-colors ${
+                              star <= (hoverRating || rating)
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-white/40"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
                     <span className="ml-4 text-lg font-semibold text-white">
                       {rating > 0 ? `${rating}.0` : "রেটিং নির্বাচন করুন"}
                     </span>
