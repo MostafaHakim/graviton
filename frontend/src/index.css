@@ -8,3 +8,15 @@
   --color-secondary: #2c4935;
   --color-warning: #f09723;
 }
+
+@media print {
+  body {
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

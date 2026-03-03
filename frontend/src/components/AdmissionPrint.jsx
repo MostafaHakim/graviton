@@ -18,61 +18,47 @@ const AdmissionPrint = () => {
     if (!admissionId) return;
     dispatch(getAdmissionById(admissionId));
   }, [admissionId, dispatch]);
-  console.log(admission);
+
   // ✅ প্রিন্ট ফাংশন (react-to-print v3 সঠিক API)
   const handlePrint = useReactToPrint({
     contentRef: componentRef, // সরাসরি ref অবজেক্ট
-    documentTitle: `Admission-${admission.admissionId}`,
+    documentTitle: `Admission-${admission?.admissionId}`,
   });
 
-  // ✅ ডাউনলোড ফাংশন (PDF) – ছবিসহ সঠিক রেন্ডার
   const handleDownload = async () => {
     if (!componentRef.current) return;
 
-    // 1. সব ইমেজ লোড হওয়া পর্যন্ত অপেক্ষা
-    const images = componentRef.current.querySelectorAll("img");
-    const imagePromises = Array.from(images).map((img) => {
-      if (img.complete) return Promise.resolve();
-      return new Promise((resolve) => {
-        img.onload = () => resolve();
-        img.onerror = () => {
-          console.warn("Image failed to load:", img.src);
-          resolve(); // error হলেও চলবে, তবে blank থাকতে পারে
-        };
-      });
+    const canvas = await html2canvas(componentRef.current, {
+      scale: 3,
+      backgroundColor: "#ffffff",
+      useCORS: true,
     });
-    await Promise.all(imagePromises);
 
-    try {
-      // 2. ক্যানভাস তৈরি (CORS ও টাইমআউট অপশনসহ)
-      const element = componentRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        backgroundColor: "#ffffff",
-        logging: true, // ডিবাগিং এর জন্য (প্রয়োজনে false)
-        allowTaint: false,
-        useCORS: true, // CORS ইমেজ অনুমোদন
-        imageTimeout: 15000, // ইমেজ লোড টাইমআউট
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
-      });
+    const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
-      // 3. PDF তৈরি
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [canvas.width / 2, canvas.height / 2], // সাইজ অ্যাডজাস্ট
-      });
+    const pdf = new jsPDF("p", "mm", "a4");
 
-      pdf.addImage(imgData, "PNG", 0, 0, canvas.width / 2, canvas.height / 2);
-      pdf.save(`Admission-${admission.admissionId}.pdf`);
-    } catch (error) {
-      console.error("PDF generation failed:", error);
-      alert("PDF ডাউনলোড ব্যর্থ হয়েছে। ছবি লোড করতে সমস্যা হয়েছে।");
+    const pageWidth = 210;
+    const pageHeight = 297;
+
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
     }
-  };
 
+    pdf.save(`Admission-${admission.admissionId}.pdf`);
+  };
   if (!admission) {
     return (
       <div>
@@ -82,26 +68,59 @@ const AdmissionPrint = () => {
   }
 
   return (
-    <div className="p-10 text-black font-kalpurush uppercase">
+    <div className="lg:p-10 text-black font-kalpurush uppercase">
       {/* প্রিন্টেবল কম্পোনেন্ট */}
       <div
-        className="max-w-4xl mx-auto border-2 border-black p-8 bg-white"
         ref={componentRef}
+        className="bg-white mx-auto relative shadow-lg"
+        style={{
+          width: "794px", // A4 width
+          minHeight: "1123px", // A4 height
+          padding: "40px",
+        }}
       >
         {/* হেডার */}
-        <div className="flex flex-col items-center justify-center text-center border-b-2 border-black pb-4 mb-6">
-          <img className="w-16 h-16" src={Logo} alt="" />
-          <h1 className="text-xl text-[#134C45] font-kalpurush font-bold leading-tight pt-4">
-            গ্র্যাভিটন একাডেমি
-          </h1>
-          <h1 className="text-2xl font-bold uppercase">Admission Form</h1>
-          <p className="mt-1 text-sm">
+        <div className="text-center border-b-2 border-black pb-4 mb-6">
+          <div className="flex items-center justify-center gap-4">
+            <img src={Logo} className="w-20 h-20 object-contain" alt="Logo" />
+            <div>
+              <h1 className="text-2xl font-bold text-[#134C45]">
+                GRAVITON ACADEMY
+              </h1>
+              <p className="text-sm">Excellence in Education</p>
+            </div>
+          </div>
+
+          <h2 className="text-xl font-bold mt-4 tracking-widest">
+            ADMISSION FORM
+          </h2>
+
+          <p className="text-sm mt-2">
             Admission ID:{" "}
             <span className="font-semibold">{admission.admissionId}</span>
           </p>
         </div>
+        <div
+          style={{
+            position: "absolute",
+            top: "40%",
+            left: "50%",
+            transform: "translate(-50%, -50%) rotate(-30deg)",
+            fontSize: "60px",
+            color: "rgba(0,0,0,0.05)",
+            fontWeight: "bold",
+            pointerEvents: "none",
+          }}
+        >
+          GRAVITON
+          <br />
+          {admissionId}
+        </div>
 
         {/* মূল তথ্য + ছবি */}
+        <h2 className="font-bold border-b border-black pb-1 mb-3 text-base tracking-wide">
+          PERSONAL INFORMATION
+        </h2>
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2 space-y-2 text-sm">
             <p>
@@ -150,9 +169,10 @@ const AdmissionPrint = () => {
 
         {/* কোর্স */}
         <div className="mt-6">
-          <h2 className="font-bold border-b border-black pb-1 mb-2 text-sm">
+          <h2 className="font-bold border-b border-black pb-1 mb-3 text-base tracking-wide">
             Enrolled Courses
           </h2>
+
           <ul className="list-disc list-inside text-sm">
             {admission.courses.map((course, index) => (
               <li key={index}>{course}</li>
@@ -162,9 +182,10 @@ const AdmissionPrint = () => {
 
         {/* পেমেন্ট */}
         <div className="mt-6">
-          <h2 className="font-bold border-b border-black pb-1 mb-2 text-sm">
+          <h2 className="font-bold border-b border-black pb-1 mb-3 text-base tracking-wide">
             Payment Details
           </h2>
+
           <div className="grid grid-cols-2 gap-4 text-sm">
             <p>
               <span className="font-semibold">Payment Method:</span>{" "}
