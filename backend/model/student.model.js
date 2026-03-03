@@ -95,6 +95,26 @@ const studentSchema = new mongoose.Schema(
       default: 0,
     },
 
+    afterPayment: [
+      {
+        paymentAmount: {
+          type: Number,
+          default: 0,
+        },
+        paymentType: {
+          type: String,
+          enum: ["cash", "bkash", "nagad"],
+        },
+        receivedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     // Extra
     membershipCard: {
       type: Boolean,
