@@ -54,7 +54,7 @@ const getStudentById = async (req, res) => {
 const afterPaymentUpdate = async (req, res) => {
   try {
     const { id, paymentAmount, paymentType, receivedBy, date } = req.body;
-    console.log(req.body, "Called");
+
     const student = await Student.findById(id);
 
     if (!student) {

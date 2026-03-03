@@ -5,7 +5,6 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export const createClass = createAsyncThunk(
   "classes/create",
   async (formData, { rejectWithValue }) => {
-    console.log(formData);
     try {
       const res = await fetch(`${baseUrl}/api/classes`, {
         method: "POST",
@@ -35,7 +34,7 @@ export const getClasses = createAsyncThunk(
       const res = await fetch(`${baseUrl}/api/classes`);
 
       const data = await res.json();
-      console.log("Fetched classes data:", data);
+
       if (!res.ok) {
         return rejectWithValue(data.message || "Classes failed to fetch");
       }
@@ -69,7 +68,6 @@ export const getSkills = createAsyncThunk(
 export const getClassById = createAsyncThunk(
   "classes/getSingle",
   async (id, { rejectWithValue }) => {
-    console.log("Fetching class with ID:", id);
     try {
       const res = await fetch(`${baseUrl}/api/classes/${id}`);
 

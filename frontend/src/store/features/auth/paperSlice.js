@@ -17,7 +17,6 @@ const initialState = {
 export const createPaper = createAsyncThunk(
   "paper/create",
   async (formData, { rejectWithValue }) => {
-    console.log(formData);
     try {
       const res = await fetch(`${baseUrl}/api/papers`, {
         method: "POST",

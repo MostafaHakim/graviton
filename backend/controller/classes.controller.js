@@ -21,7 +21,7 @@ const getAllSkills = async (req, res) => {
 
 const createClass = async (req, res) => {
   const { name, isSkill } = req.body;
-  console.log(req.body);
+
   try {
     const existing = await Class.findOne({ name: name.toLowerCase() });
 

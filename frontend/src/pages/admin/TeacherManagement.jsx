@@ -203,6 +203,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import StatusModal from "../../components/StatusModal";
+import { toast } from "react-toastify";
 
 const TeacherManagement = () => {
   const { users, loading } = useSelector((state) => state.auth);
@@ -254,14 +255,24 @@ const TeacherManagement = () => {
   }
 
   const handleRoleUpdate = async (id) => {
-    await dispatch(UpdateUserRole(id));
-    await dispatch(getAllUser());
+    const res = await dispatch(UpdateUserRole(id));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      toast.success(
+        `${res.payload.username} is assaine as   ${res.payload.role}`,
+      );
+      await dispatch(getAllUser());
+    }
   };
 
   const handleUpdate = async (status, id) => {
-    await dispatch(UpdateUserStatus({ status, id }));
-    setSelectedUserId(null);
-    await dispatch(getAllUser());
+    const res = await dispatch(UpdateUserStatus({ status, id }));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      toast.success(`${res.payload.username} is ${status} Successfully`);
+      setSelectedUserId(null);
+      await dispatch(getAllUser());
+    }
   };
 
   const handelDelete = async (id) => {

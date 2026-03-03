@@ -36,7 +36,7 @@ const StudentProfileManagement = () => {
   if (!student) {
     return <div>No Student Found</div>;
   }
-  console.log(student);
+
   return (
     <div className="min-h-screen bg-gray-100 p-6 capitalize font-kalpurush relative">
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-6">

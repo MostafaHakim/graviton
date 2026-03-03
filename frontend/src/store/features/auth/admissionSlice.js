@@ -49,7 +49,6 @@ export const getAdmission = createAsyncThunk(
 export const getAdmissionById = createAsyncThunk(
   "admission/getSingle",
   async (admissionId, { rejectWithValue }) => {
-    console.log(admissionId);
     try {
       const res = await fetch(`${baseUrl}/api/admission/new/${admissionId}`);
 

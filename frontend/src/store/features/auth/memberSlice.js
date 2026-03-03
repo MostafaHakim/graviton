@@ -49,7 +49,6 @@ export const getAllMember = createAsyncThunk(
 export const getMemberById = createAsyncThunk(
   "member/getSingle",
   async (id, { rejectWithValue }) => {
-    console.log("Fetching member with ID:", id);
     try {
       const res = await fetch(`${baseUrl}/api/member/${id}`);
 

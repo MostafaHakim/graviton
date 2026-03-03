@@ -48,7 +48,6 @@ export const checkExam = createAsyncThunk(
 export const checkExamByStudent = createAsyncThunk(
   "attempt/checkExamByStudent",
   async (studentId, { rejectWithValue }) => {
-    console.log(studentId);
     try {
       const res = await fetch(`${baseUrl}/api/attempts/student/${studentId}`);
 

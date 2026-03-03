@@ -34,7 +34,7 @@ export const getChapters = createAsyncThunk(
       const res = await fetch(`${baseUrl}/api/chapters`);
 
       const data = await res.json();
-      console.log("Fetched chapters data:", data);
+
       if (!res.ok) {
         return rejectWithValue(data.message || "Chapters failed to fetch");
       }
@@ -49,7 +49,6 @@ export const getChapters = createAsyncThunk(
 export const getChapterById = createAsyncThunk(
   "chapters/getSingle",
   async (id, { rejectWithValue }) => {
-    console.log("Fetching chapter with ID:", id);
     try {
       const res = await fetch(`${baseUrl}/api/chapters/${id}`);
 

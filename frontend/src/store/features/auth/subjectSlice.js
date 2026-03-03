@@ -6,7 +6,6 @@ export const createSubject = createAsyncThunk(
   "subjects/create",
   async (formData, { rejectWithValue }) => {
     try {
-      console.log(formData);
       const res = await fetch(`${baseUrl}/api/subjects`, {
         method: "POST",
         headers: {
@@ -35,7 +34,7 @@ export const getSubjects = createAsyncThunk(
       const res = await fetch(`${baseUrl}/api/subjects`);
 
       const data = await res.json();
-      console.log("Fetched subjects data:", data);
+
       if (!res.ok) {
         return rejectWithValue(data.message || "Subjects failed to fetch");
       }
@@ -50,7 +49,6 @@ export const getSubjects = createAsyncThunk(
 export const getSubjectById = createAsyncThunk(
   "subjects/getSingle",
   async (id, { rejectWithValue }) => {
-    console.log("Fetching subject with ID:", id);
     try {
       const res = await fetch(`${baseUrl}/api/subjects/${id}`);
 
@@ -70,7 +68,6 @@ export const getSubjectById = createAsyncThunk(
 export const getSubjectByClassName = createAsyncThunk(
   "subjects/getByClass",
   async (name, { rejectWithValue }) => {
-    console.log("Fetching subject with ID:", name);
     try {
       const res = await fetch(`${baseUrl}/api/subjects/class/${name}`);
 

@@ -50,7 +50,6 @@ export const getAllUser = createAsyncThunk(
 export const UpdateUserRole = createAsyncThunk(
   "user/updateUserRole",
   async (id, { rejectWithValue }) => {
-    console.log(id);
     try {
       const res = await fetch(`${baseUrl}/api/user/role`, {
         method: "PUT",

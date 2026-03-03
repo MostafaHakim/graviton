@@ -31,7 +31,6 @@ export const getAllStudents = createAsyncThunk(
 export const getStudentsByClassId = createAsyncThunk(
   "students/getStudents",
   async (classId, { rejectWithValue }) => {
-    console.log(classId);
     try {
       const res = await fetch(`${baseUrl}/api/students/${classId}`);
 
@@ -70,7 +69,6 @@ export const getStudentsByStudentId = createAsyncThunk(
 export const createPayment = createAsyncThunk(
   "students/getPayment",
   async (formData, { rejectWithValue }) => {
-    console.log(formData);
     try {
       const res = await fetch(`${baseUrl}/api/students/payment`, {
         method: "POST",
