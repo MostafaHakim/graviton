@@ -43,7 +43,6 @@ const studentSchema = new mongoose.Schema(
     class: {
       type: String,
       required: true,
-      enum: ["six", "seven", "eight", "nine-ten", "11th-12th", "others"],
     },
 
     // Contact Info

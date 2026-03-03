@@ -30,7 +30,7 @@ const createAdmission = async (req, res) => {
     if (!photo) {
       return res.status(400).json({ message: "Photo is required" });
     }
-    console.log(req.body);
+
     const percentDiscount = (Number(totalFee) * Number(discountPercent)) / 100;
     const totalDiscount = percentDiscount + Number(promoDiscount);
 
@@ -62,7 +62,7 @@ const createAdmission = async (req, res) => {
       ],
       public_id,
     });
-    console.log(admission);
+
     res.status(201).json({
       success: true,
       message: "Admission Submitted Successfully",
@@ -80,8 +80,9 @@ const getAllAdmissions = async (req, res) => {
 
 const getSingleAdmission = async (req, res) => {
   const { admissionId } = req.params;
-  const data = await Admission.findOne({ admissionId });
-  console.log(data);
+
+  const data = await Admission.findById(admissionId);
+
   res.json(data);
 };
 

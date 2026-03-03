@@ -45,25 +45,24 @@ import {
 const AdmissionById = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [student, setStudent] = useState(null);
+
   const [activeTab, setActiveTab] = useState("personal");
-  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
-  const { admission } = useSelector((state) => state.admissions);
-
-  useEffect(() => {
-    if (admission) {
-      setStudent(admission);
-      setIsLoading(false);
-    }
-  }, [admission]);
+  const { admission, loading } = useSelector((state) => state.admissions);
 
   useEffect(() => {
     if (id) {
       dispatch(getAdmissionById(id));
     }
   }, [id, dispatch]);
+
+  // useEffect(() => {
+  //   if (admission) {
+  //     setStudent(admission);
+  //     setIsLoading(false);
+  //   }
+  // }, [admission]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -140,13 +139,13 @@ const AdmissionById = () => {
   };
 
   const calculateProgress = () => {
-    if (!student) return 0;
-    const paid = student.cashPayment || 0;
-    const total = student.totalFee || 1;
+    if (!admission) return 0;
+    const paid = admission.cashPayment || 0;
+    const total = admission.totalFee || 1;
     return Math.round((paid / total) * 100);
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45]/10 to-[#3BD480]/5 flex items-center justify-center">
         <div className="text-center">
@@ -157,7 +156,7 @@ const AdmissionById = () => {
     );
   }
 
-  if (!student) {
+  if (!admission) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] flex items-center justify-center">
         <div className="text-center">
@@ -177,7 +176,7 @@ const AdmissionById = () => {
     );
   }
 
-  const statusBadge = getStatusBadge(student.status);
+  const statusBadge = getStatusBadge(admission.status);
   const progressPercentage = calculateProgress();
 
   const clickToApprove = async () => {
@@ -224,11 +223,11 @@ const AdmissionById = () => {
               </button>
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-white">
-                  {student.studentName}
+                  {admission.studentName}
                 </h1>
                 <div className="flex items-center gap-3 mt-2">
                   <span className="text-sm text-gray-300 font-mono">
-                    {student.admissionId}
+                    {admission.admissionId}
                   </span>
                   <span
                     className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold ${statusBadge.color}`}
@@ -236,7 +235,7 @@ const AdmissionById = () => {
                     {statusBadge.icon}
                     {statusBadge.text}
                   </span>
-                  {student.status === "pending" && (
+                  {admission.status === "pending" && (
                     <>
                       <button
                         onClick={() => {
@@ -282,8 +281,8 @@ const AdmissionById = () => {
               <div className="relative">
                 <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-white/20">
                   <img
-                    src={student.photo}
-                    alt={student.studentName}
+                    src={admission.photo}
+                    alt={admission.studentName}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -301,7 +300,7 @@ const AdmissionById = () => {
                       <span className="text-sm">মোবাইল</span>
                     </div>
                     <p className="text-white font-medium">
-                      {student.mobileNumber}
+                      {admission.mobileNumber}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -309,7 +308,7 @@ const AdmissionById = () => {
                       <GraduationCap className="w-4 h-4" />
                       <span className="text-sm">শ্রেণী</span>
                     </div>
-                    <p className="text-white font-medium">{student.class}</p>
+                    <p className="text-white font-medium">{admission.class}</p>
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-gray-400">
@@ -317,7 +316,7 @@ const AdmissionById = () => {
                       <span className="text-sm">বিদ্যালয়</span>
                     </div>
                     <p className="text-white font-medium">
-                      {student.schoolCollege}
+                      {admission.schoolCollege}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -326,7 +325,9 @@ const AdmissionById = () => {
                       <span className="text-sm">ভর্তির তারিখ</span>
                     </div>
                     <p className="text-white font-medium">
-                      {new Date(student.createdAt).toLocaleDateString("bn-BD")}
+                      {new Date(admission.createdAt).toLocaleDateString(
+                        "bn-BD",
+                      )}
                     </p>
                   </div>
                 </div>
@@ -337,7 +338,7 @@ const AdmissionById = () => {
                     <MapPin className="w-4 h-4" />
                     <span className="text-sm">ঠিকানা</span>
                   </div>
-                  <p className="text-white">{student.address}</p>
+                  <p className="text-white">{admission.address}</p>
                 </div>
               </div>
             </div>
@@ -393,7 +394,7 @@ const AdmissionById = () => {
                             পিতার নাম
                           </label>
                           <div className="text-white bg-white/5 p-3 rounded-lg border border-white/10">
-                            {student.fatherName}
+                            {admission.fatherName}
                           </div>
                         </div>
                         <div>
@@ -401,7 +402,7 @@ const AdmissionById = () => {
                             মাতার নাম
                           </label>
                           <div className="text-white bg-white/5 p-3 rounded-lg border border-white/10">
-                            {student.motherName}
+                            {admission.motherName}
                           </div>
                         </div>
                         <div>
@@ -410,7 +411,7 @@ const AdmissionById = () => {
                           </label>
                           <div className="flex items-center justify-between text-white bg-white/5 p-3 rounded-lg border border-white/10">
                             <span className="font-mono">
-                              {student.admissionId}
+                              {admission.admissionId}
                             </span>
                             <button className="p-1 hover:bg-white/10 rounded">
                               <Copy className="w-4 h-4 text-gray-400" />
@@ -424,7 +425,7 @@ const AdmissionById = () => {
                             ট্রানজেকশন আইডি
                           </label>
                           <div className="flex items-center justify-between text-white bg-white/5 p-3 rounded-lg border border-white/10">
-                            <span>{student.transactionId}</span>
+                            <span>{admission.transactionId}</span>
                             <button className="p-1 hover:bg-white/10 rounded">
                               <Copy className="w-4 h-4 text-gray-400" />
                             </button>
@@ -435,9 +436,9 @@ const AdmissionById = () => {
                             সদস্য কার্ড
                           </label>
                           <div
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${student.membershipCard ? "bg-green-500/20 text-green-500" : "bg-gray-500/20 text-gray-400"}`}
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${admission.membershipCard ? "bg-green-500/20 text-green-500" : "bg-gray-500/20 text-gray-400"}`}
                           >
-                            {student.membershipCard
+                            {admission.membershipCard
                               ? "প্রদত্ত ✓"
                               : "প্রদত্ত হয়নি"}
                           </div>
@@ -447,7 +448,7 @@ const AdmissionById = () => {
                             আপডেটের তারিখ
                           </label>
                           <div className="text-white bg-white/5 p-3 rounded-lg border border-white/10">
-                            {new Date(student.updatedAt).toLocaleDateString(
+                            {new Date(admission.updatedAt).toLocaleDateString(
                               "bn-BD",
                               {
                                 year: "numeric",
@@ -534,7 +535,7 @@ const AdmissionById = () => {
                           নির্বাচিত কোর্সসমূহ
                         </label>
                         <div className="space-y-2">
-                          {student.courses.map((course, index) => (
+                          {admission.courses.map((course, index) => (
                             <div
                               key={index}
                               className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10"
@@ -700,7 +701,7 @@ const AdmissionById = () => {
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-gray-400">মোট ফি</span>
                             <span className="text-2xl font-bold text-white">
-                              ৳{student.totalFee}
+                              ৳{admission.totalFee}
                             </span>
                           </div>
                         </div>
@@ -708,14 +709,14 @@ const AdmissionById = () => {
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-gray-400">ডিসকাউন্ট</span>
                             <span className="text-xl font-bold text-[#FF754C]">
-                              -৳{student.discount}
+                              -৳{admission.discount}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm text-gray-400">
                             <Percent className="w-4 h-4" />
                             <span>
                               {(
-                                (student.discount / student.totalFee) *
+                                (admission.discount / admission.totalFee) *
                                 100
                               ).toFixed(0)}
                               % ডিসকাউন্ট
@@ -728,7 +729,7 @@ const AdmissionById = () => {
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-gray-400">পরিশোধিত</span>
                             <span className="text-2xl font-bold text-green-500">
-                              ৳{student.cashPayment}
+                              ৳{admission.cashPayment}
                             </span>
                           </div>
                         </div>
@@ -736,7 +737,7 @@ const AdmissionById = () => {
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-gray-400">বকেয়া</span>
                             <span className="text-2xl font-bold text-amber-500">
-                              ৳{student.duePayment}
+                              ৳{admission.duePayment}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -794,18 +795,18 @@ const AdmissionById = () => {
                                 <div className="flex items-center gap-2">
                                   <div className="p-2 bg-blue-500/20 rounded-lg">
                                     {getPaymentMethodIcon(
-                                      student.paymentMethod,
+                                      admission.paymentMethod,
                                     )}
                                   </div>
                                   <span className="text-white capitalize">
-                                    {student.paymentMethod}
+                                    {admission.paymentMethod}
                                   </span>
                                 </div>
                               </td>
                               <td className="py-3 px-4">
                                 <div className="flex items-center gap-2">
                                   <span className="text-white">
-                                    {student.transactionId}
+                                    {admission.transactionId}
                                   </span>
                                   <button className="p-1 hover:bg-white/10 rounded">
                                     <Copy className="w-3 h-3 text-gray-400" />
@@ -814,13 +815,13 @@ const AdmissionById = () => {
                               </td>
                               <td className="py-3 px-4">
                                 <span className="text-green-500 font-semibold">
-                                  ৳{student.cashPayment}
+                                  ৳{admission.cashPayment}
                                 </span>
                               </td>
                               <td className="py-3 px-4">
                                 <span className="text-gray-400 text-sm">
                                   {new Date(
-                                    student.createdAt,
+                                    admission.createdAt,
                                   ).toLocaleDateString("bn-BD")}
                                 </span>
                               </td>
@@ -885,7 +886,7 @@ const AdmissionById = () => {
                     <div className="space-y-3">
                       <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
                         <div className="text-amber-500 font-semibold mb-1">
-                          ৳{student.duePayment} বকেয়া
+                          ৳{admission.duePayment} বকেয়া
                         </div>
                         <div className="text-xs text-amber-400">
                           পরবর্তী রিমাইন্ডার: ২০ ফেব্রুয়ারি
