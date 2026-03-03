@@ -1,13 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getStudentsByStudentId } from "../../store/features/auth/studentsSlice";
+import {
+  createPayment,
+  getStudentsByStudentId,
+} from "../../store/features/auth/studentsSlice";
 import { checkExamByStudent } from "../../store/features/auth/attemptSlice";
+import { useState } from "react";
+import GetStudentPaymentModal from "../../components/GetStudentPaymentModal";
+import { toast } from "react-toastify";
 
 const StudentProfileManagement = () => {
+  const user = JSON.parse(localStorage.getItem("user")) || null;
+
   const { studentId } = useParams();
   const { student } = useSelector((state) => state.students);
   const { check } = useSelector((state) => state.attempt);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,12 +25,20 @@ const StudentProfileManagement = () => {
     dispatch(checkExamByStudent(studentId));
   }, [studentId, dispatch]);
 
+  const handelSubmil = async (formData) => {
+    const res = await dispatch(createPayment(formData));
+    if (res.meta.requestStatus === "fulfilled") {
+      toast.success("Payment Received Successfully");
+      await dispatch(getStudentsByStudentId(studentId));
+    }
+  };
+
   if (!student) {
     return <div>No Student Found</div>;
   }
-  console.log(check);
+  console.log(student);
   return (
-    <div className="min-h-screen bg-gray-100 p-6 capitalize font-kalpurush">
+    <div className="min-h-screen bg-gray-100 p-6 capitalize font-kalpurush relative">
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 border-b pb-6">
@@ -107,6 +124,7 @@ const StudentProfileManagement = () => {
           </div>
 
           {/* Payment Info */}
+
           <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold mb-3 text-indigo-600">
               Payment Details
@@ -133,8 +151,63 @@ const StudentProfileManagement = () => {
               <strong>Membership Card:</strong>{" "}
               {student.membershipCard ? "Yes" : "No"}
             </p>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border border-gray-200 rounded-lg">
+                  <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+                    <tr>
+                      <th className="px-4 py-3 border">Date</th>
+                      <th className="px-4 py-3 border">Amount</th>
+                      <th className="px-4 py-3 border">Type</th>
+                      <th className="px-4 py-3 border">Received By</th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="text-sm text-gray-700">
+                    {student && student.afterPayment.length > 0 ? (
+                      student.afterPayment.map((payment, index) => (
+                        <tr key={index} className="hover:bg-gray-50 transition">
+                          <td className="px-4 py-2 border">
+                            {new Date(payment.date).toLocaleDateString()}
+                          </td>
+
+                          <td className="px-4 py-2 border font-semibold text-green-600">
+                            ৳ {payment.paymentAmount}
+                          </td>
+
+                          <td className="px-4 py-2 border capitalize">
+                            {payment.paymentType}
+                          </td>
+
+                          <td className="px-4 py-2 border">
+                            {payment.receivedBy?.username || "N/A"}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan="4"
+                          className="text-center py-4 text-gray-500"
+                        >
+                          No Payment History Found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mt-2"
+              >
+                Add Payment
+              </button>
+            </div>
           </div>
+          {/* Payment Info */}
         </div>
+
         <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
           <h3 className="text-lg font-semibold mb-3 text-indigo-600">
             Exam Information
@@ -197,6 +270,18 @@ const StudentProfileManagement = () => {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="absolute top-0 left-0 right-0">
+          <GetStudentPaymentModal
+            onClose={() => {
+              setShowModal(false);
+            }}
+            onSubmit={handelSubmil}
+            receivedBy={user?._id}
+            id={studentId && studentId}
+          />
+        </div>
+      )}
     </div>
   );
 };

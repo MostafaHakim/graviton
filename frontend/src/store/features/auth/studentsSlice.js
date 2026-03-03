@@ -67,6 +67,32 @@ export const getStudentsByStudentId = createAsyncThunk(
   },
 );
 
+export const createPayment = createAsyncThunk(
+  "students/getPayment",
+  async (formData, { rejectWithValue }) => {
+    console.log(formData);
+    try {
+      const res = await fetch(`${baseUrl}/api/students/payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "student failed to fetch");
+      }
+
+      return data.student;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const studentsSlice = createSlice({
   name: "students",
   initialState: {
@@ -98,6 +124,7 @@ const studentsSlice = createSlice({
         state.students = [];
         state.error = action.payload;
       })
+
       //   Subject by class ID
       .addCase(getStudentsByClassId.pending, (state) => {
         state.loading = true;
@@ -121,6 +148,20 @@ const studentsSlice = createSlice({
         state.student = action.payload;
       })
       .addCase(getStudentsByStudentId.rejected, (state, action) => {
+        state.loading = false;
+        state.student = null;
+        state.error = action.payload;
+      })
+
+      //   Get Payment
+      .addCase(createPayment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createPayment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.student = action.payload;
+      })
+      .addCase(createPayment.rejected, (state, action) => {
         state.loading = false;
         state.student = null;
         state.error = action.payload;
