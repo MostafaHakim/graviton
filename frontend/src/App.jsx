@@ -72,7 +72,7 @@ import StudentIDCard from "./components/StudentIDCard";
 import FlashManagement from "./pages/admin/FlashManagement";
 import LevelManagement from "./pages/admin/LevelManagement";
 import DakeManagement from "./pages/admin/DakeManagement";
-import FlashCardManagement from "./pages/admin/flashCardManagement";
+import FlashCardManagement from "./pages/admin/FlashCardManagement";
 import FlashCategory from "./pages/student/FlashCategory";
 import StudentFlashLevel from "./pages/student/StudentFlashLevel";
 import StudentDeck from "./pages/student/StudentDeck";
