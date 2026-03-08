@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddFlashDeckModal = ({ onClose, levelId, handelAddDack }) => {
+const AddFlashDeckModal = ({ onClose, levelId, handleAddDack }) => {
   const [deckNumber, setDeckNumber] = useState("");
   const [title, setTitle] = useState("");
 
@@ -12,7 +12,7 @@ const AddFlashDeckModal = ({ onClose, levelId, handelAddDack }) => {
       deckNumber,
       title,
     };
-    await handelAddDack(body);
+    await handleAddDack(body);
   };
 
   return (

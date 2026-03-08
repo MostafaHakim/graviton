@@ -6,7 +6,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdmissionById } from "../store/features/auth/admissionSlice";
+import { getAdmissionByIdForPrint } from "../store/features/auth/admissionSlice";
 
 const AdmissionPrint = () => {
   const componentRef = useRef();
@@ -16,9 +16,9 @@ const AdmissionPrint = () => {
 
   useEffect(() => {
     if (!admissionId) return;
-    dispatch(getAdmissionById(admissionId));
+    dispatch(getAdmissionByIdForPrint(admissionId));
   }, [admissionId, dispatch]);
-
+  console.log(admission);
   // ✅ প্রিন্ট ফাংশন (react-to-print v3 সঠিক API)
   const handlePrint = useReactToPrint({
     contentRef: componentRef, // সরাসরি ref অবজেক্ট

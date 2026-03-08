@@ -88,8 +88,15 @@ const getSingleAdmission = async (req, res) => {
 
 const getAdmissionById = async (req, res) => {
   const { admissionId } = req.params;
-  console.log(admissionId);
+
   const data = await Admission.findById(admissionId);
+
+  res.json(data);
+};
+const getAdmissionByIdForPrint = async (req, res) => {
+  const { admissionId } = req.params;
+
+  const data = await Admission.findOne({ admissionId });
 
   res.json(data);
 };
@@ -178,4 +185,5 @@ module.exports = {
   deleteAdmission,
   approveAsStudent,
   getAdmissionById,
+  getAdmissionByIdForPrint,
 };

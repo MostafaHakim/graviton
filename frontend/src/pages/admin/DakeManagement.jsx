@@ -252,7 +252,7 @@ const DakeManagement = () => {
         <AddFlashDeckModal
           onClose={() => setShowModal(false)}
           levelId={levelId}
-          handleAddDeck={handleAddDack}
+          handleAddDack={handleAddDack}
         />
       )}
     </div>

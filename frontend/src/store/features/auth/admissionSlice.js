@@ -64,6 +64,26 @@ export const getAdmissionById = createAsyncThunk(
     }
   },
 );
+export const getAdmissionByIdForPrint = createAsyncThunk(
+  "admission/getSinglePrint",
+  async (admissionId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(
+        `${baseUrl}/api/admission/print/${encodeURIComponent(admissionId)}`,
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Admission failed to fetch");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
 
 export const handleApprove = createAsyncThunk(
   "admission/approve",
@@ -141,6 +161,19 @@ const admissionSlice = createSlice({
         state.admission = action.payload;
       })
       .addCase(getAdmissionById.rejected, (state, action) => {
+        state.loading = false;
+        state.admission = null;
+        state.error = action.payload;
+      })
+      // =====================Print===============
+      .addCase(getAdmissionByIdForPrint.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAdmissionByIdForPrint.fulfilled, (state, action) => {
+        state.loading = false;
+        state.admission = action.payload;
+      })
+      .addCase(getAdmissionByIdForPrint.rejected, (state, action) => {
         state.loading = false;
         state.admission = null;
         state.error = action.payload;

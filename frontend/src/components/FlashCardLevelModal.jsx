@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FlashCardLevelModal = ({ categoryId, onClose, handelAddLevel }) => {
+const FlashCardLevelModal = ({ categoryId, onClose, handleAddLevel }) => {
   const [level, setLevel] = useState("");
 
   const handleSubmit = async (e) => {
@@ -10,7 +10,7 @@ const FlashCardLevelModal = ({ categoryId, onClose, handelAddLevel }) => {
       level,
       category: categoryId,
     };
-    await handelAddLevel(body);
+    await handleAddLevel(body);
   };
 
   return (
