@@ -16,10 +16,13 @@ exports.getAllSubjects = async (req, res) => {
 exports.createSubject = async (req, res) => {
   try {
     const { name, description, classId } = req.body;
-
+    console.log(req.body);
     const newSubject = new Subjets({ name, description, classId });
+    console.log("subject", newSubject);
     const savedSubject = await newSubject.save();
+    console.log("save subject", savedSubject);
     const cls = await Class.findById(classId);
+    console.log(cls, "class");
     if (cls) {
       cls.subjects.push(savedSubject._id);
       await cls.save();

@@ -103,6 +103,7 @@ const ClassManageMent = () => {
   }, [classId, dispatch]);
 
   const handleAddSubject = async (subjectData) => {
+    console.log(subjectData);
     const res = await dispatch(createSubject(subjectData));
 
     if (res.meta.requestStatus === "fulfilled") {
