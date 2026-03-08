@@ -9,6 +9,8 @@ import studentsReducer from "./features/auth/studentsSlice";
 import paperReducer from "./features/auth/paperSlice";
 import attemptReducer from "./features/auth/attemptSlice";
 import memberReducer from "./features/auth//memberSlice";
+import courseReducer from "./features/auth/courseSlice";
+import flashReducer from "./features/auth/flashcardSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +24,7 @@ export const store = configureStore({
     papers: paperReducer,
     attempt: attemptReducer,
     members: memberReducer,
+    courses: courseReducer,
+    flashs: flashReducer,
   },
 });

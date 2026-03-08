@@ -18,15 +18,18 @@ import { createAdmission } from "../store/features/auth/admissionSlice";
 import uploadPhotoToCloudinary from "../utils/cloudinery";
 import { getClasses } from "../store/features/auth/classesSlice";
 import { useNavigate } from "react-router-dom";
+import { getCourses } from "../store/features/auth/courseSlice";
 
 const AdmissionForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { classes } = useSelector((state) => state.classes);
+  const { courses } = useSelector((state) => state.courses);
   useEffect(() => {
     dispatch(getClasses());
+    dispatch(getCourses());
   }, [dispatch]);
-
+  console.log(courses);
   // হার্ডকোডেড প্রমো কোড লিস্ট (কোড → ছাড়ের পরিমাণ টাকায়)
   const PROMO_CODES = {
     SAVE50: 50,
@@ -75,7 +78,7 @@ const AdmissionForm = () => {
   });
 
   // কোর্স লিস্ট (আগের মতো) - সম্পূর্ণ অ্যারে দিন
-  const courses = [
+  const coursess = [
     { id: "pre-primary", label: "প্রি-প্রাইমারি কোর্স", icon: "👶" },
     { id: "kids-programming", label: "কিডস প্রোগ্রামিং", icon: "💻" },
     { id: "kids-spoken", label: "কিডস স্পোকেন", icon: "🗣️" },
@@ -338,6 +341,7 @@ const AdmissionForm = () => {
         setLoading({ submitting: false, photoUpload: false });
         setUploadProgress(0);
       }, 3000);
+      console.log(res);
       if (res.meta.requestStatus === "fulfilled") {
         navigate(`/view/${res?.payload?.admissionId}`);
       }
@@ -685,7 +689,6 @@ const AdmissionForm = () => {
                 কোর্স নির্বাচন *
               </h2>
             </div>
-
             <div className="mb-6">
               <button
                 type="button"
@@ -706,20 +709,20 @@ const AdmissionForm = () => {
                 </div>
               )}
             </div>
-
+            {/* Course Selection Card - সংশোধিত অংশ */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {courses.map((course) => (
                 <div
-                  key={course.id}
-                  onClick={() =>
-                    !loading.submitting && handleCourseSelect(course.id)
+                  key={course._id}
+                  onClick={
+                    () => !loading.submitting && handleCourseSelect(course.name) // _id ব্যবহার করুন
                   }
                   className={`p-3 border rounded-lg transition-all backdrop-blur-sm ${
                     loading.submitting
                       ? "cursor-not-allowed opacity-50"
                       : "cursor-pointer hover:border-white/30"
                   } ${
-                    formData.courses.includes(course.id)
+                    formData.courses.includes(course.name) // _id চেক করুন
                       ? "border-[#3BD480] bg-[#3BD480]/10"
                       : "border-white/20 bg-white/5"
                   }`}
@@ -727,28 +730,28 @@ const AdmissionForm = () => {
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-6 h-6 flex items-center justify-center rounded-lg ${
-                        formData.courses.includes(course.id)
+                        formData.courses.includes(course.name)
                           ? "bg-[#3BD480] text-white"
                           : "bg-white/10 text-white/70"
                       }`}
                     >
-                      {course.icon}
+                      📚
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <div
                           className={`w-4 h-4 border rounded flex items-center justify-center ${
-                            formData.courses.includes(course.id)
+                            formData.courses.includes(course.name)
                               ? "bg-[#3BD480] border-[#3BD480]"
                               : "border-white/30"
                           }`}
                         >
-                          {formData.courses.includes(course.id) && (
+                          {formData.courses.includes(course.name) && (
                             <CheckCircle className="w-3 h-3 text-white" />
                           )}
                         </div>
                         <span className="text-sm text-white font-kalpurush">
-                          {course.label}
+                          {course.name}
                         </span>
                       </div>
                     </div>

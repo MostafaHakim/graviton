@@ -215,7 +215,10 @@ const HomeContent = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <button className="group flex items-center justify-center space-x-3 px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-bold text-lg hover:bg-white/30 transition-all duration-300 border border-white/30">
+                    <Link
+                      to="courses"
+                      className="group flex items-center justify-center space-x-3 px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-bold text-lg hover:bg-white/30 transition-all duration-300 border border-white/30"
+                    >
                       <motion.div
                         animate={{ rotate: [0, 10, -10, 0] }}
                         transition={{ duration: 3, repeat: Infinity }}
@@ -223,7 +226,7 @@ const HomeContent = () => {
                         <BanknoteArrowDown className="w-6 h-6" />
                       </motion.div>
                       <span>Our Courses</span>
-                    </button>
+                    </Link>
                   </motion.div>
                 </motion.div>
 

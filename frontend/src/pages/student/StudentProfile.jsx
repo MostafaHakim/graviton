@@ -119,11 +119,11 @@ const StudentProfile = () => {
               Contact Information
             </h3>
             <p>
-              <strong>Mobile:</strong> {student.mobileNumber}
+              <strong>Mobile:</strong> {student?.mobileNumber}
             </p>
             <p>
               <strong>Email:</strong>{" "}
-              <span className="lowercase">{student.email}</span>
+              <span className="lowercase">{student?.email}</span>
             </p>
           </div>
 
@@ -133,7 +133,7 @@ const StudentProfile = () => {
               Enrolled Courses
             </h3>
             <ul className="list-disc ml-5">
-              {student.courses.map((course, index) => (
+              {student?.courses.map((course, index) => (
                 <li key={index}>{course}</li>
               ))}
             </ul>
@@ -145,26 +145,26 @@ const StudentProfile = () => {
               Payment Details
             </h3>
             <p>
-              <strong>Payment Method:</strong> {student.paymentMethod}
+              <strong>Payment Method:</strong> {student?.paymentMethod}
             </p>
             <p>
-              <strong>Transaction ID:</strong> {student.transactionId}
+              <strong>Transaction ID:</strong> {student?.transactionId}
             </p>
             <p>
-              <strong>Total Fee:</strong> ৳{student.totalFee}
+              <strong>Total Fee:</strong> ৳{student?.totalFee}
             </p>
             <p>
-              <strong>Discount:</strong> ৳{student.discount}
+              <strong>Discount:</strong> ৳{student?.discount}
             </p>
             <p>
-              <strong>Paid:</strong> ৳{student.cashPayment}
+              <strong>Paid:</strong> ৳{student?.cashPayment}
             </p>
             <p>
-              <strong>Due:</strong> ৳{student.duePayment}
+              <strong>Due:</strong> ৳{student?.duePayment}
             </p>
             <p>
               <strong>Membership Card:</strong>{" "}
-              {student.membershipCard ? "Yes" : "No"}
+              {student?.membershipCard ? "Yes" : "No"}
             </p>
           </div>
         </div>
@@ -229,7 +229,7 @@ const StudentProfile = () => {
             )}
           </div>
         </div>
-        <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
+        <div className="mt-6 hidden lg:block bg-gray-50 p-4 rounded-lg shadow-sm">
           <h3 className="text-lg font-semibold mb-3 text-indigo-600">
             Importent Links
           </h3>

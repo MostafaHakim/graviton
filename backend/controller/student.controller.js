@@ -102,9 +102,51 @@ const afterPaymentUpdate = async (req, res) => {
   }
 };
 
+const updateStudentStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const student = await Student.findByIdAndUpdate(id, { status });
+    console.log(status, id);
+    if (!student) {
+      res.status(404).json({
+        message: "Students Not Found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Status Updated Successfully",
+      student,
+    });
+  } catch (error) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const student = await Student.findByIdAndDelete(id);
+    if (!student) {
+      res.status(404).json({
+        message: "Students Not Found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Status Updated Successfully",
+      student,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
   getStudents,
   afterPaymentUpdate,
+  updateStudentStatus,
+  deleteStudent,
 };

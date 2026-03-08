@@ -65,6 +65,18 @@ import AdminProfile from "./pages/admin/AdminProfile";
 import UserForm from "./components/UserForm";
 import TeacherLayout from "./pages/teacher/TeacherLayout";
 import ClubManagement from "./pages/admin/ClubManagement";
+import CourseManagement from "./pages/admin/CourseManagement";
+import AddCourse from "./components/AddCourse";
+import Courses from "./pages/Courses";
+import StudentIDCard from "./components/StudentIDCard";
+import FlashManagement from "./pages/admin/FlashManagement";
+import LevelManagement from "./pages/admin/LevelManagement";
+import DakeManagement from "./pages/admin/DakeManagement";
+import FlashCardManagement from "./pages/admin/flashCardManagement";
+import FlashCategory from "./pages/student/FlashCategory";
+import StudentFlashLevel from "./pages/student/StudentFlashLevel";
+import StudentDeck from "./pages/student/StudentDeck";
+import FlashCard from "./pages/student/FlashCard";
 
 // =======================Admin Student=======================
 
@@ -76,6 +88,8 @@ const AppRouter = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="club" element={<Club />} />
           <Route path="admission" element={<AdmissionForm />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="idcard" element={<StudentIDCard />} />
           <Route path="view/:admissionId" element={<AdmissionPrint />} />
           <Route path="feedback" element={<FeedBack />} />
           <Route path="studyabroad" element={<FlyToAbroad />} />
@@ -83,8 +97,11 @@ const AppRouter = () => {
           <Route path="membership" element={<Membership />} />
           <Route path="membership/create" element={<PremiumMemberForm />} />
         </Route>
-
-        {/* ========================Student===================================== */}
+        {/* ******************************************************************************************************************************************************** */}
+        {/* ====================================================================================================================================================== */}
+        {/* ======================================================Student================================================================================== */}
+        {/* ====================================================================================================================================================== */}
+        {/* ******************************************************************************************************************************************************** */}
         <Route
           path="/student"
           element={
@@ -108,7 +125,13 @@ const AppRouter = () => {
             element={<TestGuidLine />}
           />
           <Route path="madeeasy/:paperId/start" element={<Exam />} />
+          {/* ========================Flash Card Management===================================== */}
+          <Route path="flashs" element={<FlashCategory />} />
+          <Route path="flashs/:id" element={<StudentFlashLevel />} />
+          <Route path="flashs/:id/:levelId" element={<StudentDeck />} />
+          <Route path="flashs/:id/:levelId/:deckId" element={<FlashCard />} />
         </Route>
+
         {/* ******************************************************************************************************************************************************** */}
         {/* ============================================================================== */}
         {/* ========================Teacher===================================== */}
@@ -123,11 +146,68 @@ const AppRouter = () => {
           }
         >
           <Route index element={<TeacherDashboard />} />
-        </Route>
+          <Route path="profile" element={<AdminProfile />} />
+          {/* ========================Teacher Made Easy Management===================================== */}
+          <Route path="madeeasy" element={<MadeEasyManagement />} />
+          <Route path="madeeasy/:classId" element={<ClassManageMent />} />
+          <Route
+            path="madeeasy/:classId/:subjectId"
+            element={<SubjectManagement />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId"
+            element={<ChapterManagement />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/newtest"
+            element={<AdminTestManagement />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/:testId"
+            element={<TestDetails />}
+          />
+          <Route
+            path="madeeasy/:classId/:subjectId/:chapterId/:testId/create-paper"
+            element={<CreatePaper />}
+          />
+          <Route path="madeeasy/paper" element={<PaperList />} />
 
+          {/* ========================Teacher Abord Management===================================== */}
+
+          <Route path="abord" element={<AbordTestManagement />} />
+          <Route path="abord/:classId" element={<SkillManagement />} />
+          <Route
+            path="abord/:classId/:subjectId"
+            element={<SkillTypeManagement />}
+          />
+          <Route
+            path="abord/:classId/:subjectId/:chapterId"
+            element={<PartManagement />}
+          />
+
+          <Route
+            path="abord/:classId/:subjectId/:chapterId/newtest"
+            element={<AdminPartManagement />}
+          />
+          <Route
+            path="abord/:classId/:subjectId/:chapterId/:testId"
+            element={<PartDetails />}
+          />
+          <Route
+            path="abord/:classId/:subjectId/:chapterId/:testId/create-paper"
+            element={<CreatePaperForPart />}
+          />
+          <Route path="abord/paper" element={<PartPaperList />} />
+
+          {/* ========================Teacher Gallery Management===================================== */}
+          <Route path="gallery" element={<AdminGallery />} />
+          <Route path="gallery/upload" element={<GalleryUpload />} />
+        </Route>
+        {/* ******************************************************************************************************************************************************** */}
         {/* ===================================================================================== */}
         {/* ========================Amin Section Management===================================== */}
         {/* ======================================================================================= */}
+        {/* ******************************************************************************************************************************************************** */}
         <Route
           path="/admin"
           element={
@@ -146,6 +226,18 @@ const AppRouter = () => {
             path="student/:classId/:studentId"
             element={<StudentProfileManagement />}
           />
+
+          {/* =============================Flash Management====================================== */}
+          <Route path="flash" element={<FlashManagement />} />
+          <Route path="flash/:id" element={<LevelManagement />} />
+          <Route path="flash/:id/:levelId" element={<DakeManagement />} />
+          <Route
+            path="flash/:id/:levelId/:deckId"
+            element={<FlashCardManagement />}
+          />
+          {/* =============================Course Management====================================== */}
+          <Route path="course" element={<CourseManagement />} />
+          <Route path="course/new-course" element={<AddCourse />} />
 
           {/* ========================Made Easy Management with Class Subject=================== */}
 

@@ -51,7 +51,9 @@ export const getStudentsByStudentId = createAsyncThunk(
   "students/getStudentStudentId",
   async (studentId, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${baseUrl}/api/students/student/${studentId}`);
+      const res = await fetch(
+        `${baseUrl}/api/students/student/${encodeURIComponent(studentId)}`,
+      );
 
       const data = await res.json();
 
@@ -60,6 +62,52 @@ export const getStudentsByStudentId = createAsyncThunk(
       }
 
       return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateStudentStatus = createAsyncThunk(
+  "students/updateStudentStatus",
+  async ({ status, id }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/students/student/status/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "student failed to fetch");
+      }
+
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteStudent = createAsyncThunk(
+  "students/deleteStudent",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/students/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "student failed to delete");
+      }
+
+      return data.data._id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -148,6 +196,34 @@ const studentsSlice = createSlice({
       .addCase(getStudentsByStudentId.rejected, (state, action) => {
         state.loading = false;
         state.student = null;
+        state.error = action.payload;
+      })
+      //   Update Status
+      .addCase(updateStudentStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateStudentStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.students = action.payload;
+      })
+      .addCase(updateStudentStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.students = [];
+        state.error = action.payload;
+      })
+      //   ==================Delete Student==================
+      .addCase(deleteStudent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteStudent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.students = state.students.filter(
+          (student) => student._id !== action.payload,
+        );
+      })
+      .addCase(deleteStudent.rejected, (state, action) => {
+        state.loading = false;
+        state.students = [];
         state.error = action.payload;
       })
 

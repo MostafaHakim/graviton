@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import AdminSidebar from "../admin/AdminSidebar";
 import AdminMobileNav from "../admin/AdminMobileNav";
 import TeacherHeader from "./TeacherHeader";
+import TeacherSidebar from "./TeacherSidebar";
 
 const TeacherLayout = () => {
   return (
@@ -9,7 +9,7 @@ const TeacherLayout = () => {
       <TeacherHeader />
 
       <div className=" flex flex-row">
-        <AdminSidebar />
+        <TeacherSidebar />
 
         <main className="flex-1 p-4 ">
           <Outlet />

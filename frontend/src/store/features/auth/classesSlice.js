@@ -84,6 +84,28 @@ export const getClassById = createAsyncThunk(
   },
 );
 
+export const deleteClassById = createAsyncThunk(
+  "classes/deleteClass",
+  async (id, { rejectWithValue }) => {
+    console.log(id);
+    try {
+      const res = await fetch(`${baseUrl}/api/classes/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Class failed to delete");
+      }
+      console.log(data);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const classesSlice = createSlice({
   name: "classes",
   initialState: {
@@ -124,6 +146,22 @@ const classesSlice = createSlice({
       .addCase(getClassById.rejected, (state, action) => {
         state.loading = false;
         state.class = null;
+        state.error = action.payload;
+      })
+
+      //   Delete by ID
+      .addCase(deleteClassById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteClassById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.classes = state.classes.filter(
+          (cls) => cls._id !== action.payload,
+        );
+      })
+      .addCase(deleteClassById.rejected, (state, action) => {
+        state.loading = false;
+        state.classes = [];
         state.error = action.payload;
       })
 

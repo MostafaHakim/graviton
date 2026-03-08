@@ -13,6 +13,7 @@ import {
   Sparkles,
   ChevronRight,
   BarChart,
+  TextInitial,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -38,6 +39,15 @@ const StudentSidebar = () => {
       color: "text-emerald-600",
       bg: "bg-emerald-50",
       border: "border-emerald-200",
+    },
+    {
+      id: "words",
+      label: "শব্দ ভান্ডার",
+      icon: TextInitial,
+      path: "/student/flashs",
+      color: "text-indigo-600",
+      bg: "bg-indigo-50",
+      border: "border-indigo-200",
     },
 
     {
@@ -169,7 +179,7 @@ const StudentSidebar = () => {
           <motion.div
             whileHover={{ rotate: 5, scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-xl font-bold shadow-lg cursor-pointer"
+            className="w-14  h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-xl font-bold shadow-lg cursor-pointer"
           >
             {studentInfo.avatar}
           </motion.div>

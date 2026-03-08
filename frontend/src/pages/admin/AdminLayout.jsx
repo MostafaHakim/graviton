@@ -5,13 +5,21 @@ import AdminMobileNav from "./AdminMobileNav";
 
 const AdminLayout = () => {
   return (
-    <div className="w-full flex flex-col  min-h-screen bg-[#F7F8FA] ">
-      <AdminHeader />
+    <div className="h-screen flex flex-col bg-[#F7F8FA] overflow-hidden">
+      {/* Header */}
+      <div className="flex-shrink-0">
+        <AdminHeader />
+      </div>
 
-      <div className=" flex flex-row">
-        <AdminSidebar />
+      {/* Body */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <div className="flex-shrink-0">
+          <AdminSidebar />
+        </div>
 
-        <main className="flex-1 lg:p-4 ">
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto p-4">
           <Outlet />
         </main>
 

@@ -2,14 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, clearError } from "../store/features/auth/authSlice";
-import { User, Lock, LogIn, ArrowRight, AlertCircle } from "lucide-react";
+import {
+  User,
+  Lock,
+  LogIn,
+  ArrowRight,
+  AlertCircle,
+  EyeOff,
+  Eye,
+} from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     userId: "",
     password: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, loading, error } = useSelector((state) => state.auth);
@@ -111,23 +119,31 @@ const LoginPage = () => {
             </div>
 
             {/* Password Field */}
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium text-white/90 mb-2 font-kalpurush">
                 <Lock className="w-4 h-4 inline mr-2" />
                 পাসওয়ার্ড
               </label>
+
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#3BD480] focus:border-transparent transition text-white placeholder-white/50"
+                className="w-full px-4 py-3 pr-12 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#3BD480] focus:border-transparent transition text-white placeholder-white/50"
                 placeholder="আপনার পাসওয়ার্ড লিখুন"
                 required
               />
-            </div>
 
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-11 text-white/70 hover:text-white"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {/* Error Message */}
             {error && (
               <div className="bg-red-500/10 border border-red-500/30 text-red-200 px-4 py-3 rounded-lg flex items-center gap-2">

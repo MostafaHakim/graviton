@@ -1,96 +1,12 @@
-// import React, { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { Link, useParams } from "react-router-dom";
-// import { getClassById } from "../../store/features/auth/classesSlice";
-// import { getStudentsByClassId } from "../../store/features/auth/studentsSlice";
-// import { Delete, EyeIcon, Trash2, View } from "lucide-react";
-
-// const StudentClassWise = () => {
-//   const { classId } = useParams();
-//   const { class: selectClass } = useSelector((state) => state.classes);
-//   const { students } = useSelector((state) => state.students);
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     dispatch(getClassById(classId));
-//   }, [classId, dispatch]);
-
-//   useEffect(() => {
-//     if (selectClass?.name) {
-//       dispatch(getStudentsByClassId(selectClass.name.toLowerCase()));
-//     }
-//   }, [selectClass, dispatch]);
-
-//   return (
-//     <div className="font-kalpurush p-6">
-//       {/* Header */}
-//       <div className="text-center mb-6">
-//         <h2 className="text-3xl font-bold text-blue-600">
-//           ক্লাসঃ {selectClass?.name}
-//         </h2>
-//       </div>
-
-//       {/* Student List */}
-//       <div className="overflow-x-auto">
-//         <table className="min-w-full bg-white shadow-lg rounded-xl overflow-hidden">
-//           <thead className="bg-blue-500 text-white">
-//             <tr>
-//               <th className="py-3 px-4 text-left">#</th>
-//               <th className="py-3 px-4 text-left">Student ID</th>
-//               <th className="py-3 px-4 text-left">Student Name</th>
-//               <th className="py-3 px-4 text-left">Father Name</th>
-//               <th className="py-3 px-4 text-left">School/College</th>
-//               <th className="py-3 px-4 text-left">Action</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {students && students.length > 0 ? (
-//               students.map((student, index) => (
-//                 <tr
-//                   key={student._id}
-//                   className="border-b hover:bg-gray-100 transition"
-//                 >
-//                   <td className="py-3 px-4">{index + 1}</td>
-//                   <td className="py-3 px-4 font-medium text-gray-700">
-//                     {student.studentId}
-//                   </td>
-//                   <td className="py-3 px-4">{student.studentName}</td>
-//                   <td className="py-3 px-4">{student.fatherName}</td>
-//                   <td className="py-3 px-4">{student.schoolCollege}</td>
-//                   <td className="py-3 px-4 flex flex-row gap-4">
-//                     <Link to={student._id}>
-//                       <EyeIcon className="text-green-500" />
-//                     </Link>
-//                     <button onClick={() => alert("delete")}>
-//                       <Trash2 className="text-red-500" />
-//                     </button>
-//                   </td>
-//                 </tr>
-//               ))
-//             ) : (
-//               <tr>
-//                 <td
-//                   colSpan="5"
-//                   className="text-center py-6 text-gray-500 font-medium"
-//                 >
-//                   কোনো ছাত্র পাওয়া যায়নি
-//                 </td>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default StudentClassWise;
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { getClassById } from "../../store/features/auth/classesSlice";
-import { getStudentsByClassId } from "../../store/features/auth/studentsSlice";
+import {
+  deleteStudent,
+  getStudentsByClassId,
+  updateStudentStatus,
+} from "../../store/features/auth/studentsSlice";
 import {
   Eye,
   Trash2,
@@ -103,6 +19,7 @@ import {
   School,
   User,
   Download,
+  Edit,
 } from "lucide-react";
 import DeleteModal from "../../components/DeleteModal";
 
@@ -131,15 +48,36 @@ const StudentClassWise = () => {
     }
   }, [selectClass, dispatch]);
 
+  const selectedStudent = students?.find(
+    (student) => student._id === selectedStudentId,
+  );
+
   const handleDeleteClick = (studentId) => {
     setSelectedStudentId(studentId);
     setShowDeleteModal(true);
   };
 
-  const handleDelete = async () => {
-    // Implement delete functionality here
-    setShowDeleteModal(false);
-    setSelectedStudentId(null);
+  const handleDelete = async (id) => {
+    const res = await dispatch(deleteStudent(id));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getClassById(classId));
+
+      setShowDeleteModal(false);
+      setSelectedStudentId(null);
+    }
+  };
+
+  const handleUpdateStatus = async (id) => {
+    const std = students.find((student) => student._id === id);
+
+    const status = std.status === "active" ? "block" : "active";
+
+    const res = await dispatch(updateStudentStatus({ status, id }));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getClassById(classId));
+    }
   };
 
   // Filter students based on search
@@ -193,7 +131,7 @@ const StudentClassWise = () => {
             {selectClass && (
               <div className="flex items-center gap-2 text-gray-600">
                 <GraduationCap size={20} className="text-gray-500" />
-                <span className="text-xl font-medium text-gray-900 font-kalpurush">
+                <span className="text-xl font-medium text-gray-900 font-kalpurush capitalize">
                   ক্লাসঃ {selectClass.name}
                 </span>
               </div>
@@ -303,6 +241,13 @@ const StudentClassWise = () => {
                             <Trash2 size={14} />
                             <span className="font-kalpurush">মুছুন</span>
                           </button>
+                          <button
+                            onClick={() => handleUpdateStatus(student._id)}
+                            className={`inline-flex items-center gap-1 px-3 py-1.5 ${student.status === "active" ? "bg-green-50 border border-green-200 text-green-700" : "bg-rose-50 border border-rose-200 text-rose-700"} text-xs font-medium rounded-lg hover:bg-red-100 transition-colors`}
+                          >
+                            <Edit size={14} />
+                            <span className="capitalize">{student.status}</span>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -404,15 +349,16 @@ const StudentClassWise = () => {
       </div>
 
       {/* Delete Modal */}
-      {showDeleteModal && (
+      {showDeleteModal && selectedStudent && (
         <DeleteModal
-          title="ছাত্র মুছুন"
+          title={`আপনি কি ${selectedStudent?.studentName} কে ডিলিট করতে চান`}
           message="আপনি কি নিশ্চিত যে এই ছাত্রকে মুছে ফেলতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।"
           onDelete={handleDelete}
           onClose={() => {
             setShowDeleteModal(false);
             setSelectedStudentId(null);
           }}
+          id={selectedStudentId}
         />
       )}
     </div>

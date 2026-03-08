@@ -1,90 +1,19 @@
-// import React, { useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import AddModal from "../../components/AddModal";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   createClass,
-//   getClasses,
-// } from "../../store/features/auth/classesSlice";
-
-// const MadeEasyManagement = () => {
-//   const [showAddModal, setShowAddModal] = React.useState(false);
-//   const { classes } = useSelector((state) => state.classes);
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     // Fetch classes when the component mounts
-//     dispatch(getClasses());
-//   }, [dispatch]);
-
-//   const handleAddClass = (className) => {
-//     dispatch(createClass({ name: className.toLowerCase() }));
-//     console.log("Adding class:", className);
-//     setShowAddModal(false);
-//   };
-
-//   return (
-//     <div>
-//       <div className="flex flex-row items-center justify-center relative">
-//         <div className="flex flex-col items-center justify-center">
-//           <h1 className="text-2xl font-bold mb-4">Made Easy Management</h1>
-//           <p className="text-gray-600">
-//             This is the Made Easy Management page.
-//           </p>
-//         </div>
-//       </div>
-//       <div>
-//         <div className="flex justify-between items-center mb-4">
-//           <h2>ক্লাস ম্যানেজমেন্ট</h2>{" "}
-//           <button
-//             onClick={() => setShowAddModal(true)}
-//             className="bg-blue-500 text-white px-4 py-2 rounded"
-//           >
-//             Add Class
-//           </button>
-//         </div>
-//         <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-//           {classes.map((cls) => (
-//             <div
-//               key={cls.id}
-//               className="border p-4 mb-2 flex flex-col items-center space-y-2"
-//             >
-//               <h3 className="font-semibold">ক্লাসের নামঃ {cls.name}</h3>
-//               <Link
-//                 to={`${cls._id}`}
-//                 className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-//               >
-//                 Enter Your Class
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//       {/* Modal for Adding Class */}
-//       {showAddModal && (
-//         <AddModal
-//           title="Add Class"
-//           onSave={handleAddClass}
-//           onClose={() => setShowAddModal(false)}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default MadeEasyManagement;
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddModal from "../../components/AddModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createClass,
+  deleteClassById,
   getClasses,
 } from "../../store/features/auth/classesSlice";
+import { Trash2 } from "lucide-react";
+import DeleteModal from "../../components/DeleteModal";
 
 const MadeEasyManagement = () => {
-  const [showAddModal, setShowAddModal] = React.useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModalWithId, setShowDeleteModalWithId] = useState(null);
+  const [selectClass, setSelectClass] = useState("null");
   const { classes } = useSelector((state) => state.classes);
   const dispatch = useDispatch();
 
@@ -92,9 +21,15 @@ const MadeEasyManagement = () => {
     dispatch(getClasses());
   }, [dispatch]);
 
-  const handleAddClass = (className) => {
-    dispatch(createClass({ name: className.toLowerCase() }));
+  const handleAddClass = async (className) => {
+    await dispatch(createClass({ name: className.toLowerCase() }));
     setShowAddModal(false);
+  };
+  const handleDeleteClass = async (id) => {
+    const res = await dispatch(deleteClassById(id));
+    if (res.meta.requestStatus === "fulfilled") {
+      setShowDeleteModalWithId(null);
+    }
   };
 
   return (
@@ -153,9 +88,18 @@ const MadeEasyManagement = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {classes.map((cls, index) => (
               <div
-                key={cls.id || index}
+                key={cls._id || index}
                 className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
+                <button
+                  onClick={() => {
+                    (setShowDeleteModalWithId(cls._id),
+                      setSelectClass(cls.name));
+                  }}
+                  className="absolute top-2 right-2 cursor-pointer"
+                >
+                  <Trash2 size={16} color="red" />
+                </button>
                 {/* Card Accent Line */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
 
@@ -167,7 +111,7 @@ const MadeEasyManagement = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className="text-lg font-medium text-gray-900 mb-2 capitalize">
                     ক্লাসের নামঃ {cls.name}
                   </h3>
 
@@ -244,13 +188,20 @@ const MadeEasyManagement = () => {
           </div>
         )}
       </div>
-
       {/* Modal */}
       {showAddModal && (
         <AddModal
           title="Add New Class"
           onSave={handleAddClass}
           onClose={() => setShowAddModal(false)}
+        />
+      )}
+      {showDeleteModalWithId !== null && (
+        <DeleteModal
+          title={`Are You Sure You Want To Delete  Class ${selectClass}`}
+          onDelete={handleDeleteClass}
+          onClose={() => setShowDeleteModalWithId(null)}
+          id={showDeleteModalWithId}
         />
       )}
     </div>

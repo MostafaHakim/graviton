@@ -4,7 +4,7 @@ const AddModal = ({ title, onSave, onClose }) => {
   const [value, setValue] = useState("");
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-60">
       <div className="bg-white p-6 rounded">
         <h3>{title}</h3>
         <input
