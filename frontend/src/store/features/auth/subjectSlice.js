@@ -84,6 +84,27 @@ export const getSubjectByClassName = createAsyncThunk(
   },
 );
 
+export const deleteSubjects = createAsyncThunk(
+  "subjects/deleteSubject",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/subjects/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Subjects failed to delete");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const subjectsSlice = createSlice({
   name: "subjects",
   initialState: {
@@ -150,6 +171,21 @@ const subjectsSlice = createSlice({
         state.subjects = action.payload;
       })
       .addCase(getSubjects.rejected, (state, action) => {
+        state.loading = false;
+        state.subjects = [];
+        state.error = action.payload;
+      })
+      //   Delete Subject
+      .addCase(deleteSubjects.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteSubjects.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subjects = state.subjects.filter(
+          (sub) => sub._id !== action.payload._id,
+        );
+      })
+      .addCase(deleteSubjects.rejected, (state, action) => {
         state.loading = false;
         state.subjects = [];
         state.error = action.payload;

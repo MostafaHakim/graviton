@@ -81,12 +81,17 @@
 
 // export default ClassManageMent;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClassById } from "../../store/features/auth/classesSlice";
 import AddSubjectModal from "../../components/AddSubjectModal";
-import { createSubject } from "../../store/features/auth/subjectSlice";
+import {
+  createSubject,
+  deleteSubjects,
+} from "../../store/features/auth/subjectSlice";
+import { Trash2 } from "lucide-react";
+import DeleteModal from "../../components/DeleteModal";
 
 const ClassManageMent = () => {
   const { classId } = useParams();
@@ -96,19 +101,27 @@ const ClassManageMent = () => {
 
   const dispatch = useDispatch();
 
-  const [showAddSubjectModal, setShowAddSubjectModal] = React.useState(false);
+  const [showAddSubjectModal, setShowAddSubjectModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(null);
 
   useEffect(() => {
     dispatch(getClassById(classId));
   }, [classId, dispatch]);
 
   const handleAddSubject = async (subjectData) => {
-    console.log(subjectData);
     const res = await dispatch(createSubject(subjectData));
 
     if (res.meta.requestStatus === "fulfilled") {
-      dispatch(getClassById(classId));
+      await dispatch(getClassById(classId));
       setShowAddSubjectModal(false);
+    }
+  };
+
+  const handelDeleteSubject = async (id) => {
+    const res = await dispatch(deleteSubjects(id));
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getClassById(classId));
+      setDeleteModal(null);
     }
   };
 
@@ -165,7 +178,7 @@ const ClassManageMent = () => {
             {selectedClass && (
               <div className="flex items-center gap-2 text-gray-600">
                 <span className="text-lg">ক্লাসের নামঃ</span>
-                <span className="text-xl font-medium text-gray-900">
+                <span className="text-xl font-medium text-gray-900 capitalize">
                   {selectedClass.name}
                 </span>
               </div>
@@ -215,8 +228,14 @@ const ClassManageMent = () => {
             {selectedClass.subjects.map((subject, index) => (
               <div
                 key={subject._id || index}
-                className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 "
               >
+                <button
+                  onClick={() => setDeleteModal(subject._id)}
+                  className="absolute top-0 right-0 p-4 cursor-pointer"
+                >
+                  <Trash2 color="red" size={16} />
+                </button>
                 {/* Card Accent Line */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
 
@@ -341,6 +360,15 @@ const ClassManageMent = () => {
           onSave={handleAddSubject}
           classId={classId}
           title="Add New Subject"
+        />
+      )}
+      {/* Add Subject Modal */}
+      {deleteModal !== null && (
+        <DeleteModal
+          title={`Are you sure? want to delete subject?`}
+          onDelete={handelDeleteSubject}
+          onClose={() => setDeleteModal(null)}
+          id={deleteModal}
         />
       )}
     </div>
