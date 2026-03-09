@@ -126,7 +126,7 @@ const GalleryUpload = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8 px-4 sm:px-6 lg:px-8">
       {/* Mesh Grid Background */}
-      <div className="absolute inset-0">
+      <div className="absolute ">
         <svg
           className="absolute w-full h-full opacity-10"
           xmlns="http://www.w3.org/2000/svg"
