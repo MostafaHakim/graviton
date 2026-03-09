@@ -53,13 +53,13 @@ const admissionSchema = new mongoose.Schema(
     // Payment
     paymentMethod: {
       type: String,
-      enum: ["cash", "bkash", "nagad"],
+      enum: ["cash", "bkash", "nagad", "Membership Card"],
       required: true,
     },
     transactionId: {
       type: String,
       required: function () {
-        return this.paymentMethod !== "cash";
+        return this.paymentMethod !== "cash" || !this.membershipCard;
       },
     },
 

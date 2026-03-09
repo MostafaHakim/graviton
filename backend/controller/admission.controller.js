@@ -31,8 +31,12 @@ const createAdmission = async (req, res) => {
       return res.status(400).json({ message: "Photo is required" });
     }
 
-    const percentDiscount = (Number(totalFee) * Number(discountPercent)) / 100;
-    const totalDiscount = percentDiscount + Number(promoDiscount);
+    const percentDiscount =
+      (Number(totalFee ? totalFee : 0) *
+        Number(discountPercent ? discountPercent : 0)) /
+      100;
+    const totalDiscount =
+      percentDiscount + Number(promoDiscount ? promoDiscount : 0);
 
     const admissionId = await generateAdmissionId();
     const admission = await Admission.create({
@@ -45,12 +49,12 @@ const createAdmission = async (req, res) => {
       schoolCollege,
       mobileNumber,
       courses,
-      paymentMethod,
-      transactionId,
-      totalFee,
-      discount: totalDiscount,
-      cashPayment,
-      duePayment,
+      paymentMethod: !membershipCard ? paymentMethod : "Membership Card",
+      transactionId: !membershipCard ? transactionId : "Not Required",
+      totalFee: !membershipCard ? totalFee : 0,
+      discount: !membershipCard ? totalDiscount : 0,
+      cashPayment: !membershipCard ? cashPayment : 0,
+      duePayment: membershipCard ? duePayment : 0,
       membershipCard,
       photo,
       admissionId,

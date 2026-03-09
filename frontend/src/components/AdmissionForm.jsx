@@ -819,7 +819,9 @@ const AdmissionForm = () => {
                   </div>
 
                   {/* মেম্বারশিপ কার্ড চেকবক্স */}
-                  <div className="flex items-center gap-3 mt-4">
+                  <div
+                    className={`flex items-center gap-3 mt-4  p-4 border rounded-lg transition-all ${formData.membershipCard ? "border-[#3BD480] bg-[#3BD480]/10" : "border-white/20 bg-white/5"}`}
+                  >
                     <input
                       type="checkbox"
                       id="membershipCard"
@@ -833,7 +835,7 @@ const AdmissionForm = () => {
                       htmlFor="membershipCard"
                       className="text-white/90 font-kalpurush"
                     >
-                      সদস্যতা কার্ড চাই (পেমেন্ট ছাড়)
+                      মেম্বারশীপ কার্ড (সম্পূর্ণ পেমেন্ট ছাড়)
                     </label>
                   </div>
                 </div>
