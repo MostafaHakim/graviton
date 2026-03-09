@@ -9,6 +9,7 @@ import { checkExamByStudent } from "../../store/features/auth/attemptSlice";
 import { useState } from "react";
 import GetStudentPaymentModal from "../../components/GetStudentPaymentModal";
 import { toast } from "react-toastify";
+import IdCard from "../../components/IdCard";
 
 const StudentProfileManagement = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
@@ -17,6 +18,7 @@ const StudentProfileManagement = () => {
   const { student } = useSelector((state) => state.students);
   const { check } = useSelector((state) => state.attempt);
   const [showModal, setShowModal] = useState(false);
+  const [showIdCard, setShowIdCard] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,7 +41,13 @@ const StudentProfileManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 capitalize font-kalpurush relative">
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-6">
+      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-6 relative">
+        <button
+          onClick={() => setShowIdCard(true)}
+          className="cursor-pointer transition-all duration-300 absolute top-0 right-0 px-6 py-1 border-2 rounded-full font-bold text-[#144F46] border-[#144F46] m-6 hover:bg-[#144F46] hover:text-white "
+        >
+          Id Card
+        </button>
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 border-b pb-6">
           {/* Profile Image */}
@@ -280,6 +288,11 @@ const StudentProfileManagement = () => {
             receivedBy={user?._id}
             id={studentId && studentId}
           />
+        </div>
+      )}
+      {showIdCard && (
+        <div className="absolute top-0 left-0 right-0">
+          <IdCard student={student} />
         </div>
       )}
     </div>

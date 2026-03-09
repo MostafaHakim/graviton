@@ -77,6 +77,7 @@ import FlashCategory from "./pages/student/FlashCategory";
 import StudentFlashLevel from "./pages/student/StudentFlashLevel";
 import StudentDeck from "./pages/student/StudentDeck";
 import FlashCard from "./pages/student/FlashCard";
+import IdCard from "./components/IdCard";
 
 // =======================Admin Student=======================
 
@@ -89,7 +90,7 @@ const AppRouter = () => {
           <Route path="club" element={<Club />} />
           <Route path="admission" element={<AdmissionForm />} />
           <Route path="courses" element={<Courses />} />
-          <Route path="idcard" element={<StudentIDCard />} />
+          <Route path="idcard" element={<IdCard />} />
           <Route path="view/:admissionId" element={<AdmissionPrint />} />
           <Route path="feedback" element={<FeedBack />} />
           <Route path="studyabroad" element={<FlyToAbroad />} />
