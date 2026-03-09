@@ -59,17 +59,17 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: <Phone className="w-5 h-5" />,
-      text: settings.mobile,
+      text: settings?.mobile,
       subtext: "রবি-শুক্র, সকাল ৯টা - রাত ৯টা",
     },
     {
       icon: <Mail className="w-5 h-5" />,
-      text: settings.email,
+      text: settings?.email,
       subtext: "২৪ ঘন্টার মধ্যে উত্তর",
     },
     {
       icon: <MapPin className="w-5 h-5" />,
-      text: settings.address,
+      text: settings?.address,
       subtext: "গুগল ম্যাপে দেখুন",
     },
     {
