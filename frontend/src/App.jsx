@@ -78,6 +78,7 @@ import StudentFlashLevel from "./pages/student/StudentFlashLevel";
 import StudentDeck from "./pages/student/StudentDeck";
 import FlashCard from "./pages/student/FlashCard";
 import IdCard from "./components/IdCard";
+import SettingsPage from "./pages/SettingsPage";
 
 // =======================Admin Student=======================
 
@@ -220,6 +221,7 @@ const AppRouter = () => {
           <Route index element={<ManagementDashboard />} />
           {/* ========================Student Management By Admin====================== */}
           <Route path="profile" element={<AdminProfile />} />
+          <Route path="settings" element={<SettingsPage />} />
 
           <Route path="student" element={<StudentManagement />} />
           <Route path="student/:classId" element={<StudentClassWise />} />

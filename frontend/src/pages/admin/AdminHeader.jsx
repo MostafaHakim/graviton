@@ -54,7 +54,7 @@
 
 import { LogOut } from "lucide-react";
 import Logo from "../../assets/logo.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const AdminHeader = () => {
@@ -65,7 +65,7 @@ const AdminHeader = () => {
     <header className="bg-white border-b border-gray-200 px-6 py-2 hidden lg:block">
       <div className="flex justify-between items-center">
         {/* Left side - Logo and Title */}
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <img
             className="w-10 h-10 rounded-lg object-cover"
             src={Logo}
@@ -79,7 +79,7 @@ const AdminHeader = () => {
               Empowering Minds Through Modern Education
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Right side - User Profile */}
         <div className="flex items-center">

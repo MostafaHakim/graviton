@@ -137,15 +137,14 @@ export default function PremiumMemberForm() {
         {/* Payment Method */}
         <select
           name="method"
-          onChange={handleChange}
           required
+          onChange={handleChange}
           className="border rounded-xl p-3 focus:ring-2 focus:ring-yellow-400 outline-none"
         >
           <option value="">Select Payment Method</option>
           <option value="bkash">bKash</option>
           <option value="nagad">Nagad</option>
-          <option value="stripe">Stripe</option>
-          <option value="paypal">PayPal</option>
+          <option value="cash">Cash</option>
         </select>
 
         {/* Transaction ID */}
@@ -154,14 +153,13 @@ export default function PremiumMemberForm() {
           name="transactionId"
           placeholder="Transaction ID"
           onChange={handleChange}
-          required
           className="border rounded-xl p-3 focus:ring-2 focus:ring-yellow-400 outline-none"
         />
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="md:col-span-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition"
+          className="md:col-span-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
         >
           Create Premium Member
         </button>

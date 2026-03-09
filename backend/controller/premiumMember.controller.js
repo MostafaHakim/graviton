@@ -3,8 +3,9 @@ const PremiumMember = require("../model/premiumMember.model");
 // ✅ 1️⃣ Create Premium Member
 const createPremiumMember = async (req, res) => {
   try {
+    console.log(req.body);
     const member = await PremiumMember.create(req.body);
-
+    console.log(member);
     res.status(201).json({
       success: true,
       message: "Premium member created successfully",

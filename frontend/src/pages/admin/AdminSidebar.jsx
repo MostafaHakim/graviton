@@ -392,6 +392,7 @@ import {
   Trophy,
   BookCopy,
   ShieldCheck,
+  ShipWheel,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -519,6 +520,20 @@ const AdminSidebar = () => {
         >
           <UserCircle size={18} />
           <span className="text-sm">প্রোফাইল</span>
+        </NavLink>
+        {/* Settings Link */}
+        <NavLink
+          to="/admin/settings"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg mb-2 transition-colors ${
+              isActive
+                ? "bg-gray-900 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          <ShipWheel size={18} />
+          <span className="text-sm">সেটিংস</span>
         </NavLink>
 
         {/* Logout Button */}

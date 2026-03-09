@@ -39,12 +39,14 @@ const subscriptionSchema = new mongoose.Schema({
 const paymentSchema = new mongoose.Schema({
   method: {
     type: String,
-    enum: ["bkash", "nagad", "stripe", "paypal", "cash"],
+    enum: ["bkash", "nagad", "cash"],
     required: true,
   },
   transactionId: {
     type: String,
-    required: true,
+    required: function () {
+      return this.method !== "cash";
+    },
   },
   paidAt: {
     type: Date,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Phone,
   Mail,
@@ -18,9 +18,16 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getSetting } from "../store/features/auth/settingsSlice";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { settings } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSetting());
+  }, [dispatch]);
 
   const quickLinks = [
     { path: "/", label: "হোম", icon: "🏠" },
@@ -52,17 +59,17 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: <Phone className="w-5 h-5" />,
-      text: "০১৮৫৫-১৬৬৩৩৯",
+      text: settings.mobile,
       subtext: "রবি-শুক্র, সকাল ৯টা - রাত ৯টা",
     },
     {
       icon: <Mail className="w-5 h-5" />,
-      text: "info@gravitonacademy.com",
+      text: settings.email,
       subtext: "২৪ ঘন্টার মধ্যে উত্তর",
     },
     {
       icon: <MapPin className="w-5 h-5" />,
-      text: "গ্র্যাভিটন একাডেমি, পান্থপথ, ঢাকা",
+      text: settings.address,
       subtext: "গুগল ম্যাপে দেখুন",
     },
     {
@@ -73,9 +80,21 @@ const Footer = () => {
   ];
 
   const socialMedia = [
-    { icon: <Facebook className="w-5 h-5" />, url: "#", label: "Facebook" },
-    { icon: <Youtube className="w-5 h-5" />, url: "#", label: "YouTube" },
-    { icon: <Instagram className="w-5 h-5" />, url: "#", label: "Instagram" },
+    {
+      icon: <Facebook className="w-5 h-5" />,
+      url: settings?.facebook,
+      label: "Facebook",
+    },
+    {
+      icon: <Youtube className="w-5 h-5" />,
+      url: settings?.youtube,
+      label: "YouTube",
+    },
+    {
+      icon: <Instagram className="w-5 h-5" />,
+      url: settings?.instagram,
+      label: "Instagram",
+    },
     {
       icon: <MessageCircle className="w-5 h-5" />,
       url: "#",
