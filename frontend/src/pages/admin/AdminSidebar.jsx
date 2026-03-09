@@ -393,6 +393,7 @@ import {
   BookCopy,
   ShieldCheck,
   ShipWheel,
+  Megaphone,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -455,6 +456,12 @@ const AdminSidebar = () => {
       label: "শব্দ ভান্ডার",
       icon: BookCopy,
       path: "/admin/flash",
+    },
+    {
+      id: "promo",
+      label: "প্রোমো কোড",
+      icon: Megaphone,
+      path: "/admin/promo",
     },
   ];
 

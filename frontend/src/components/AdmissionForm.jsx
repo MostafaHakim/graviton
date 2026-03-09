@@ -19,23 +19,22 @@ import uploadPhotoToCloudinary from "../utils/cloudinery";
 import { getClasses } from "../store/features/auth/classesSlice";
 import { useNavigate } from "react-router-dom";
 import { getCourses } from "../store/features/auth/courseSlice";
+import { validatePromo } from "../store/features/auth/promoSlice";
 
 const AdmissionForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { classes } = useSelector((state) => state.classes);
   const { courses } = useSelector((state) => state.courses);
+  const { promos } = useSelector((state) => state.promos);
+
   useEffect(() => {
     dispatch(getClasses());
     dispatch(getCourses());
   }, [dispatch]);
-  console.log(courses);
-  // হার্ডকোডেড প্রমো কোড লিস্ট (কোড → ছাড়ের পরিমাণ টাকায়)
-  const PROMO_CODES = {
-    SAVE50: 50,
-    WELCOME100: 100,
-    STUDENT20: 20,
-    GRAVITON50: 50,
+
+  const handleVerifyPromo = async () => {
+    await dispatch(validatePromo());
   };
 
   const [loading, setLoading] = useState({
@@ -206,7 +205,7 @@ const AdmissionForm = () => {
   };
 
   // প্রমো কোড অ্যাপ্লাই করার ফাংশন
-  const applyPromoCode = () => {
+  const applyPromoCode = async () => {
     if (!promoCodeInput.trim()) {
       setAppliedPromo({
         code: "",
@@ -217,20 +216,30 @@ const AdmissionForm = () => {
       return;
     }
 
-    const upperCode = promoCodeInput.trim().toUpperCase();
-    if (PROMO_CODES.hasOwnProperty(upperCode)) {
-      setAppliedPromo({
-        code: upperCode,
-        discount: PROMO_CODES[upperCode],
-        success: true,
-        error: "",
-      });
-    } else {
+    try {
+      const res = await dispatch(validatePromo(promoCodeInput));
+
+      if (res.meta.requestStatus === "fulfilled") {
+        setAppliedPromo({
+          code: res.payload.code,
+          discount: res.payload.discount,
+          success: true,
+          error: "",
+        });
+      } else {
+        setAppliedPromo({
+          code: "",
+          discount: 0,
+          success: false,
+          error: "প্রমো কোডটি সঠিক নয়",
+        });
+      }
+    } catch (error) {
       setAppliedPromo({
         code: "",
         discount: 0,
         success: false,
-        error: "প্রমো কোডটি সঠিক নয়",
+        error: "প্রমো কোড যাচাই করা যায়নি",
       });
     }
   };

@@ -26,6 +26,7 @@ const memberRouter = require("./router/premiumMember.route");
 const courseRouter = require("./router/course.route");
 const flashRouter = require("./router/flash.route");
 const settingRouter = require("./router/setting.route");
+const promoRouter = require("./router/promocode.route");
 // ===================MiddleWere=====================
 
 app.use(
@@ -59,6 +60,7 @@ app.use("/api/member", memberRouter);
 app.use("/api/courses", courseRouter);
 app.use("/api/flash", flashRouter);
 app.use("/api/settings", settingRouter);
+app.use("/api/promo", promoRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

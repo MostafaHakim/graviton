@@ -79,6 +79,7 @@ import StudentDeck from "./pages/student/StudentDeck";
 import FlashCard from "./pages/student/FlashCard";
 import IdCard from "./components/IdCard";
 import SettingsPage from "./pages/SettingsPage";
+import PromocodeManagement from "./pages/admin/PromocodeManagement";
 
 // =======================Admin Student=======================
 
@@ -230,6 +231,8 @@ const AppRouter = () => {
             element={<StudentProfileManagement />}
           />
 
+          {/* =============================Promo Code Management====================================== */}
+          <Route path="promo" element={<PromocodeManagement />} />
           {/* =============================Flash Management====================================== */}
           <Route path="flash" element={<FlashManagement />} />
           <Route path="flash/:id" element={<LevelManagement />} />

@@ -12,6 +12,7 @@ import memberReducer from "./features/auth//memberSlice";
 import courseReducer from "./features/auth/courseSlice";
 import flashReducer from "./features/auth/flashcardSlice";
 import settingsReducer from "./features/auth/settingsSlice";
+import promoReducer from "./features/auth/promoSlice";
 
 export const store = configureStore({
   reducer: {
@@ -28,5 +29,6 @@ export const store = configureStore({
     courses: courseReducer,
     flashs: flashReducer,
     settings: settingsReducer,
+    promos: promoReducer,
   },
 });

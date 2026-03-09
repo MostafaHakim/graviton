@@ -87,7 +87,7 @@ const AdmissionPrint = () => {
               <h1 className="text-2xl font-bold text-[#134C45]">
                 GRAVITON ACADEMY
               </h1>
-              <p className="text-sm">Excellence in Education</p>
+              <p className="text-md">এসো বিজ্ঞানের আড্ডায় মাতি</p>
             </div>
           </div>
 
