@@ -17,7 +17,15 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-
+    // Photo
+    photo: {
+      type: String,
+      required: true,
+    },
+    public_id: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -41,6 +49,11 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "block", "pending"],
       default: "pending",
     },
+    designation: String,
+    experience: String,
+    qualification: String,
+    specialization: [String],
+    achievements: String,
   },
   { timestamps: true },
 );

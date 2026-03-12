@@ -61,7 +61,8 @@ const StudentClassWise = () => {
     const res = await dispatch(deleteStudent(id));
 
     if (res.meta.requestStatus === "fulfilled") {
-      await dispatch(getClassById(classId));
+      console.log("fulfilled");
+      await dispatch(getStudentsByClassId(selectClass.name.toLowerCase()));
 
       setShowDeleteModal(false);
       setSelectedStudentId(null);

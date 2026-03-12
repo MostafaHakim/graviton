@@ -142,7 +142,7 @@ const HomeContent = () => {
               <div className="flex flex-col items-center justify-center space-y-8">
                 {/* Main Heading */}
                 <motion.div variants={itemVariants} className="space-y-4">
-                  <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-kalpurush font-bold leading-tight">
+                  <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-kalpurush font-bold leading-tight text-center">
                     গ্র্যাভিটন একাডেমি
                     <motion.span
                       initial={{ x: -50, opacity: 0 }}
@@ -150,7 +150,7 @@ const HomeContent = () => {
                       transition={{ delay: 0.5 }}
                       className="block text-[#3BD480]"
                     >
-                      শিক্ষার নতুন দিগন্ত
+                      এসো বিজ্ঞানের আড্ডায় মাতি
                     </motion.span>
                   </h1>
                 </motion.div>

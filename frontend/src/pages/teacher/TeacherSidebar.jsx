@@ -156,7 +156,11 @@ const TeacherSidebar = () => {
             className="relative"
           >
             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#6C5DD3] to-[#8B7AE8] flex items-center justify-center text-white text-2xl font-bold shadow-lg cursor-pointer capitalize">
-              {user?.username?.charAt(0) || "S"}
+              <img
+                className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#6C5DD3] to-[#8B7AE8] flex items-center justify-center  shadow-lg cursor-pointer "
+                src={user.photo}
+                alt=""
+              />
             </div>
             <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm">
               <CheckCircle className="w-4 h-4 text-white" />
@@ -324,7 +328,7 @@ const TeacherSidebar = () => {
             <Shield className="w-4 h-4 text-green-500" />
             <p className="text-xs text-gray-600">সুরক্ষিত সংযোগ</p>
           </div>
-          <p className="text-xs text-gray-600">© ২০২৪ গ্র্যাভিটন একাডেমি</p>
+          <p className="text-xs text-gray-600">© ২০২৬ গ্র্যাভিটন একাডেমি</p>
         </motion.div>
       </div>
     </motion.div>

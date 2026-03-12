@@ -1,4 +1,5 @@
 const Student = require("../model/student.model");
+const cloudinary = require("../config/cloudinary");
 
 const getAllStudents = async (req, res) => {
   try {
@@ -123,14 +124,58 @@ const updateStudentStatus = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { currentPassword, newPassword } = req.body;
+
+    const student = await Student.findById(id);
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student Not Found",
+      });
+    }
+
+    // check current password
+    const isMatch = await student.comparePassword(currentPassword);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Current password is incorrect",
+      });
+    }
+
+    // set new password
+    student.password = newPassword;
+
+    await student.save();
+
+    res.status(200).json({
+      message: "Password Updated Successfully",
+      data: student,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 const deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const student = await Student.findByIdAndDelete(id);
     if (!student) {
       res.status(404).json({
         message: "Students Not Found",
       });
+    }
+
+    // Delete image from Cloudinary
+    if (student.public_id) {
+      await cloudinary.uploader.destroy(student.public_id);
     }
 
     res.status(200).json({
@@ -149,4 +194,5 @@ module.exports = {
   afterPaymentUpdate,
   updateStudentStatus,
   deleteStudent,
+  updatePassword,
 };

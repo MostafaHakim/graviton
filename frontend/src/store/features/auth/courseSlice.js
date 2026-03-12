@@ -29,6 +29,19 @@ export const getCourses = createAsyncThunk(
     }
   },
 );
+// GET  COURSE BY ID
+export const getCourseById = createAsyncThunk(
+  "course/getCoursesById",
+  async (id, thunkAPI) => {
+    try {
+      console.log(id);
+      const res = await axios.get(`${API_URL}/${id}`);
+      return res.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 
 // DELETE COURSE
 export const deleteCourse = createAsyncThunk(
@@ -47,6 +60,7 @@ const courseSlice = createSlice({
   name: "course",
   initialState: {
     courses: [],
+    course: null,
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -73,6 +87,19 @@ const courseSlice = createSlice({
       .addCase(getCourses.fulfilled, (state, action) => {
         state.isLoading = false;
         state.courses = action.payload;
+      })
+      // GET BY ID
+      .addCase(getCourseById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCourseById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.course = action.payload;
+      })
+      .addCase(getCourseById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.course = null;
+        state.isError = action.payload;
       })
 
       // DELETE

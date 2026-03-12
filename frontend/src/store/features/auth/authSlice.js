@@ -181,6 +181,34 @@ export const logoutUser = createAsyncThunk(
   },
 );
 
+// ============Update Password=======================
+export const UpdateUserPassword = createAsyncThunk(
+  "user/updateUserPassword",
+  async (formData, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await fetch(`${baseUrl}/api/user/password`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token || ""}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "User fetch failed");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -260,6 +288,18 @@ const authSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(UpdateUserStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // UPDATE USER PASSWORD
+      .addCase(UpdateUserPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(UpdateUserPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(UpdateUserPassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

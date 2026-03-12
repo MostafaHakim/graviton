@@ -49,7 +49,7 @@ const createAdmission = async (req, res) => {
       schoolCollege,
       mobileNumber,
       courses,
-      paymentMethod: !membershipCard ? paymentMethod : "Membership Card",
+      paymentMethod: !membershipCard ? paymentMethod : "MembershipCard",
       transactionId: !membershipCard ? transactionId : "Not Required",
       totalFee: !membershipCard ? totalFee : 0,
       discount: !membershipCard ? totalDiscount : 0,

@@ -70,7 +70,7 @@ const studentSchema = new mongoose.Schema(
     // Payment
     paymentMethod: {
       type: String,
-      enum: ["cash", "bkash", "nagad"],
+      enum: ["cash", "bkash", "nagad", "MembershipCard"],
       required: true,
     },
     transactionId: {

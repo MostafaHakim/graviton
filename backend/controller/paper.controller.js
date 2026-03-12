@@ -81,7 +81,13 @@ const getPaperById = async (req, res) => {
   try {
     const paper = await Paper.findById(req.params.id)
       .populate("questions")
-      .populate("test");
+      .populate("test")
+      .populate({
+        path: "chapter",
+        populate: {
+          path: "subject",
+        },
+      });
 
     if (!paper) {
       return res.status(404).json({ message: "Paper not found" });

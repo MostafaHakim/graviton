@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Teachers from "./Teachers";
 import AdminMobileNav from "./admin/AdminMobileNav";
 import StudentMobileNav from "./student/StudentMobileNav";
+import PartnerShip from "./PartnerShip";
 const Home = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const { pathname } = useLocation();
@@ -27,6 +28,7 @@ const Home = () => {
           {/* Background Grid Pattern */}
 
           <HomeContent />
+          <PartnerShip />
           <Teachers />
         </div>
       )}

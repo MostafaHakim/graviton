@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Users,
   Award,
@@ -19,160 +19,63 @@ import {
   ChevronRight,
   Mail,
   Phone,
+  Briefcase,
+  BookMarked,
+  Medal,
 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUser } from "../store/features/auth/authSlice";
 
 const TeachersPage = () => {
-  const teachers = [
-    {
-      id: 1,
-      name: "প্রফেসর ড. আহসান হাবীব",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "গণিত বিভাগ প্রধান",
-      experience: "১৫+ বছর",
-      qualification: "পিএইচডি (গণিত), ঢাকা বিশ্ববিদ্যালয়",
-      specialization: ["গণিত", "স্ট্যাটিস্টিকস", "এসএটি ম্যাথ"],
-      achievements: "জাতীয় শিক্ষা পুরস্কার ২০২২",
-      rating: 4.9,
-      students: 1200,
-      imageColor: "bg-gradient-to-br from-blue-500 to-cyan-500",
-      textColor: "text-blue-600",
-      icon: "🧮",
-    },
-    {
-      id: 2,
-      name: "ড. ফাতেমা জাহান",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "ইংরেজি বিভাগ প্রধান",
-      experience: "১২+ বছর",
-      qualification: "পিএইচডি (ইংরেজি সাহিত্য), ঢাকা বিশ্ববিদ্যালয়",
-      specialization: ["আইইএলটিএস", "স্পোকেন ইংলিশ", "গ্রামার"],
-      achievements: "সেরা আইইএলটিএস ট্রেইনার ২০২৩",
-      rating: 4.8,
-      students: 1500,
-      imageColor: "bg-gradient-to-br from-purple-500 to-pink-500",
-      textColor: "text-purple-600",
-      icon: "🇬🇧",
-    },
-    {
-      id: 3,
-      name: "মোঃ রফিকুল ইসলাম",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "বিজ্ঞান বিভাগ প্রধান",
-      experience: "১০+ বছর",
-      qualification: "এমএসসি (পদার্থ বিজ্ঞান), বুয়েট",
-      specialization: ["পদার্থ বিজ্ঞান", "রসায়ন", "জীববিজ্ঞান"],
-      achievements: "বিজ্ঞান মেলা ২০২৩ চ্যাম্পিয়ন",
-      rating: 4.7,
-      students: 900,
-      imageColor: "bg-gradient-to-br from-emerald-500 to-green-500",
-      textColor: "text-emerald-600",
-      icon: "🔬",
-    },
-    {
-      id: 4,
-      name: "সামিয়া ইসলাম",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "কম্পিউটার বিভাগ প্রধান",
-      experience: "৮+ বছর",
-      qualification: "এমএসসি (কম্পিউটার সায়েন্স), নর্থ সাউথ ইউনিভার্সিটি",
-      specialization: ["প্রোগ্রামিং", "গ্রাফিক ডিজাইন", "ডিজিটাল মার্কেটিং"],
-      achievements: "সেরা টেক এডুকেটর ২০২৪",
-      rating: 4.9,
-      students: 800,
-      imageColor: "bg-gradient-to-br from-amber-500 to-orange-500",
-      textColor: "text-amber-600",
-      icon: "💻",
-    },
-    {
-      id: 5,
-      name: "আনিসুর রহমান",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "আরবি বিভাগ প্রধান",
-      experience: "১১+ বছর",
-      qualification: "মাস্টার্স (আরবি), ইসলামী বিশ্ববিদ্যালয়",
-      specialization: ["আরবি ব্যাকরণ", "কুরআন শিক্ষা", "দাখিল-আলিম"],
-      achievements: "আন্তর্জাতিক আরবি প্রতিযোগিতা ২০২২",
-      rating: 4.6,
-      students: 600,
-      imageColor: "bg-gradient-to-br from-red-500 to-rose-500",
-      textColor: "text-red-600",
-      icon: "🕌",
-    },
-    {
-      id: 6,
-      name: "তামান্না আক্তার",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "স্পোকেন ইংলিশ বিশেষজ্ঞ",
-      experience: "৭+ বছর",
-      qualification: "এমএ (ইংলিশ ল্যাঙ্গুয়েজ টিচিং), ব্র্যাক বিশ্ববিদ্যালয়",
-      specialization: ["কমিউনিকেশন স্কিল", "প্রনানসিয়েশন", "পাবলিক স্পিকিং"],
-      achievements: "ইংলিশ ফেস্টিভ্যাল চ্যাম্পিয়ন",
-      rating: 4.8,
-      students: 1100,
-      imageColor: "bg-gradient-to-br from-indigo-500 to-violet-500",
-      textColor: "text-indigo-600",
-      icon: "🗣️",
-    },
-    {
-      id: 7,
-      name: "সাকিব আহমেদ",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "এসএটি বিশেষজ্ঞ",
-      experience: "৯+ বছর",
-      qualification: "মাস্টার্স (ইংরেজি), ঢাকা বিশ্ববিদ্যালয়",
-      specialization: ["এসএটি রিডিং", "এসএটি রাইটিং", "এসএটি ম্যাথ"],
-      achievements: "সেরা এসএটি কোচ ২০২৩",
-      rating: 4.9,
-      students: 700,
-      imageColor: "bg-gradient-to-br from-teal-500 to-blue-500",
-      textColor: "text-teal-600",
-      icon: "🎓",
-    },
-    {
-      id: 8,
-      name: "নুসরাত জাহান",
-      photoUrl: "https://picsum.photos/200/300",
-      designation: "বাংলা বিভাগ প্রধান",
-      experience: "১৩+ বছর",
-      qualification: "এমএ (বাংলা সাহিত্য), ঢাকা বিশ্ববিদ্যালয়",
-      specialization: ["বাংলা সাহিত্য", "ব্যাকরণ", "রচনা"],
-      achievements: "জাতীয় বাংলা দিবস পুরস্কার",
-      rating: 4.7,
-      students: 1000,
-      imageColor: "bg-gradient-to-br from-pink-500 to-rose-500",
-      textColor: "text-pink-600",
-      icon: "🇧🇩",
-    },
-  ];
+  const { users } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, [dispatch]);
+
+  const teachers = users.filter((user) => user.role === "teacher");
+
+  // Stats calculation from actual data
+  const totalTeachers = teachers.length;
+  const avgRating = 4.9; // You can calculate this from actual data if available
+  const totalExperience = teachers.reduce((acc, teacher) => {
+    const exp = parseInt(teacher.experience) || 0;
+    return acc + exp;
+  }, 0);
+  const totalStudents = teachers.reduce(
+    (acc, teacher) => acc + (teacher.students || 0),
+    0,
+  );
 
   const stats = [
     {
       label: "সর্বমোট শিক্ষক",
-      value: "৫০+",
+      value: totalTeachers + "+",
       icon: Users,
-      color: "text-blue-600",
-      bg: "bg-blue-50",
+      color: "text-[#134C45]",
+      bg: "bg-[#134C45]/10",
     },
     {
       label: "সর্বোচ্চ রেটিং",
       value: "৪.৯/৫.০",
       icon: Star,
-      color: "text-amber-600",
-      bg: "bg-amber-50",
+      color: "text-[#3BD480]",
+      bg: "bg-[#3BD480]/10",
     },
     {
-      label: "বছরের অভিজ্ঞতা",
-      value: "১০+",
+      label: "মোট অভিজ্ঞতা",
+      value: totalExperience + "+ বছর",
       icon: Clock,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
+      color: "text-[#134C45]",
+      bg: "bg-[#134C45]/10",
     },
     {
       label: "সফল শিক্ষার্থী",
       value: "১০,০০০+",
       icon: GraduationCap,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
+      color: "text-[#3BD480]",
+      bg: "bg-[#3BD480]/10",
     },
   ];
 
@@ -182,44 +85,47 @@ const TeachersPage = () => {
       description:
         "ইন্টার‍্যাকটিভ ক্লাসের মাধ্যমে শিক্ষার্থীদের সক্রিয় অংশগ্রহণ",
       icon: Zap,
-      color: "text-blue-600",
-      bg: "bg-blue-50",
+      color: "text-[#134C45]",
+      bg: "bg-[#134C45]/10",
     },
     {
       title: "ব্যক্তিগত মনোযোগ",
       description: "প্রতিটি শিক্ষার্থীর জন্য আলাদা মনোযোগ ও গাইডেন্স",
       icon: Heart,
-      color: "text-red-600",
-      bg: "bg-red-50",
+      color: "text-[#3BD480]",
+      bg: "bg-[#3BD480]/10",
     },
     {
       title: "বাস্তব উদাহরণ",
       description: "বাস্তব জীবনের উদাহরণ দিয়ে জটিল বিষয় সহজে বোঝানো",
       icon: Target,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
+      color: "text-[#134C45]",
+      bg: "bg-[#134C45]/10",
     },
     {
       title: "মডার্ন টেকনোলজি",
       description: "আধুনিক প্রযুক্তি ব্যবহার করে আকর্ষণীয় ক্লাস",
       icon: Lightbulb,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
+      color: "text-[#3BD480]",
+      bg: "bg-[#3BD480]/10",
     },
   ];
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl text-[#17202F] font-kalpurush font-bold mb-4">
-            আমাদের শিক্ষকমণ্ডলী
-            <span className="block text-[#3BD480]">
-              যাদের হাত ধরে গড়ে উঠছে ভবিষ্যত
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-[#134C45]/10 px-4 py-2 rounded-full mb-4">
+            <Medal className="w-5 h-5 text-[#134C45]" />
+            <span className="text-[#134C45] font-semibold font-kalpurush">
+              এক্সপার্ট টিচার্স টিম
             </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#17202F] mb-4 font-kalpurush">
+            আমাদের শিক্ষকমণ্ডলী
           </h1>
-
+          <div className="w-24 h-1 bg-gradient-to-r from-[#134C45] to-[#3BD480] mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto font-kalpurush">
             দেশের খ্যাতনামা বিশ্ববিদ্যালয় থেকে উচ্চতর ডিগ্রিধারী, অভিজ্ঞ ও
             প্রশিক্ষিত শিক্ষকদের নিয়ে গঠিত আমাদের দক্ষ টিম। প্রতিটি শিক্ষক
@@ -227,124 +133,210 @@ const TeachersPage = () => {
           </p>
         </div>
 
-        {/* Teachers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {teachers.map((teacher) => (
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {stats.map((stat, index) => (
             <div
-              key={teacher.id}
-              className="group relative bg-white rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden"
+              key={index}
+              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
-              {/* Background Gradient */}
-              <div
-                className={`absolute top-0 left-0 w-full h-1 ${teacher.imageColor}`}
-              ></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#134C45] to-[#3BD480]"></div>
+              <div className="p-6 text-center">
+                <div
+                  className={`inline-flex p-3 ${stat.bg} rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+                <h3 className="text-2xl font-bold text-[#134C45] mb-1">
+                  {stat.value}
+                </h3>
+                <p className="text-gray-600 font-kalpurush">{stat.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
 
-              {/* Teacher Photo Section */}
-              <div className="relative p-6">
-                {/* Photo Container */}
-                <div className="relative mx-auto mb-6">
-                  <div
-                    className={`w-32 h-32 mx-auto rounded-full ${teacher.imageColor} flex items-center justify-center overflow-hidden border-4 border-white shadow-lg`}
-                  >
-                    {/* Placeholder for teacher photo - you can replace with actual image */}
-                    <div className="w-full h-full flex items-center justify-center text-5xl bg-white/20">
-                      <img src={teacher.photoUrl} alt="" />
-                    </div>
+        {/* Teachers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {teachers.map((teacher, index) => (
+            <div
+              key={teacher._id || index}
+              className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden border border-gray-100"
+            >
+              {/* Top Gradient Bar */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#134C45] to-[#3BD480]"></div>
+
+              {/* Profile Image Section */}
+              <div className="relative pt-8 px-6 pb-4">
+                {/* Decorative Circles */}
+                <div className="absolute top-0 right-0 w-20 h-20 bg-[#134C45]/5 rounded-full -mr-8 -mt-8"></div>
+                <div className="absolute bottom-0 left-0 w-16 h-16 bg-[#3BD480]/5 rounded-full -ml-8 -mb-8"></div>
+
+                {/* Profile Image */}
+                <div className="relative mx-auto mb-4">
+                  <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl">
+                    {teacher.photo ? (
+                      <img
+                        src={teacher.photo}
+                        alt={teacher.username}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#134C45] to-[#3BD480] flex items-center justify-center">
+                        <span className="text-4xl text-white font-bold">
+                          {teacher.username?.charAt(0) || "T"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Status Badge */}
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <span
+                      className={`px-3 py-1 text-xs font-semibold rounded-full font-kalpurush ${
+                        teacher.status === "active"
+                          ? "bg-green-100 text-green-700"
+                          : teacher.status === "block"
+                            ? "bg-rose-100 text-rose-700"
+                            : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {teacher.status === "active"
+                        ? "সক্রিয়"
+                        : teacher.status === "block"
+                          ? "ব্লক"
+                          : "পেন্ডিং"}
+                    </span>
                   </div>
                 </div>
 
                 {/* Teacher Info */}
-                <div className="text-center">
-                  <h3 className="text-xl font-bold text-gray-900 font-kalpurush mb-1">
-                    {teacher.name}
+                <div className="text-center mt-4">
+                  <h3 className="text-xl font-bold text-[#134C45] mb-1 font-kalpurush">
+                    {teacher.username}
                   </h3>
-                  <div
-                    className={`inline-flex items-center gap-1 px-4 py-1 rounded-full ${teacher.textColor.replace("text", "bg")}/10 border ${teacher.textColor.replace("text", "border")}/20`}
-                  >
-                    <div
-                      className={`w-2 h-2 rounded-full ${teacher.textColor.replace("text", "bg")}`}
-                    ></div>
-                    <p
-                      className={`${teacher.textColor} text-sm font-medium font-kalpurush`}
-                    >
-                      {teacher.designation}
+
+                  <div className="inline-flex items-center gap-1 px-3 py-1 bg-[#3BD480]/10 rounded-full mb-2">
+                    <Briefcase className="w-3 h-3 text-[#3BD480]" />
+                    <p className="text-sm font-medium text-[#3BD480] font-kalpurush">
+                      {teacher.designation || "শিক্ষক"}
                     </p>
                   </div>
 
-                  {/* Short Description */}
-                  <p className="text-gray-600 text-sm mt-3 font-kalpurush">
-                    {teacher.description}
+                  {/* Teacher ID */}
+                  <p className="text-xs text-gray-500 font-mono mb-2">
+                    ID: {teacher.userId || teacher._id?.slice(-6)}
                   </p>
                 </div>
               </div>
 
-              {/* Stats & Details */}
-              <div className="px-6 pb-6">
-                {/* Rating & Experience */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                    <Clock className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-700 text-sm font-kalpurush">
-                      {teacher.experience}
-                    </span>
+              {/* Details Section */}
+              <div className="px-6 pb-6 space-y-3">
+                {/* Experience & Qualification */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-[#134C45]/5 rounded-lg p-2 text-center">
+                    <Clock className="w-4 h-4 text-[#134C45] mx-auto mb-1" />
+                    <p className="text-xs text-gray-600 font-kalpurush">
+                      অভিজ্ঞতা
+                    </p>
+                    <p className="text-sm font-bold text-[#134C45]">
+                      {teacher.experience || "N/A"}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-1 bg-amber-50 px-3 py-2 rounded-lg">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <span className="text-gray-900 font-bold font-kalpurush">
-                      {teacher.rating}
-                    </span>
-                    <span className="text-gray-500 text-sm">/৫.০</span>
-                  </div>
-                </div>
-
-                {/* Qualification */}
-                <div className="mb-4">
-                  <div className="flex items-start gap-2 bg-blue-50 p-3 rounded-lg">
-                    <GraduationCap className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-gray-700 text-sm font-kalpurush leading-relaxed">
-                      {teacher.qualification}
+                  <div className="bg-[#3BD480]/5 rounded-lg p-2 text-center">
+                    <GraduationCap className="w-4 h-4 text-[#3BD480] mx-auto mb-1" />
+                    <p className="text-xs text-gray-600 font-kalpurush">
+                      শিক্ষাগত যোগ্যতা
+                    </p>
+                    <p className="text-xs font-bold text-[#3BD480] truncate">
+                      {teacher.qualification || "N/A"}
                     </p>
                   </div>
                 </div>
 
                 {/* Specialization */}
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2 font-kalpurush">
-                    বিশেষায়িত ক্ষেত্র:
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {teacher.specialization.map((subject, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-kalpurush"
-                      >
-                        {subject}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                {teacher.specialization &&
+                  teacher.specialization.length > 0 && (
+                    <div>
+                      <p className="text-xs text-gray-500 mb-2 font-kalpurush">
+                        বিশেষায়িত ক্ষেত্র:
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {teacher.specialization.map((subject, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-kalpurush"
+                          >
+                            {subject}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                 {/* Achievements */}
                 {teacher.achievements && (
-                  <div className="mb-4">
-                    <div className="flex items-start gap-2 bg-amber-50 p-3 rounded-lg">
-                      <Trophy className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                      <p className="text-gray-700 text-sm font-kalpurush">
-                        {teacher.achievements}
-                      </p>
-                    </div>
+                  <div className="flex items-start gap-2 bg-amber-50 p-2 rounded-lg">
+                    <Trophy className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-gray-700 font-kalpurush">
+                      {teacher.achievements}
+                    </p>
                   </div>
                 )}
 
-                {/* Contact & Stats */}
+                {/* Contact Info */}
+                <div className="pt-2 border-t border-gray-100">
+                  <div className="flex flex-col items-start justify-between text-xs text-gray-500 space-y-1">
+                    <div className="flex items-start gap-1 bg-[#3BD480]/20 p-2 rounded w-full">
+                      <Mail className="w-3 h-3" />
+                      <span className="truncate ">{teacher.email}</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-[#fdcb6e]/20 p-2 rounded w-full">
+                      <Phone className="w-3 h-3" />
+                      <span>{teacher.phone || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Hover Effect Border */}
-              <div
-                className={`absolute inset-0 border-2 ${teacher.textColor.replace("text", "border")} rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`}
-              ></div>
+              {/* Hover Effect */}
+              <div className="absolute inset-0 border-2 border-[#134C45] rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
             </div>
           ))}
+        </div>
+
+        {/* Teaching Methodologies */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center text-[#134C45] mb-4 font-kalpurush">
+            আমাদের শিক্ষাদান পদ্ধতি
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#134C45] to-[#3BD480] mx-auto mb-8"></div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {teachingMethodologies.map((method, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              >
+                <div
+                  className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#134C45] to-[#3BD480]`}
+                ></div>
+                <div className="p-6">
+                  <div
+                    className={`inline-flex p-3 ${method.bg} rounded-xl mb-4`}
+                  >
+                    <method.icon className={`w-6 h-6 ${method.color}`} />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#134C45] mb-2 font-kalpurush">
+                    {method.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 font-kalpurush">
+                    {method.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

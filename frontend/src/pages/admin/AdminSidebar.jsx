@@ -394,6 +394,7 @@ import {
   ShieldCheck,
   ShipWheel,
   Megaphone,
+  Share2,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -462,6 +463,12 @@ const AdminSidebar = () => {
       label: "প্রোমো কোড",
       icon: Megaphone,
       path: "/admin/promo",
+    },
+    {
+      id: "shareholder",
+      label: "শেয়ার হোল্ডার",
+      icon: Share2,
+      path: "/admin/shareholder",
     },
   ];
 

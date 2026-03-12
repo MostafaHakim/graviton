@@ -1,19 +1,28 @@
 const User = require("../model/user.model");
 const BlackListToken = require("../model/blackListTokenModel");
-// ====================================================================================================
-// =======================================Create User=============================================
-// ====================================================================================================
+const cloudinary = require("../config/cloudinary");
+
 const createUser = async (req, res) => {
   try {
-    const { username, email, password, phone } = req.body;
+    const {
+      username,
+      email,
+      password,
+      phone,
+      photo,
+      public_id,
+      designation,
+      experience,
+      qualification,
+      specialization,
+      achievements,
+    } = req.body;
 
-    if (!username || !email || !password || !phone) {
+    if (!username || !email || !password || !phone || !photo) {
       return res.status(400).send("Missing required fields");
     }
 
-    const isExistingUser = await User.findOne({
-      email,
-    });
+    const isExistingUser = await User.findOne({ email });
 
     if (isExistingUser) {
       return res.status(409).send("User already exists");
@@ -29,9 +38,7 @@ const createUser = async (req, res) => {
       nextNumber = numberPart + 1;
     }
 
-    let paddedNumber;
-    paddedNumber = String(nextNumber).padStart(4, "0");
-
+    const paddedNumber = String(nextNumber).padStart(4, "0");
     const userId = "T" + paddedNumber;
 
     const newUser = new User({
@@ -40,6 +47,13 @@ const createUser = async (req, res) => {
       email,
       password,
       phone,
+      photo,
+      public_id,
+      designation,
+      experience,
+      qualification,
+      specialization,
+      achievements,
     });
 
     const user = await newUser.save();
@@ -140,6 +154,35 @@ const updateUserStatus = async (req, res) => {
   }
 };
 // ====================================================================================================
+// =======================================Update User Password=============================================
+// ====================================================================================================
+
+const updateUserPassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    const user = req.user;
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await user.comparePassword(currentPassword);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Current password incorrect" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+// ====================================================================================================
 // =======================================Logout============================================
 // ====================================================================================================
 
@@ -164,21 +207,33 @@ module.exports = { logoutUser };
 // ====================================================================================================
 // =======================================Delete============================================
 // ====================================================================================================
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+
+    const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    res.status(200).json(user);
+    // Delete image from Cloudinary
+    if (user.public_id) {
+      await cloudinary.uploader.destroy(user.public_id);
+    }
+
+    // Delete user from DB
+    await User.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: "User deleted successfully",
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };
-
 // ====================================================================================================
 // =======================================Exports============================================
 // ====================================================================================================
@@ -192,4 +247,5 @@ module.exports = {
   deleteUser,
   updateUserRole,
   updateUserStatus,
+  updateUserPassword,
 };

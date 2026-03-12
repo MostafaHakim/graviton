@@ -5,11 +5,13 @@ import { getPaperById } from "../../store/features/auth/paperSlice";
 import { submitExam } from "../../store/features/auth/attemptSlice";
 import { useReactToPrint } from "react-to-print";
 import { Printer } from "lucide-react";
+import { getSetting } from "../../store/features/auth/settingsSlice";
 const Exam = () => {
   const { paperId } = useParams();
   const dispatch = useDispatch();
   const { paper } = useSelector((state) => state.papers);
   const { user } = useSelector((state) => state.auth);
+  const { settings } = useSelector((state) => state.settings);
   const { result, loading } = useSelector((state) => state.attempt);
 
   const [answers, setAnswers] = useState({});
@@ -21,8 +23,9 @@ const Exam = () => {
 
   useEffect(() => {
     if (paperId) dispatch(getPaperById(paperId));
+    dispatch(getSetting());
   }, [paperId, dispatch]);
-
+  console.log(paper);
   useEffect(() => {
     if (!paper?.duration) return;
     setTimeLeft(paper.duration * 60);
@@ -210,9 +213,23 @@ const Exam = () => {
         {/* ==============================Print Content====================== */}
         {/* ==============================Print Content====================== */}
         <div
-          className="max-w-3xl hidden print:block mx-auto p-6 space-y-2 pb-20 bg-white text-black"
+          className="max-w-3xl hidden print:block   mx-auto p-6  pb-20 bg-white text-black font-kalpurush"
           ref={componentRef}
         >
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="text-center opacity-10 text-6xl font-bold rotate-[-30deg] select-none">
+              <p>{settings?.name}</p>
+              <p>{paper?.title}</p>
+            </div>
+          </div>
+          <h2 className="text-center text-2xl font-bold ">{settings?.name}</h2>
+          <h2 className="text-center text-xl font-bold">
+            {paper?.test?.title}
+          </h2>
+          <h2 className="text-center ">
+            বিষয়ঃ {paper?.chapter?.subject?.name}
+          </h2>
+          <h2 className="text-center"> {paper?.chapter?.title}</h2>
           <h2 className="text-center">{paper.title}</h2>
           <div className="flex flex-row items-center justify-between">
             <p>পুর্নমানঃ {paper.totalMarks}</p>

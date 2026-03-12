@@ -1,188 +1,3 @@
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   deleteUser,
-//   getAllUser,
-//   UpdateUserRole,
-//   UpdateUserStatus,
-// } from "../../store/features/auth/authSlice";
-// import { Link } from "react-router-dom";
-// import { Edit, Edit2, Trash2 } from "lucide-react";
-// import { useState } from "react";
-// import StatusModal from "../../components/StatusModal";
-
-// const TeacherManagement = () => {
-//   const { users, loading } = useSelector((state) => state.auth);
-
-//   const [selectedUserId, setSelectedUserId] = useState(null);
-
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     dispatch(getAllUser());
-//   }, [dispatch]);
-
-//   const getStatusColor = (status) => {
-//     switch (status) {
-//       case "active":
-//         return "bg-green-100 text-green-700";
-//       case "block":
-//         return "bg-red-100 text-red-700";
-//       case "pending":
-//         return "bg-yellow-100 text-yellow-700";
-//       default:
-//         return "bg-gray-100 text-gray-700";
-//     }
-//   };
-
-//   const getRoleColor = (role) => {
-//     return role === "admin"
-//       ? "bg-purple-100 text-purple-700"
-//       : "bg-blue-100 text-blue-700";
-//   };
-
-//   if (loading) {
-//     return <div className="text-center mt-10">Loading...</div>;
-//   }
-
-//   const handleRoleUpdate = async (id) => {
-//     await dispatch(UpdateUserRole(id));
-//     await dispatch(getAllUser());
-//   };
-
-//   const handleUpdate = async (status, id) => {
-//     await dispatch(UpdateUserStatus({ status, id }));
-//     setSelectedUserId(null);
-//     await dispatch(getAllUser());
-//   };
-
-//   const handelDelete = async (id) => {
-//     await dispatch(deleteUser(id));
-//     await dispatch(getAllUser());
-//   };
-
-//   return (
-//     <div className="p-6">
-//       <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
-//         <div className="p-4 border-b flex flex-row items-center justify-between">
-//           <h2 className="text-xl font-bold text-gray-700">User List</h2>
-//           <Link
-//             to="add"
-//             className="transition-all duration-500 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 "
-//           >
-//             Add User
-//           </Link>
-//         </div>
-
-//         <div className="overflow-x-auto">
-//           <table className="w-full text-sm text-left">
-//             <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
-//               <tr>
-//                 <th className="px-6 py-3">User ID</th>
-//                 <th className="px-6 py-3">Name</th>
-//                 <th className="px-6 py-3">Email</th>
-//                 <th className="px-6 py-3">Phone</th>
-//                 <th className="px-6 py-3">Role</th>
-//                 <th className="px-6 py-3">Status</th>
-//                 <th className="px-6 py-3">Created</th>
-//                 <th className="px-6 py-3">Delete</th>
-//               </tr>
-//             </thead>
-
-//             <tbody className="divide-y">
-//               {users &&
-//                 users.length > 0 &&
-//                 users.map((user) => (
-//                   <tr
-//                     key={user._id}
-//                     className="hover:bg-gray-50 transition z-10"
-//                   >
-//                     <td className="px-6 py-4 font-medium text-gray-800">
-//                       {user.userId}
-//                     </td>
-
-//                     <td className="px-6 py-4">{user.username}</td>
-
-//                     <td className="px-6 py-4">{user.email}</td>
-
-//                     <td className="px-6 py-4">{user.phone}</td>
-
-//                     <td className="px-6 py-4 ">
-//                       <div className="flex flex-row items-center space-x-2">
-//                         <span
-//                           className={`px-3 py-1 rounded-full text-xs font-semibold ${getRoleColor(
-//                             user.role,
-//                           )}`}
-//                         >
-//                           {user.role}
-//                         </span>
-//                         <button
-//                           onClick={() => {
-//                             handleRoleUpdate(user._id);
-//                           }}
-//                           className="cursor-pointer"
-//                         >
-//                           <Edit size={12} />
-//                         </button>
-//                       </div>
-//                     </td>
-
-//                     <td className="px-6 py-4 relative">
-//                       <div className="flex flex-row items-center space-x-2">
-//                         <span
-//                           className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-//                             user.status,
-//                           )}`}
-//                         >
-//                           {user.status}
-//                         </span>
-//                         <button
-//                           className="cursor-pointer"
-//                           onClick={() => {
-//                             setSelectedUserId(user._id);
-//                           }}
-//                         >
-//                           <Edit size={12} />
-//                         </button>
-//                       </div>
-//                       {selectedUserId === user._id && (
-//                         <div className="absolute top-0">
-//                           <StatusModal
-//                             onClose={() => setSelectedUserId(null)}
-//                             presentStatus={user.status}
-//                             handleUpdate={handleUpdate}
-//                             id={user._id}
-//                           />
-//                         </div>
-//                       )}
-//                     </td>
-
-//                     <td className="px-6 py-4 text-gray-500">
-//                       {new Date(user.createdAt).toLocaleDateString()}
-//                     </td>
-//                     <td className="px-6 py-4 text-gray-500">
-//                       <button
-//                         onClick={() => handelDelete(user._id)}
-//                         className="cursor-pointer"
-//                       >
-//                         <Trash2 className="text-red-500" size={16} />
-//                       </button>
-//                     </td>
-//                   </tr>
-//                 ))}
-//             </tbody>
-//           </table>
-//         </div>
-
-//         {users.length === 0 && (
-//           <div className="text-center py-6 text-gray-500">No users found</div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default TeacherManagement;
-
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -383,8 +198,8 @@ const TeacherManagement = () => {
         </div>
 
         {/* Users Table Card */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 ">
+          <div className="">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
@@ -431,7 +246,15 @@ const TeacherManagement = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
-                            {user.username?.charAt(0).toUpperCase()}
+                            <img
+                              className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold"
+                              src={
+                                user?.photo
+                                  ? user.photo
+                                  : "data:image/jpeg;base64,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"
+                              }
+                              alt="U"
+                            />
                           </div>
                           <span className="font-medium text-gray-800">
                             {user.username}
@@ -456,7 +279,7 @@ const TeacherManagement = () => {
                           </span>
                           <button
                             onClick={() => handleRoleUpdate(user._id)}
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            className="p-1 hover:bg-gray-100 rounded transition-colors cursor-pointer"
                             title="Toggle Role"
                           >
                             <Edit size={14} className="text-gray-500" />
@@ -485,7 +308,7 @@ const TeacherManagement = () => {
                             </span>
                           </span>
                           <button
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            className="p-1 hover:bg-gray-100 rounded transition-colors cursor-pointer"
                             onClick={() => setSelectedUserId(user._id)}
                           >
                             <Edit size={14} className="text-gray-500" />
@@ -520,7 +343,7 @@ const TeacherManagement = () => {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => handelDelete(user._id)}
-                          className="p-2 hover:bg-rose-50 rounded-lg transition-colors group"
+                          className="p-2 hover:bg-rose-50 rounded-lg transition-colors group cursor-pointer"
                           title="Delete User"
                         >
                           <Trash2

@@ -106,8 +106,8 @@ export const deleteStudent = createAsyncThunk(
       if (!res.ok) {
         return rejectWithValue(data.message || "student failed to delete");
       }
-
-      return data.data._id;
+      console.log(data);
+      return data.student._id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -133,6 +133,33 @@ export const createPayment = createAsyncThunk(
       }
 
       return data.student;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+export const updatePassword = createAsyncThunk(
+  "students/updatePassword",
+  async ({ formData, studentId }, { rejectWithValue }) => {
+    try {
+      console.log(formData, studentId);
+      const res = await fetch(`${baseUrl}/api/students/password/${studentId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(
+          data.message || "student failed to update password",
+        );
+      }
+
+      return data.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -236,6 +263,19 @@ const studentsSlice = createSlice({
         state.student = action.payload;
       })
       .addCase(createPayment.rejected, (state, action) => {
+        state.loading = false;
+        state.student = null;
+        state.error = action.payload;
+      })
+      //   Update password
+      .addCase(updatePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.student = action.payload;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
         state.loading = false;
         state.student = null;
         state.error = action.payload;

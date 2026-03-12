@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../store/features/auth/authSlice";
+import {
+  logoutUser,
+  UpdateUserPassword,
+} from "../../store/features/auth/authSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   User,
   Mail,
@@ -13,16 +17,27 @@ import {
   Calendar,
   Clock,
 } from "lucide-react";
+import { useState } from "react";
+import ChangePassword from "../../components/ChangePassword";
 
 const AdminProfile = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const handleLogout = async () => {
     const res = await dispatch(logoutUser());
     if (res.meta.requestStatus === "fulfilled") {
       navigate(`/login`);
+    }
+  };
+
+  const handelUpdatePassword = async (formData) => {
+    const res = await dispatch(UpdateUserPassword(formData));
+    if (res.meta.requestStatus === "fulfilled") {
+      setShowModal(false);
+      toast.success("🍿 Password Update Successfully");
     }
   };
 
@@ -52,9 +67,9 @@ const AdminProfile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8 pb-20">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative">
         {/* Profile Card */}
-        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm ">
           {/* Cover Photo */}
           <div className="h-32 bg-gradient-to-r from-gray-900 to-gray-700 relative">
             <div className="absolute -bottom-12 left-8">
@@ -66,6 +81,12 @@ const AdminProfile = () => {
                 </div>
               </div>
             </div>
+            <button
+              onClick={() => setShowModal(true)}
+              className=" absolute px-6 py-2 text-white top-0 right-0 cursor-pointer"
+            >
+              Update Password
+            </button>
           </div>
 
           {/* Profile Info */}
@@ -269,6 +290,14 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="absolute flex flex-col items-center justify-center top-0 left-0 right-0 bottom-0 bg-black/50">
+          <ChangePassword
+            handelUpdatePassword={handelUpdatePassword}
+            onClose={() => setShowModal(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };

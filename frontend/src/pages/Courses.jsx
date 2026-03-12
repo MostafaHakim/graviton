@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 const Courses = () => {
   const { courses } = useSelector((state) => state.courses);
   const dispatch = useDispatch();
-
+  console.log(courses);
   useEffect(() => {
     dispatch(getCourses());
   }, [dispatch]);
@@ -228,7 +228,7 @@ const Courses = () => {
                         whileTap={{ scale: 0.9 }}
                       >
                         <Link
-                          to={`/course/${course._id}`}
+                          to={`/courses/${course._id}`}
                           className="flex items-center space-x-2 px-4 py-2 bg-[#3BD480] text-[#17202F] rounded-lg font-semibold hover:bg-[#2da866] transition-all duration-300"
                         >
                           <span>বিস্তারিত</span>

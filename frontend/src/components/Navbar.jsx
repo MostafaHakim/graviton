@@ -10,6 +10,7 @@ const Navbar = () => {
     // { path: "/studyabroad", label: "বিদেশ পড়াশুনা" },
     { path: "/gallery", label: "গ্যালারি" },
     { path: "/membership", label: "মেম্বারশিপ" },
+    { path: "/partnership", label: "শেয়ার হোল্ডার" },
   ];
 
   const { user } = useSelector((state) => state.auth);

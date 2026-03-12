@@ -80,6 +80,9 @@ import FlashCard from "./pages/student/FlashCard";
 import IdCard from "./components/IdCard";
 import SettingsPage from "./pages/SettingsPage";
 import PromocodeManagement from "./pages/admin/PromocodeManagement";
+import Shareholder from "./pages/admin/Shareholder";
+import PartnerShip from "./pages/PartnerShip";
+import CourseDetails from "./components/CourseDetails";
 
 // =======================Admin Student=======================
 
@@ -92,11 +95,13 @@ const AppRouter = () => {
           <Route path="club" element={<Club />} />
           <Route path="admission" element={<AdmissionForm />} />
           <Route path="courses" element={<Courses />} />
+          <Route path="courses/:id" element={<CourseDetails />} />
           <Route path="idcard" element={<IdCard />} />
           <Route path="view/:admissionId" element={<AdmissionPrint />} />
           <Route path="feedback" element={<FeedBack />} />
           <Route path="studyabroad" element={<FlyToAbroad />} />
           <Route path="gallery" element={<Gallery />} />
+          <Route path="partnership" element={<PartnerShip />} />
           <Route path="membership" element={<Membership />} />
           <Route path="membership/create" element={<PremiumMemberForm />} />
         </Route>
@@ -311,7 +316,11 @@ const AppRouter = () => {
           {/* =============================Start====================================== */}
           <Route path="club" element={<ClubManagement />} />
           {/* ======================================================================= */}
-          {/* =============================Club Management====================================== */}
+          {/* =============================Share Management====================================== */}
+          {/* =============================Start====================================== */}
+          <Route path="shareholder" element={<Shareholder />} />
+          {/* ======================================================================= */}
+          {/* =============================Admission Management====================================== */}
           {/* =============================Start====================================== */}
           <Route path="admission" element={<AdmissionManagement />} />
           <Route path="admission/:id" element={<AdmissionById />} />

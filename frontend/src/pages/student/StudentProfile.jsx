@@ -1,15 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getStudentsByStudentId } from "../../store/features/auth/studentsSlice";
+import {
+  getStudentsByStudentId,
+  updatePassword,
+} from "../../store/features/auth/studentsSlice";
 import { checkExamByStudent } from "../../store/features/auth/attemptSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { logoutUser } from "../../store/features/auth/authSlice";
-
+import ChangePassword from "../../components/ChangePassword";
+import { toast } from "react-toastify";
 const StudentProfile = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const studentId = user._id;
 
+  const [showSetModal, setShowModal] = useState(false);
   const { student } = useSelector((state) => state.students);
   const { check } = useSelector((state) => state.attempt);
   const navigate = useNavigate();
@@ -20,6 +25,17 @@ const StudentProfile = () => {
     dispatch(getStudentsByStudentId(studentId));
     dispatch(checkExamByStudent(studentId));
   }, [studentId, dispatch]);
+
+  const handelUpdatePassword = async (formData) => {
+    const res = await dispatch(updatePassword({ formData, studentId }));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getStudentsByStudentId(studentId));
+      setShowModal(false);
+      toast.success("Password Update Sucessfully Please Login! Again");
+      await dispatch(logoutUser());
+    }
+  };
 
   if (!user) {
     return (
@@ -58,6 +74,12 @@ const StudentProfile = () => {
             className="lg:hidden absolute right-0 top-0 text-rose-500  cursor-pointer"
           >
             <LogOut size={16} />
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white absolute right-0 rounded cursor-pointer"
+          >
+            Change Password
           </button>
           <img
             src={student?.photo}
@@ -261,6 +283,11 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
+      {showSetModal && (
+        <div className="absolute flex flex-col items-center justify-center top-0 left-0 right-0 bottom-0 bg-black/50">
+          <ChangePassword handelUpdatePassword={handelUpdatePassword} />
+        </div>
+      )}
     </div>
   );
 };
