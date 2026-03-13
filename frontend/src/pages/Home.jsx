@@ -6,11 +6,36 @@ import Teachers from "./Teachers";
 import AdminMobileNav from "./admin/AdminMobileNav";
 import StudentMobileNav from "./student/StudentMobileNav";
 import PartnerShip from "./PartnerShip";
+import { useEffect, useRef } from "react";
+import Lenis from "lenis";
+import MadeEasySection from "../components/MadeEasySection";
+import SuccessGuarantee from "../components/SuccessGuarantee";
+import TargetEducation from "../components/TargetEducation";
 const Home = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const { pathname } = useLocation();
 
   const isHome = pathname === "/";
+
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    lenisRef.current = new Lenis({
+      duration: 1.2,
+      smooth: true,
+    });
+
+    function raf(time) {
+      lenisRef.current.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  }, []);
+
+  const scrollToSection = (id) => {
+    lenisRef.current?.scrollTo(id);
+  };
 
   return (
     <div className="">
@@ -27,8 +52,11 @@ const Home = () => {
         <div className="bg-linear-to-l  mx-auto relative">
           {/* Background Grid Pattern */}
 
-          <HomeContent />
+          <HomeContent scrollToSection={scrollToSection} />
+          <MadeEasySection />
+          <TargetEducation />
           <PartnerShip />
+          <SuccessGuarantee />
           <Teachers />
         </div>
       )}

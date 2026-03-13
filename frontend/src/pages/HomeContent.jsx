@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const HomeContent = () => {
+const HomeContent = ({ scrollToSection }) => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -52,21 +52,25 @@ const HomeContent = () => {
       icon: <Book className="w-6 h-6" />,
       title: "Made Easy সিস্টেম",
       description: "বিষয়ভিত্তিক সহজ শিক্ষা পদ্ধতি",
+      path: "#madeeasy",
     },
     {
       icon: <Target className="w-6 h-6" />,
       title: "লক্ষ্য নির্ভর শিক্ষা",
       description: "পরীক্ষাভিত্তিক প্রস্তুতি ও নির্দেশনা",
+      path: "#target",
     },
     {
       icon: <Users className="w-6 h-6" />,
       title: "অভিজ্ঞ শিক্ষক",
       description: "প্রতিষ্ঠিত ও দক্ষ শিক্ষকমন্ডলী",
+      path: "#teachers",
     },
     {
       icon: <Award className="w-6 h-6" />,
       title: "সাফল্যের গ্যারান্টি",
       description: "প্রতিবারই সেরা ফলাফল",
+      path: "#success",
     },
   ];
 
@@ -165,6 +169,7 @@ const HomeContent = () => {
                       variants={itemVariants}
                       whileHover={{ scale: 1.05, y: -5 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => scrollToSection(feature.path)}
                       className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer"
                     >
                       <div className="flex items-center space-x-4">

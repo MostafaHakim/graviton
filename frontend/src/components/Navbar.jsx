@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const navItems = [
     { path: "/", label: "হোম" },
-    // { path: "/club", label: "ক্লাব" },
     { path: "/feedback", label: "ফিডব্যাক" },
-    // { path: "/studyabroad", label: "বিদেশ পড়াশুনা" },
     { path: "/gallery", label: "গ্যালারি" },
     { path: "/membership", label: "মেম্বারশিপ" },
     { path: "/partnership", label: "শেয়ার হোল্ডার" },
+    { path: "/club", label: "ক্লাব" },
   ];
 
   const { user } = useSelector((state) => state.auth);
