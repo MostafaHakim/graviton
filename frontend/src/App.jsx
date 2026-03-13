@@ -86,6 +86,7 @@ import CourseDetails from "./components/CourseDetails";
 import ClubDetails from "./pages/ClubDetails";
 import SingleClubManagement from "./pages/admin/SingleClubManagement";
 import SingleNotice from "./components/SingleNotice";
+import SingleEvent from "./components/SingleEvent";
 
 // =======================Admin Student=======================
 
@@ -321,7 +322,7 @@ const AppRouter = () => {
           {/* =============================Start====================================== */}
           <Route path="clubs" element={<ClubManagement />} />
           <Route path="clubs/:clubId" element={<SingleClubManagement />} />
-          <Route path="clubs/:clubId/:noticeId" element={<SingleNotice />} />
+          <Route path="clubs/:clubId/:noticeId" element={<SingleEvent />} />
           {/* ======================================================================= */}
           {/* =============================Share Management====================================== */}
           {/* =============================Start====================================== */}

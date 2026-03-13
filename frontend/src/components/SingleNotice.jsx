@@ -113,7 +113,7 @@ const SingleNotice = () => {
             নোটিশ পাওয়া যায়নি
           </p>
           <Link
-            to={`/club/${id}`}
+            to={`/clubs/${id}`}
             className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#183439] to-[#23835F] text-white font-medium rounded-xl hover:opacity-90 transition-all duration-300 font-kalpurush"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -132,7 +132,7 @@ const SingleNotice = () => {
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Back Button */}
         <Link
-          to={`/club/${id}`}
+          to={`/clubs/${id}`}
           className="inline-flex items-center space-x-2 px-4 py-2 mb-6 text-white/80 hover:text-white transition-colors duration-300 font-kalpurush group"
         >
           <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

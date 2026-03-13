@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -129,6 +130,31 @@ export const getSingleNotice = createAsyncThunk(
   },
 );
 
+// DELETE CLUB
+export const deleteClub = createAsyncThunk(
+  "club/deleteClub",
+  async (id, thunkAPI) => {
+    try {
+      await axios.delete(`${baseUrl}/api/club/${id}`);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+// DELETE Notice
+export const deleteNotice = createAsyncThunk(
+  "club/deleteNotice",
+  async (id, thunkAPI) => {
+    try {
+      await axios.delete(`${baseUrl}/api/club/notice/${id}`);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const clubSlice = createSlice({
   name: "clubs",
   initialState: {
@@ -220,6 +246,34 @@ const clubSlice = createSlice({
         state.notices.push(action.payload);
       })
       .addCase(createNotice.rejected, (state, action) => {
+        state.loading = false;
+        state.notices = [];
+        state.error = action.payload;
+      })
+      //   Delete Club
+      .addCase(deleteClub.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteClub.fulfilled, (state, action) => {
+        state.loading = false;
+        state.clubs = state.clubs.filter((club) => club._id !== action.payload);
+      })
+      .addCase(deleteClub.rejected, (state, action) => {
+        state.loading = false;
+        state.clubs = [];
+        state.error = action.payload;
+      })
+      //   Delete Notice
+      .addCase(deleteNotice.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteNotice.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notices = state.notices.filter(
+          (notice) => notice._id !== action.payload,
+        );
+      })
+      .addCase(deleteNotice.rejected, (state, action) => {
         state.loading = false;
         state.notices = [];
         state.error = action.payload;

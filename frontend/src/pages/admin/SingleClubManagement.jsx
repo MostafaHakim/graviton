@@ -110,6 +110,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   createNotice,
+  deleteNotice,
   getClubById,
   getClubNotice,
 } from "../../store/features/auth/clubSlice";
@@ -132,13 +133,16 @@ import {
   Zap,
   Trophy,
 } from "lucide-react";
+import DeleteModal from "../../components/DeleteModal";
 
 const SingleClubManagement = () => {
   const { clubId } = useParams();
   const navigate = useNavigate();
   const { club, notices, loading } = useSelector((state) => state.clubs);
   const dispatch = useDispatch();
+  const [showDeleteModal, setShowDeleteModal] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
   const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
@@ -172,6 +176,14 @@ const SingleClubManagement = () => {
       y: 0,
       opacity: 1,
     },
+  };
+
+  const handelNoticeDelete = async (id) => {
+    const res = await dispatch(deleteNotice(id));
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getClubNotice(clubId));
+      setShowDeleteModal(null);
+    }
   };
 
   if (loading && !club) {
@@ -329,9 +341,6 @@ const SingleClubManagement = () => {
                       ? "bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
                       : "bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-all duration-300 cursor-pointer"
                   }
-                  onClick={() =>
-                    navigate(`/admin/clubs/${clubId}/${notice._id}`)
-                  }
                 >
                   {viewMode === "grid" ? (
                     /* Grid View */
@@ -370,13 +379,12 @@ const SingleClubManagement = () => {
 
                         {/* More Options Button */}
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Handle more options
+                          onClick={() => {
+                            setShowDeleteModal(notice._id);
                           }}
-                          className="absolute top-3 left-3 p-1.5 bg-black/50 backdrop-blur-sm rounded-lg text-white hover:bg-gray-900 transition-colors"
+                          className="absolute top-3 left-3 p-1.5 bg-red/50 backdrop-blur-sm rounded-lg text-white hover:bg-gray-900 transition-colors"
                         >
-                          <MoreVertical size={14} />
+                          <Trash2 color="red" size={14} />
                         </button>
                       </div>
 
@@ -404,7 +412,12 @@ const SingleClubManagement = () => {
                               {new Date(notice.createdAt).toLocaleDateString()}
                             </span>
                           </div>
-                          <button className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button
+                            onClick={() =>
+                              navigate(`/admin/clubs/${clubId}/${notice._id}`)
+                            }
+                            className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                          >
                             <Eye size={14} />
                           </button>
                         </div>
@@ -580,6 +593,29 @@ const SingleClubManagement = () => {
                     loading={loading}
                   />
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Delete Event Modal */}
+      <AnimatePresence>
+        {showDeleteModal !== null && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-2xl mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6">
+                <DeleteModal
+                  title="Are you sure to delete"
+                  onClose={() => setShowDeleteModal(null)}
+                  id={showDeleteModal}
+                  onDelete={handelNoticeDelete}
+                />
               </div>
             </motion.div>
           </div>

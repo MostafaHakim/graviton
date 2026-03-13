@@ -92,7 +92,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { createClub, getClubs } from "../../store/features/auth/clubSlice";
+import {
+  createClub,
+  deleteClub,
+  getClubs,
+} from "../../store/features/auth/clubSlice";
 import ClubForm from "../../components/ClubForm";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -111,9 +115,11 @@ import {
   Activity,
   Zap,
 } from "lucide-react";
+import DeleteModal from "../../components/DeleteModal";
 
 const ClubManagement = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const { clubs, loading, error } = useSelector((state) => state.clubs);
@@ -158,6 +164,14 @@ const ClubManagement = () => {
       y: 0,
       opacity: 1,
     },
+  };
+
+  const handelDeleteClube = async (id) => {
+    const res = await dispatch(deleteClub(id));
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getClubs());
+      setShowDeleteModal(null);
+    }
   };
 
   if (loading) {
@@ -292,7 +306,6 @@ const ClubManagement = () => {
                     ? "bg-white rounded-xl border border-gray-200 hover:shadow-xl transition-all duration-300 cursor-pointer group"
                     : "bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-all duration-300 cursor-pointer"
                 }
-                onClick={() => navigate(`/admin/clubs/${club._id}`)}
               >
                 {viewMode === "grid" ? (
                   /* Grid View */
@@ -303,13 +316,10 @@ const ClubManagement = () => {
                         <Users className="w-6 h-6 text-gray-600 group-hover:text-white transition-colors duration-300" />
                       </div>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Handle more options
-                        }}
+                        onClick={() => setShowDeleteModal(club._id)}
                         className="text-gray-400 hover:text-gray-900 transition-colors"
                       >
-                        <MoreVertical size={18} />
+                        <Trash2 color="red" size={16} />
                       </button>
                     </div>
 
@@ -379,15 +389,23 @@ const ClubManagement = () => {
                     </div>
 
                     {/* Quick Stats */}
-                    <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
-                      <div className="flex items-center gap-1">
-                        <Calendar size={14} />
-                        <span>{club.notice?.length || 0} events</span>
+                    <div className="flex flex-row items-center justify-between">
+                      <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Calendar size={14} />
+                          <span>{club.notice?.length || 0} events</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Users size={14} />
+                          <span>Active</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Users size={14} />
-                        <span>Active</span>
-                      </div>
+                      <button
+                        className="text-xs px-6 py-1 bg-black text-white rounded-full cursor-pointer"
+                        onClick={() => navigate(`/admin/clubs/${club._id}`)}
+                      >
+                        Details
+                      </button>
                     </div>
                   </div>
                 ) : (
@@ -529,6 +547,26 @@ const ClubManagement = () => {
                 handleAddClub={handleAddClub}
                 loading={loading}
                 onClose={() => setShowModal(false)}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Delete Club Modal */}
+      <AnimatePresence>
+        {showDeleteModal !== null && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-2xl mx-4"
+            >
+              <DeleteModal
+                title="Are you sure to delete this club???"
+                onClose={() => setShowDeleteModal(null)}
+                onDelete={handelDeleteClube}
+                id={showDeleteModal}
               />
             </motion.div>
           </div>

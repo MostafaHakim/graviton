@@ -192,7 +192,7 @@ const ClubDetails = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Back Button */}
         <Link
-          to="/club"
+          to="/clubs"
           className="inline-flex items-center space-x-2 px-4 py-2 mb-6 text-white/80 hover:text-white transition-colors duration-300 font-kalpurush group"
         >
           <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

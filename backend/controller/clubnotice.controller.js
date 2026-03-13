@@ -57,9 +57,9 @@ const getAllClubNotices = async (req, res) => {
 const getNotice = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("getbyclub", id);
+
     const notices = await ClubNotice.find({ club: id });
-    console.log(notices);
+
     if (!notices) {
       return res.status(404).json({
         message: "notices Not Found",
@@ -149,12 +149,6 @@ const deleteClubNotice = async (req, res) => {
     if (!deletedNotice) {
       return res.status(404).json({ message: "Club Notice not found" });
     }
-
-    // Optional: Remove notice reference from clubs
-    await Clubs.updateMany(
-      { notice: deletedNotice._id },
-      { $pull: { notice: deletedNotice._id } },
-    );
 
     res.status(200).json({ message: "Deleted successfully" });
   } catch (error) {

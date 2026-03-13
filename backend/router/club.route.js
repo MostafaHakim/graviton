@@ -11,6 +11,7 @@ const {
   createClubNotice,
   getNotice,
   getNoticeById,
+  deleteClubNotice,
 } = require("../controller/clubnotice.controller");
 const router = express.Router();
 
@@ -22,8 +23,8 @@ router.get("/:id", getSingleClub);
 router.get("/notice/:id", getNotice);
 router.get("/notice/single/:noticeId", getNoticeById);
 router.post("/notice/add", createClubNotice);
+router.delete("/notice/:id", deleteClubNotice);
 // ===============Notices========================================
-router.post("/add-content", addContent);
 
 router.delete("/:id", deleteClub);
 
