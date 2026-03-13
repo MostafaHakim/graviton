@@ -96,7 +96,7 @@ const AdminSidebar = () => {
       id: "club",
       label: "ক্লাব",
       icon: Codesandbox,
-      path: "/admin/club",
+      path: "/admin/clubs",
     },
   ];
 

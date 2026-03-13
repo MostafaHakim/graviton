@@ -14,6 +14,7 @@ import flashReducer from "./features/auth/flashcardSlice";
 import settingsReducer from "./features/auth/settingsSlice";
 import promoReducer from "./features/auth/promoSlice";
 import shareReducer from "./features/auth/shareSlice";
+import clubReducer from "./features/auth/clubSlice";
 
 export const store = configureStore({
   reducer: {
@@ -32,5 +33,6 @@ export const store = configureStore({
     settings: settingsReducer,
     promos: promoReducer,
     share: shareReducer,
+    clubs: clubReducer,
   },
 });

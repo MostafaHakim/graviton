@@ -83,6 +83,9 @@ import PromocodeManagement from "./pages/admin/PromocodeManagement";
 import Shareholder from "./pages/admin/Shareholder";
 import PartnerShip from "./pages/PartnerShip";
 import CourseDetails from "./components/CourseDetails";
+import ClubDetails from "./pages/ClubDetails";
+import SingleClubManagement from "./pages/admin/SingleClubManagement";
+import SingleNotice from "./components/SingleNotice";
 
 // =======================Admin Student=======================
 
@@ -92,7 +95,9 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Home />}>
           <Route path="login" element={<LoginPage />} />
-          <Route path="club" element={<Club />} />
+          <Route path="clubs" element={<Club />} />
+          <Route path="clubs/:id" element={<ClubDetails />} />
+          <Route path="clubs/:id/:noticeId" element={<SingleNotice />} />
           <Route path="admission" element={<AdmissionForm />} />
           <Route path="courses" element={<Courses />} />
           <Route path="courses/:id" element={<CourseDetails />} />
@@ -314,7 +319,9 @@ const AppRouter = () => {
           {/* ======================================================================= */}
           {/* =============================Club Management====================================== */}
           {/* =============================Start====================================== */}
-          <Route path="club" element={<ClubManagement />} />
+          <Route path="clubs" element={<ClubManagement />} />
+          <Route path="clubs/:clubId" element={<SingleClubManagement />} />
+          <Route path="clubs/:clubId/:noticeId" element={<SingleNotice />} />
           {/* ======================================================================= */}
           {/* =============================Share Management====================================== */}
           {/* =============================Start====================================== */}

@@ -9,7 +9,7 @@ const Navbar = () => {
     { path: "/gallery", label: "গ্যালারি" },
     { path: "/membership", label: "মেম্বারশিপ" },
     { path: "/partnership", label: "শেয়ার হোল্ডার" },
-    { path: "/club", label: "ক্লাব" },
+    { path: "/clubs", label: "ক্লাব" },
   ];
 
   const { user } = useSelector((state) => state.auth);
