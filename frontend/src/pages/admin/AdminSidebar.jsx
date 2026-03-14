@@ -17,6 +17,9 @@ import {
   Megaphone,
   Share2,
   Codesandbox,
+  Binoculars,
+  Cable,
+  CloudSync,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -97,6 +100,24 @@ const AdminSidebar = () => {
       label: "ক্লাব",
       icon: Codesandbox,
       path: "/admin/clubs",
+    },
+    {
+      id: "talent",
+      label: "ট্যালেন্ট হান্ট",
+      icon: Binoculars,
+      path: "/admin/talent",
+    },
+    {
+      id: "message",
+      label: "ম্যাসেজ",
+      icon: Cable,
+      path: "/admin/message",
+    },
+    {
+      id: "about",
+      label: "অ্যাবউটস",
+      icon: CloudSync,
+      path: "/admin/about",
     },
   ];
 

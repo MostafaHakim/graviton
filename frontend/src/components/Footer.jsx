@@ -24,6 +24,7 @@ import { getSetting } from "../store/features/auth/settingsSlice";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { settings } = useSelector((state) => state.settings);
+  console.log(settings);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSetting());
@@ -74,8 +75,8 @@ const Footer = () => {
     },
     {
       icon: <Clock className="w-5 h-5" />,
-      text: "শনি-বৃহস্পতি: সকাল ৯টা - রাত ৯টা",
-      subtext: "শুক্রবার: বন্ধ",
+      text: settings?.timeOpen,
+      subtext: settings?.timeClose,
     },
   ];
 
@@ -247,21 +248,44 @@ const Footer = () => {
         {/* Contact Info Bar */}
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {contactInfo.map((info, index) => (
-              <div key={index} className="flex items-start gap-4">
-                <div className="p-2 bg-gradient-to-br from-[#3BD480] to-[#134C45] rounded-lg">
-                  <div className="text-white">{info.icon}</div>
+            {contactInfo.map((info, index) => {
+              let href = null;
+
+              if (info.text === settings?.mobile) {
+                href = `tel:${settings?.mobile}`;
+              } else if (info.text === settings?.email) {
+                href = `mailto:${settings?.email}`; // simplest
+              } else if (info.text === settings?.address) {
+                href = `https://maps.app.goo.gl/co3ndxwszAmpFeDY8`;
+              }
+
+              return (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="p-2 bg-gradient-to-br from-[#3BD480] to-[#134C45] rounded-lg">
+                    <div className="text-white">{info.icon}</div>
+                  </div>
+
+                  <div>
+                    {href ? (
+                      <a
+                        href={href}
+                        className="text-white font-medium font-kalpurush hover:text-[#3BD480] transition"
+                      >
+                        {info.text}
+                      </a>
+                    ) : (
+                      <p className="text-white font-medium font-kalpurush">
+                        {info.text}
+                      </p>
+                    )}
+
+                    <p className="text-white/60 text-sm mt-1 font-kalpurush">
+                      {info.subtext}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-medium font-kalpurush">
-                    {info.text}
-                  </p>
-                  <p className="text-white/60 text-sm mt-1 font-kalpurush">
-                    {info.subtext}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

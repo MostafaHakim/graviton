@@ -10,6 +10,8 @@ const Navbar = () => {
     { path: "/membership", label: "মেম্বারশিপ" },
     { path: "/partnership", label: "শেয়ার হোল্ডার" },
     { path: "/clubs", label: "ক্লাব" },
+    { path: "/contact", label: "যোগাযোগ" },
+    { path: "/about", label: "আমাদের সম্পর্কে" },
   ];
 
   const { user } = useSelector((state) => state.auth);

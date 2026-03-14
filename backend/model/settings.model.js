@@ -9,6 +9,8 @@ const settingSchema = mongoose.Schema(
     facebook: String,
     youtube: String,
     instagram: String,
+    timeOpen: String,
+    timeClose: String,
   },
   { timestamps: true },
 );

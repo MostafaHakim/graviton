@@ -87,6 +87,14 @@ import ClubDetails from "./pages/ClubDetails";
 import SingleClubManagement from "./pages/admin/SingleClubManagement";
 import SingleNotice from "./components/SingleNotice";
 import SingleEvent from "./components/SingleEvent";
+import TalentManagement from "./pages/admin/TalentManagement";
+import TalentHuntDetails from "./components/TalentHuntDetails";
+import TalentAdmit from "./components/TalentAdmit";
+import AppliedStudentList from "./pages/admin/AppliedStudentList";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
+import VisitorMessages from "./pages/VisitorMessages";
+import AboutManagement from "./pages/admin/AboutManagement";
 
 // =======================Admin Student=======================
 
@@ -96,6 +104,8 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Home />}>
           <Route path="login" element={<LoginPage />} />
+          <Route path="talent/:id" element={<TalentHuntDetails />} />
+          <Route path="talent/admit/:regId" element={<TalentAdmit />} />
           <Route path="clubs" element={<Club />} />
           <Route path="clubs/:id" element={<ClubDetails />} />
           <Route path="clubs/:id/:noticeId" element={<SingleNotice />} />
@@ -110,6 +120,8 @@ const AppRouter = () => {
           <Route path="partnership" element={<PartnerShip />} />
           <Route path="membership" element={<Membership />} />
           <Route path="membership/create" element={<PremiumMemberForm />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="about" element={<About />} />
         </Route>
         {/* ******************************************************************************************************************************************************** */}
         {/* ====================================================================================================================================================== */}
@@ -252,8 +264,15 @@ const AppRouter = () => {
             path="flash/:id/:levelId/:deckId"
             element={<FlashCardManagement />}
           />
+          {/* =============================Visitor Management====================================== */}
+          <Route path="message" element={<VisitorMessages />} />
+          <Route path="about" element={<AboutManagement />} />
           {/* =============================Course Management====================================== */}
           <Route path="course" element={<CourseManagement />} />
+          <Route path="course/new-course" element={<AddCourse />} />
+          {/* =============================Talent Hunt Management====================================== */}
+          <Route path="talent" element={<TalentManagement />} />
+          <Route path="talent/:talentId" element={<AppliedStudentList />} />
           <Route path="course/new-course" element={<AddCourse />} />
 
           {/* ========================Made Easy Management with Class Subject=================== */}

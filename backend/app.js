@@ -29,6 +29,9 @@ const settingRouter = require("./router/setting.route");
 const promoRouter = require("./router/promocode.route");
 const shareRouter = require("./router/share.route");
 const clubRouter = require("./router/club.route");
+const talentRouter = require("./router/talenthunt.route");
+const contactRouter = require("./router/contact.route");
+const aboutRouter = require("./router/about.route");
 // ===================MiddleWere=====================
 
 app.use(
@@ -65,6 +68,9 @@ app.use("/api/settings", settingRouter);
 app.use("/api/promo", promoRouter);
 app.use("/api/share", shareRouter);
 app.use("/api/club", clubRouter);
+app.use("/api/talents", talentRouter);
+app.use("/api/contact", contactRouter);
+app.use("/api/about", aboutRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

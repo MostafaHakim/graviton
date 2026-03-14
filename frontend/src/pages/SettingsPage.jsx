@@ -16,6 +16,8 @@ import {
   Globe,
   CheckCircle,
   AlertCircle,
+  Clock1,
+  Clock10,
 } from "lucide-react";
 
 const SettingsPage = () => {
@@ -30,6 +32,8 @@ const SettingsPage = () => {
     facebook: "",
     youtube: "",
     instagram: "",
+    timeOpen: "",
+    timeClose: "",
   });
 
   const [saveStatus, setSaveStatus] = useState({
@@ -120,6 +124,18 @@ const SettingsPage = () => {
       icon: MapPin,
       type: "text",
       placeholder: "Full Address",
+    },
+    {
+      name: "timeOpen",
+      icon: Clock1,
+      type: "text",
+      placeholder: "Time Open",
+    },
+    {
+      name: "timeClose",
+      icon: Clock10,
+      type: "text",
+      placeholder: "Time Close",
     },
   ];
 

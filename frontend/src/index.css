@@ -20,3 +20,67 @@
     margin: 0;
   }
 }
+
+/* Add this to your global CSS file */
+.talent-hunt-main-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.talent-hunt-main-swiper .swiper-button-prev,
+.talent-hunt-main-swiper .swiper-button-next {
+  color: white;
+  background: rgba(59, 212, 128, 0.2);
+  backdrop-filter: blur(8px);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s;
+}
+
+.talent-hunt-main-swiper .swiper-button-prev:after,
+.talent-hunt-main-swiper .swiper-button-next:after {
+  font-size: 20px;
+}
+
+.talent-hunt-main-swiper .swiper-button-prev:hover,
+.talent-hunt-main-swiper .swiper-button-next:hover {
+  background: rgba(59, 212, 128, 0.4);
+  border-color: #3bd480;
+}
+
+.talent-hunt-main-swiper .swiper-button-prev {
+  left: 20px;
+}
+
+.talent-hunt-main-swiper .swiper-button-next {
+  right: 20px;
+}
+
+.talent-hunt-main-swiper .swiper-pagination {
+  bottom: 20px !important;
+}
+
+.talent-hunt-main-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: white;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.talent-hunt-main-swiper .swiper-pagination-bullet-active {
+  width: 30px;
+  border-radius: 10px;
+  background: #3bd480;
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .talent-hunt-main-swiper .swiper-button-prev,
+  .talent-hunt-main-swiper .swiper-button-next {
+    display: none;
+  }
+}

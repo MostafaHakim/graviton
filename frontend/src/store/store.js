@@ -15,6 +15,9 @@ import settingsReducer from "./features/auth/settingsSlice";
 import promoReducer from "./features/auth/promoSlice";
 import shareReducer from "./features/auth/shareSlice";
 import clubReducer from "./features/auth/clubSlice";
+import talentReducer from "./features/auth/talentSlice";
+import contactReducer from "./features/auth/contactSlice";
+import aboutReducer from "./features/auth/aboutSlice";
 
 export const store = configureStore({
   reducer: {
@@ -34,5 +37,8 @@ export const store = configureStore({
     promos: promoReducer,
     share: shareReducer,
     clubs: clubReducer,
+    talents: talentReducer,
+    contacts: contactReducer,
+    abouts: aboutReducer,
   },
 });

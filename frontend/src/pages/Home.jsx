@@ -11,6 +11,7 @@ import Lenis from "lenis";
 import MadeEasySection from "../components/MadeEasySection";
 import SuccessGuarantee from "../components/SuccessGuarantee";
 import TargetEducation from "../components/TargetEducation";
+import TalentHuntSection from "../components/TalentHuntSection";
 const Home = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const { pathname } = useLocation();
@@ -53,6 +54,7 @@ const Home = () => {
           {/* Background Grid Pattern */}
 
           <HomeContent scrollToSection={scrollToSection} />
+          <TalentHuntSection />
           <MadeEasySection />
           <TargetEducation />
           <PartnerShip />
