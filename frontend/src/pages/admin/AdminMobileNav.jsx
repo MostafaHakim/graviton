@@ -17,7 +17,7 @@ const AdminMobileNav = () => {
           <NavLink
             key={item.path}
             to={item.path}
-            end={item.to === "/admin"}
+            end={item.path === "/admin"}
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
                 isActive ? "text-[#6C5DD3]" : "text-gray-400"
