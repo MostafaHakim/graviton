@@ -20,7 +20,7 @@ const AdminMobileNav = () => {
             end={item.path === "/admin"}
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
-                isActive ? "text-[#6C5DD3]" : "text-gray-400"
+                isActive ? "text-[#183C3E]" : "text-gray-400"
               }`
             }
           >
