@@ -54,7 +54,7 @@ const createAdmission = async (req, res) => {
       totalFee: !membershipCard ? totalFee : 0,
       discount: !membershipCard ? totalDiscount : 0,
       cashPayment: !membershipCard ? cashPayment : 0,
-      duePayment: membershipCard ? duePayment : 0,
+      duePayment: !membershipCard ? duePayment : 0,
       membershipCard,
       photo,
       admissionId,
