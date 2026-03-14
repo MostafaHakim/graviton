@@ -19,7 +19,7 @@ const AdminLayout = () => {
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-scroll p-4">
+        <main className="flex-1  p-4 overflow-scroll pb-20">
           <Outlet />
         </main>
 
