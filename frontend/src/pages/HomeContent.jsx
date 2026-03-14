@@ -146,13 +146,13 @@ const HomeContent = ({ scrollToSection }) => {
               <div className="flex flex-col items-center justify-center space-y-8">
                 {/* Main Heading */}
                 <motion.div variants={itemVariants} className="space-y-4">
-                  <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-kalpurush font-bold leading-tight text-center">
+                  <h1 className="text-xl sm:text-5xl lg:text-7xl text-white font-kalpurush font-bold leading-tight text-center">
                     গ্র্যাভিটন একাডেমি
                     <motion.span
                       initial={{ x: -50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.5 }}
-                      className="block text-[#3BD480]"
+                      className="block text-[#3BD480] text-lg lg:text-4xl"
                     >
                       এসো বিজ্ঞানের আড্ডায় মাতি
                     </motion.span>
