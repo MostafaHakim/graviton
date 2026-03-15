@@ -144,7 +144,7 @@ const Footer = () => {
                   গ্র্যাভিটন একাডেমি
                 </h2>
                 <p className="text-[#3BD480] font-medium font-kalpurush">
-                  শিক্ষার নতুন দিগন্ত
+                  এসো বিজ্ঞানের আড্ডায় মাতি
                 </p>
               </div>
             </div>

@@ -55,11 +55,11 @@ const Home = () => {
 
           <HomeContent scrollToSection={scrollToSection} />
           <TalentHuntSection />
-          <MadeEasySection />
-          <TargetEducation />
-          <PartnerShip />
-          <SuccessGuarantee />
           <Teachers />
+          <MadeEasySection />
+          <PartnerShip />
+          <TargetEducation />
+          <SuccessGuarantee />
         </div>
       )}
       <div>
