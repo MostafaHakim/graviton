@@ -25,6 +25,29 @@ const FeedbackManagement = () => {
     }
   };
 
+  if (feedbacks.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8 px-4 sm:px-6 lg:px-8 rounded-2xl">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl text-white font-kalpurush font-bold mb-4">
+            ফিটব্যাক
+          </h1>
+
+          <p className="text-xl  text-[#3BD480] max-w-3xl mx-auto font-kalpurush">
+            ভিজিটর, স্টুডেন্ট'স ও অভিভাবকগনের মতামত!!!
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center justify-center text-center mb-12">
+          <h1 className="text-xl text-white/60 font-kalpurush font-bold mb-4">
+            কোন মতামত পাওয়া যায়নি
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#17202F] via-[#134C45] to-[#3BD480] py-8 px-4 sm:px-6 lg:px-8 rounded-2xl">
       <div className="max-w-7xl mx-auto relative z-10">
