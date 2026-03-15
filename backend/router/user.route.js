@@ -10,6 +10,7 @@ const {
   updateUserRole,
   updateUserStatus,
   updateUserPassword,
+  getTeacherUsers,
 } = require("../controller/user.controller");
 
 const authUser = require("../middleware/authMiddleware");
@@ -21,6 +22,7 @@ router.post("/register", createUser);
 router.post("/logout", authUser, logoutUser);
 
 router.get("/", getAllUsers);
+router.get("/teachers", getTeacherUsers);
 
 router.get("/profile", authUser, userProfile);
 

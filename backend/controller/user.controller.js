@@ -76,6 +76,19 @@ const getAllUsers = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+// ====================================================================================================
+// =======================================Teacher User Get=============================================
+// ====================================================================================================
+const getTeacherUsers = async (req, res) => {
+  try {
+    console.log("hello");
+    const users = await User.find({ role: "teacher" }).select("-password");
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 // ====================================================================================================
 // =======================================Profile User=============================================
@@ -248,4 +261,5 @@ module.exports = {
   updateUserRole,
   updateUserStatus,
   updateUserPassword,
+  getTeacherUsers,
 };

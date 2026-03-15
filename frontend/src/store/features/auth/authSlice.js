@@ -210,11 +210,33 @@ export const UpdateUserPassword = createAsyncThunk(
   },
 );
 
+// =================All Teacher================
+
+export const getTeachers = createAsyncThunk(
+  "user/getAllTeachers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/user/teachers`);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "User fetch failed");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: JSON.parse(localStorage.getItem("user")) || null,
     users: [],
+    teachers: [],
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
@@ -252,6 +274,20 @@ const authSlice = createSlice({
       })
       .addCase(getAllUser.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+
+      // GET ALL TEACHERS
+      .addCase(getTeachers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getTeachers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.teachers = action.payload;
+      })
+      .addCase(getTeachers.rejected, (state, action) => {
+        state.loading = false;
+        state.teachers = [];
         state.error = action.payload;
       })
 
