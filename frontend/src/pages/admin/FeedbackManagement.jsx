@@ -34,7 +34,9 @@ const FeedbackManagement = () => {
             ফিটব্যাক
           </h1>
 
-          <p className="text-lg text-white/80 max-w-3xl mx-auto font-kalpurush"></p>
+          <p className="text-xl  text-[#3BD480] max-w-3xl mx-auto font-kalpurush">
+            ভিজিটর, স্টুডেন্ট'স ও অভিভাবকগনের মতামত!!!
+          </p>
         </div>
 
         <div className="grid grid-cols-1  gap-8">
