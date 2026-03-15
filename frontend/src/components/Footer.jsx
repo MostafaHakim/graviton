@@ -61,7 +61,7 @@ const Footer = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       text: settings?.mobile,
-      subtext: "রবি-শুক্র, সকাল ৯টা - রাত ৯টা",
+      subtext: "যে কোন প্রয়োজনে কল করুন",
     },
     {
       icon: <Mail className="w-5 h-5" />,
