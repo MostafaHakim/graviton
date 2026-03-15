@@ -75,9 +75,11 @@ const AdminProfile = () => {
             <div className="absolute -bottom-12 left-8">
               <div className="w-24 h-24 rounded-xl bg-white border-4 border-white shadow-lg flex items-center justify-center">
                 <div className="w-full h-full rounded-lg bg-gray-100 flex items-center justify-center">
-                  <span className="text-3xl font-light text-gray-700 uppercase">
-                    {user.username?.charAt(0) || "U"}
-                  </span>
+                  <img
+                    className="w-full h-full rounded-lg bg-gray-100  "
+                    src={user?.photo}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>

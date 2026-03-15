@@ -611,7 +611,7 @@ const AdmissionManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-4 md:p-6">
+    <div className="min-h-full bg-gradient-to-b from-gray-50 to-white p-4 md:p-6">
       <motion.div
         initial="hidden"
         animate="visible"

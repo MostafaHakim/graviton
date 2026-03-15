@@ -131,7 +131,7 @@ const AdminSidebar = () => {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center text-gray-700 font-bold">
-            {user?.username?.charAt(0)?.toUpperCase() || "U"}
+            <img className="w-10 h-10 rounded-lg " src={user?.photo} alt="" />
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-gray-900 truncate">
