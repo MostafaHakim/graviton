@@ -1,47 +1,3 @@
-// import React, { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   getCourses,
-//   deleteCourse,
-// } from "../../store/features/auth/courseSlice";
-// import { Link } from "react-router-dom";
-
-// const CourseManagement = () => {
-//   const dispatch = useDispatch();
-//   const { courses } = useSelector((state) => state.courses);
-
-//   useEffect(() => {
-//     dispatch(getCourses());
-//   }, [dispatch]);
-
-//   return (
-//     <div>
-//       <div className="flex flex-row items-center justify-between">
-//         <h2>All Courses</h2>
-//         <Link
-//           to="new-course"
-//           className="px-4 py-2 bg-blue-500 text-white rounded"
-//         >
-//           Add Course
-//         </Link>
-//       </div>
-
-//       {courses.map((course) => (
-//         <div key={course._id}>
-//           <h3>{course.courseName}</h3>
-//           <p>{course.about}</p>
-//           <p>Fee: {course.fee}</p>
-
-//           <button onClick={() => dispatch(deleteCourse(course._id))}>
-//             Delete
-//           </button>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default CourseManagement;
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -61,7 +17,9 @@ import {
   Filter,
   MoreVertical,
   X,
+  Eye,
 } from "lucide-react";
+import SingleCourseDetails from "../../components/SingleCourseDetails";
 
 const CourseManagement = () => {
   const dispatch = useDispatch();
@@ -70,7 +28,11 @@ const CourseManagement = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState("all");
+  const [viewingCourse, setViewingCourse] = useState(null);
 
+  const handleViewDetails = () => {
+    setViewingCourse(null);
+  };
   useEffect(() => {
     dispatch(getCourses());
   }, [dispatch]);
@@ -299,7 +261,6 @@ const CourseManagement = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-1">
-                        <DollarSign className="w-4 h-4 text-gray-900" />
                         <span className="font-semibold text-gray-900">
                           {course.fee}
                         </span>
@@ -332,11 +293,12 @@ const CourseManagement = () => {
                           <Trash2 className="w-5 h-5" />
                         </motion.button>
                         <motion.button
+                          onClick={() => setViewingCourse(course)}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                         >
-                          <MoreVertical className="w-5 h-5" />
+                          <Eye className="w-5 h-5" />
                         </motion.button>
                       </div>
                     </td>
@@ -441,6 +403,12 @@ const CourseManagement = () => {
             </div>
           </motion.div>
         </motion.div>
+      )}
+      {viewingCourse !== null && (
+        <SingleCourseDetails
+          course={viewingCourse}
+          onClose={handleViewDetails}
+        />
       )}
     </div>
   );

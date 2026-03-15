@@ -14,6 +14,9 @@ import {
   ChevronRight,
   BarChart,
   TextInitial,
+  CircleCheck,
+  X,
+  CircleX,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -66,18 +69,6 @@ const StudentSidebar = () => {
       label: "প্রোফাইল",
       icon: UserCircle,
       path: `/student/profile`,
-      color: "text-gray-600",
-    },
-    {
-      label: "সেটিংস",
-      icon: Settings,
-      path: "/student/settings",
-      color: "text-gray-600",
-    },
-    {
-      label: "সাহায্য",
-      icon: HelpCircle,
-      path: "/student/help",
       color: "text-gray-600",
     },
   ];
@@ -218,10 +209,14 @@ const StudentSidebar = () => {
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-2 text-sm text-gray-700 font-kalpurush bg-gray-100 px-3 py-1 rounded-full"
+            className={`flex items-center gap-2 text-sm text-gray-700 font-kalpurush  ${user.status === "active" ? "bg-green-100" : "bg-red-100"} px-3 py-1 rounded-full`}
           >
-            <Sparkles className="w-4 h-4 text-purple-500" />
-            <span>{studentInfo.points} পয়েন্ট</span>
+            {user.status === "active" ? (
+              <CircleCheck className="w-4 h-4  text-green-500" />
+            ) : (
+              <CircleX className="w-4 h-4  text-red-500" />
+            )}
+            <span>{user.status}</span>
           </motion.div>
         </motion.div>
       </motion.div>

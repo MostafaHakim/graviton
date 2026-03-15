@@ -16,9 +16,16 @@ const loginUser = async (req, res) => {
       user = await Student.findOne({ studentId: userId });
     }
 
+    if (user.status !== "active") {
+      return res.status(401).json({
+        message: "আপনার একাউন্টটি ব্লক করা হয়েছে।",
+      });
+    }
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
-      return res.status(401).send("Invalid password");
+      return res.status(401).json({
+        message: "Invalid password",
+      });
     }
 
     const token = user.generateAuthToken();

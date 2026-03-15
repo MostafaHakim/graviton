@@ -95,6 +95,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import VisitorMessages from "./pages/VisitorMessages";
 import AboutManagement from "./pages/admin/AboutManagement";
+import FeedbackManagement from "./pages/admin/FeedbackManagement";
 
 // =======================Admin Student=======================
 
@@ -267,6 +268,7 @@ const AppRouter = () => {
           {/* =============================Visitor Management====================================== */}
           <Route path="message" element={<VisitorMessages />} />
           <Route path="about" element={<AboutManagement />} />
+          <Route path="feedbacks" element={<FeedbackManagement />} />
           {/* =============================Course Management====================================== */}
           <Route path="course" element={<CourseManagement />} />
           <Route path="course/new-course" element={<AddCourse />} />

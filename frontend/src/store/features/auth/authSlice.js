@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { toast } from "react-toastify";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const createUser = createAsyncThunk(
@@ -17,6 +17,7 @@ export const createUser = createAsyncThunk(
       const data = await res.json();
 
       if (!res.ok) {
+        toast.error(data.message);
         return rejectWithValue(data.message || "User Create failed");
       }
 

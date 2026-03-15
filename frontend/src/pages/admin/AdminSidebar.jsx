@@ -20,6 +20,7 @@ import {
   Binoculars,
   Cable,
   CloudSync,
+  HandCoins,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/features/auth/authSlice";
@@ -118,6 +119,12 @@ const AdminSidebar = () => {
       label: "অ্যাবউটস",
       icon: CloudSync,
       path: "/admin/about",
+    },
+    {
+      id: "feedbacks",
+      label: "ফিডব্যাক",
+      icon: HandCoins,
+      path: "/admin/feedbacks",
     },
   ];
 

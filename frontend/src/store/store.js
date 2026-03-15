@@ -18,6 +18,7 @@ import clubReducer from "./features/auth/clubSlice";
 import talentReducer from "./features/auth/talentSlice";
 import contactReducer from "./features/auth/contactSlice";
 import aboutReducer from "./features/auth/aboutSlice";
+import feedbackReducer from "./features/auth/feedbackSlice";
 
 export const store = configureStore({
   reducer: {
@@ -40,5 +41,6 @@ export const store = configureStore({
     talents: talentReducer,
     contacts: contactReducer,
     abouts: aboutReducer,
+    feedbacks: feedbackReducer,
   },
 });
