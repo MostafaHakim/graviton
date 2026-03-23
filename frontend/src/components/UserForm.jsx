@@ -191,7 +191,7 @@
 // export default UserForm;
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../store/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, UserPlus, Mail, Phone, Lock, User } from "lucide-react";
@@ -199,6 +199,7 @@ import uploadPhotoToCloudinary from "../utils/cloudinery";
 const UserForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     photo: "",
     public_id: "",
@@ -251,7 +252,7 @@ const UserForm = () => {
       };
 
       const res = await dispatch(createUser(userData));
-
+      console.log(res, userData);
       if (res.meta.requestStatus === "fulfilled") {
         navigate("/admin/teacher");
       }
@@ -473,9 +474,9 @@ const UserForm = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-200 font-medium mt-6 shadow-sm hover:shadow-md"
+              className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-200 font-medium mt-6 shadow-sm hover:shadow-md cursor-pointer"
             >
-              Create User
+              {loading ? "Creating..." : "Create User"}
             </button>
           </form>
 
