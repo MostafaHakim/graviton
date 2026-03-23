@@ -31,12 +31,58 @@ export const getShare = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${baseUrl}/api/share`);
-      console.log(res);
+
       const data = await res.json();
 
       if (!res.ok) {
         return rejectWithValue(data.message);
       }
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteShare = createAsyncThunk(
+  "share/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/share/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message);
+      }
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateShare = createAsyncThunk(
+  "share/update",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      console.log(id, formData);
+      const res = await fetch(`${baseUrl}/api/share/update/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message);
+      }
+
       return data.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -78,6 +124,39 @@ const shareSlice = createSlice({
         state.share = action.payload;
       })
       .addCase(getShare.rejected, (state, action) => {
+        state.loading = false;
+        state.share = [];
+        state.error = action.payload;
+      })
+      // ===========Update============
+      .addCase(updateShare.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateShare.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.share.findIndex(
+          (item) => item._id === action.payload._id,
+        );
+
+        if (index !== -1) {
+          state.share[index] = action.payload;
+        }
+      })
+      .addCase(updateShare.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //   ===========Delete Share===============
+      .addCase(deleteShare.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteShare.fulfilled, (state, action) => {
+        state.loading = false;
+        state.share = state.share.filter((sh) => sh._id !== action.payload);
+      })
+      .addCase(deleteShare.rejected, (state, action) => {
         state.loading = false;
         state.share = [];
         state.error = action.payload;

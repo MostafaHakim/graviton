@@ -1,82 +1,20 @@
-// import React, { useEffect, useState } from "react";
-// import ShareholderAddModal from "../components/ShareholderAddModal";
-// import { useDispatch, useSelector } from "react-redux";
-// import { createShare, getShare } from "../store/features/auth/shareSlice";
-// import { toast } from "react-toastify";
-// const Shareholder = () => {
-//   const [showModal, setShowModal] = useState(false);
-//   const { share, loading } = useSelector((state) => state.share);
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     dispatch(getShare());
-//   }, [dispatch]);
-
-//   const handelAddShare = async (formData) => {
-//     const res = await dispatch(createShare(formData));
-
-//     if (res.meta.requestStatus === "fulfilled") {
-//       await dispatch(getShare());
-//       setShowModal(false);
-//     }
-//   };
-//   console.log(share);
-
-//   if (loading) {
-//     return (
-//       <div>
-//         <h2>Loding...</h2>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="max-w-4xl m-auto bg-white font-kalpurush">
-//       <div className="flex flex-row items-center justify-between p-6">
-//         <h2>শেয়ার হোল্ডার</h2>
-//         <button
-//           onClick={() => setShowModal(true)}
-//           className="px-6 py-2 bg-blue-500 text-white rounded-full cursor-pointer"
-//         >
-//           Add Shareholder
-//         </button>
-//       </div>
-
-//       <div>
-//         {share &&
-//           share.map((sha) => (
-//             <div>
-//               <h2>{sha.name}</h2>
-//               <h2>{sha.father}</h2>
-//               <h2>{sha.email}</h2>
-//               <h2>{sha.mobile}</h2>
-//               <img src={sha.imageUrl} alt="" />
-
-//               <h2>{sha.nid}</h2>
-//               <h2>{sha.about}</h2>
-//             </div>
-//           ))}
-//       </div>
-//       {showModal && (
-//         <ShareholderAddModal
-//           handelAddShare={handelAddShare}
-//           setShowModal={setShowModal}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Shareholder;
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ShareholderAddModal from "../../components/ShareholderAddModal";
-import { createShare, getShare } from "../../store/features/auth/shareSlice";
+import {
+  createShare,
+  deleteShare,
+  getShare,
+  updateShare,
+} from "../../store/features/auth/shareSlice";
+import DeleteModal from "../../components/DeleteModal";
+import ShareholderEditModal from "../../components/ShareholderEditModal";
 
 const Shareholder = () => {
   const [showModal, setShowModal] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(null);
   const { share, loading } = useSelector((state) => state.share);
   const dispatch = useDispatch();
 
@@ -93,6 +31,24 @@ const Shareholder = () => {
       toast.success("শেয়ার হোল্ডার সফলভাবে যোগ করা হয়েছে");
     } else {
       toast.error("শেয়ার হোল্ডার যোগ করা যায়নি");
+    }
+  };
+
+  const handleUpdateShare = async (id, formData) => {
+    const res = await dispatch(updateShare({ id, formData }));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      dispatch(getShare());
+      setEditData(null);
+    }
+  };
+
+  const handelDelete = async (id) => {
+    const res = await dispatch(deleteShare(id));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getShare());
+      setShowDeleteModal(null);
     }
   };
 
@@ -179,6 +135,20 @@ const Shareholder = () => {
                     </p>
                   )}
                 </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setEditData(shareholder)}
+                    className="text-white py-1 rounded-md hover:bg-green-600 bg-green-500 cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteModal(shareholder._id)}
+                    className="text-white py-1 hover:bg-red-600 rounded-md bg-red-500 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -213,6 +183,21 @@ const Shareholder = () => {
         <ShareholderAddModal
           handleAddShare={handleAddShare}
           setShowModal={setShowModal}
+        />
+      )}
+      {editData && (
+        <ShareholderEditModal
+          setShowModal={setEditData}
+          editData={editData}
+          handleUpdateShare={handleUpdateShare}
+        />
+      )}
+      {showDeleteModal !== null && (
+        <DeleteModal
+          title="Are you sure to delete this shareholder"
+          onDelete={handelDelete}
+          onClose={() => setShowDeleteModal(null)}
+          id={showDeleteModal}
         />
       )}
     </div>
