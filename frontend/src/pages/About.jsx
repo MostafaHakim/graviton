@@ -83,7 +83,7 @@ const About = () => {
                           {value.title}
                         </h3>
                       </div>
-                      <p className="text-sm text-gray-600 font-kalpurush">
+                      <p className="text-sm text-gray-600 font-kalpurush whitespace-pre-wrap">
                         {value.description}
                       </p>
                     </div>
