@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uploadToCloudinary from "../utils/cloudinery";
 
-const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
+const AddChapterModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  headline,
+  initialData,
+  isEdit,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -17,6 +24,11 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
     },
   });
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -68,7 +80,7 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-[600px] max-h-[90vh] overflow-y-auto rounded-lg p-6 shadow-lg">
         <h2 className="text-xl font-bold mb-4 uppercase">{headline}</h2>
 
@@ -120,7 +132,7 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
             />
             {formData.content.imageUrl && (
               <img
-                src={formData.content.imageUrl}
+                src={formData?.content?.imageUrl}
                 alt="preview"
                 className="mt-2 h-24 rounded border-2 border-white shadow"
               />
@@ -183,7 +195,11 @@ const AddChapterModal = ({ isOpen, onClose, onSubmit, headline }) => {
               disabled={loading}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-bold disabled:bg-blue-300"
             >
-              {loading ? "Uploading..." : "Add Chapter"}
+              {loading
+                ? "Uploading..."
+                : isEdit
+                  ? "Update Chapter"
+                  : "Add Chapter"}
             </button>
           </div>
         </form>

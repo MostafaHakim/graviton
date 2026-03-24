@@ -97,13 +97,21 @@ import { Link, useParams } from "react-router-dom";
 import { getSubjectById } from "../../store/features/auth/subjectSlice";
 import { getClassById } from "../../store/features/auth/classesSlice";
 import AddChapterModal from "../../components/AddChapterModal";
-import { createChapter } from "../../store/features/auth/chapterSlice";
+import {
+  createChapter,
+  deleteChapter,
+  updateChapter,
+} from "../../store/features/auth/chapterSlice";
+import { Edit, Trash2 } from "lucide-react";
+import DeleteModal from "../../components/DeleteModal";
 
 const SubjectManagement = () => {
   const { classId, subjectId } = useParams();
   const { class: currentClass } = useSelector((state) => state.classes);
   const { subject, loading } = useSelector((state) => state.subjects);
-
+  const [selectedChapter, setSelectedChapter] = React.useState(null);
+  const [selectedDeleteChapter, setSelectedDeleteChapter] =
+    React.useState(null);
   const dispatch = useDispatch();
 
   const [isAddChapterModalOpen, setIsAddChapterModalOpen] =
@@ -122,12 +130,31 @@ const SubjectManagement = () => {
   }, [subjectId, dispatch]);
 
   const handleAddChapter = async (formData) => {
-    const res = await dispatch(
-      createChapter({ ...formData, subject: subjectId }),
-    );
+    let res;
+
+    if (selectedChapter) {
+      res = await dispatch(
+        updateChapter({
+          id: selectedChapter._id,
+          data: { ...formData, subject: subjectId },
+        }),
+      );
+    } else {
+      res = await dispatch(createChapter({ ...formData, subject: subjectId }));
+    }
+
     if (res.meta.requestStatus === "fulfilled") {
-      dispatch(getSubjectById(subjectId));
+      await dispatch(getSubjectById(subjectId));
       setIsAddChapterModalOpen(false);
+      setSelectedChapter(null);
+    }
+  };
+
+  const handleDeleteChapter = async (id) => {
+    const res = await dispatch(deleteChapter(id));
+    if (res.meta.requestStatus === "fulfilled") {
+      await dispatch(getSubjectById(subjectId));
+      setSelectedDeleteChapter(null);
     }
   };
 
@@ -266,6 +293,27 @@ const SubjectManagement = () => {
                 to={chapter._id}
                 className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedChapter(chapter);
+                      setIsAddChapterModalOpen(true);
+                    }}
+                    className="bg-white shadow px-2 py-1 rounded text-xs"
+                  >
+                    <Edit size={16} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedDeleteChapter(chapter._id);
+                    }}
+                    className="bg-white shadow px-2 py-1 rounded text-xs"
+                  >
+                    <Trash2 color="red" size={16} />
+                  </button>
+                </div>
                 {/* Card Accent Line */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
 
@@ -408,9 +456,24 @@ const SubjectManagement = () => {
       {isAddChapterModalOpen && (
         <AddChapterModal
           isOpen={isAddChapterModalOpen}
-          onClose={() => setIsAddChapterModalOpen(false)}
+          onClose={() => {
+            setIsAddChapterModalOpen(false);
+            setSelectedChapter(null);
+          }}
           onSubmit={handleAddChapter}
-          headline={`Add New Chapter For ${subject?.name || "Subject"}`}
+          initialData={selectedChapter}
+          isEdit={!!selectedChapter}
+          headline={`${
+            selectedChapter ? "Edit Chapter" : "Add New Chapter"
+          } For ${subject?.name || "Subject"}`}
+        />
+      )}
+      {selectedDeleteChapter !== null && (
+        <DeleteModal
+          title="Are you sure to delete this chapter"
+          onDelete={handleDeleteChapter}
+          onClose={() => setSelectedDeleteChapter(null)}
+          id={selectedDeleteChapter}
         />
       )}
     </div>

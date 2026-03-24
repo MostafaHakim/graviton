@@ -65,6 +65,53 @@ export const getChapterById = createAsyncThunk(
   },
 );
 
+export const updateChapter = createAsyncThunk(
+  "chapter/update",
+  async ({ id, data }, { rejectWithValue }) => {
+    console.log(id, data);
+    try {
+      const res = await fetch(`${baseUrl}/api/chapters/update/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(result.message);
+      }
+
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteChapter = createAsyncThunk(
+  "chapter/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/chapters/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Club failed to fetch");
+      }
+
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const chaptersSlice = createSlice({
   name: "chapters",
   initialState: {
@@ -117,6 +164,41 @@ const chaptersSlice = createSlice({
         state.chapters = action.payload;
       })
       .addCase(getChapters.rejected, (state, action) => {
+        state.loading = false;
+        state.chapters = [];
+        state.error = action.payload;
+      })
+      // =============Update==============
+      .addCase(updateChapter.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(updateChapter.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.chapters.findIndex(
+          (item) => item._id === action.payload,
+        );
+
+        if (index !== -1) {
+          state.chapters[index] = action.payload;
+        }
+      })
+      .addCase(updateChapter.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //   Delete
+      .addCase(deleteChapter.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteChapter.fulfilled, (state, action) => {
+        state.loading = false;
+        state.chapters = state.chapters.filter(
+          (chapter) => chapter._id !== action.payload,
+        );
+      })
+      .addCase(deleteChapter.rejected, (state, action) => {
         state.loading = false;
         state.chapters = [];
         state.error = action.payload;

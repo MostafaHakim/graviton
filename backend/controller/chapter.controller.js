@@ -42,6 +42,29 @@ exports.getChapterById = async (req, res) => {
   }
 };
 
+// UPDATE About
+exports.updateChapter = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const chapter = await Chapter.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Chapter updated successfully",
+      chapter,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 //Delete a chapter
 exports.deleteChapter = async (req, res) => {
   try {

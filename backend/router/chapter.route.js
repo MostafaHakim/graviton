@@ -11,6 +11,8 @@ router.get("/subject/:subjectId", chapterController.getChaptersBySubject);
 // Get a chapter by ID
 router.get("/:chapterId", chapterController.getChapterById);
 
+router.put("/update/:id", chapterController.updateChapter);
+
 // Delete a chapter
 router.delete("/:chapterId", chapterController.deleteChapter);
 

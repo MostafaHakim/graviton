@@ -5,6 +5,7 @@ import {
   createAbout,
   deleteAbout,
   getAbout,
+  updateAbout,
 } from "../../store/features/auth/aboutSlice";
 import {
   Plus,
@@ -21,6 +22,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Search,
+  Edit,
 } from "lucide-react";
 import DeleteModal from "../../components/DeleteModal";
 
@@ -62,17 +64,21 @@ const AboutManagement = () => {
   const totalPages = Math.ceil((filteredAbouts?.length || 0) / itemsPerPage);
 
   const handleAddAbout = async (formData) => {
-    const res = await dispatch(createAbout(formData));
+    let res;
+
+    if (selectedAbout) {
+      res = await dispatch(
+        updateAbout({ id: selectedAbout._id, data: formData }),
+      );
+    } else {
+      res = await dispatch(createAbout(formData));
+    }
+
     if (res.meta.requestStatus === "fulfilled") {
       await dispatch(getAbout());
       setShowModal(false);
       setSelectedAbout(null);
     }
-  };
-
-  const handleViewAbout = (about) => {
-    setSelectedAbout(about);
-    setShowViewModal(true);
   };
 
   const handleDeleteAbout = async (id) => {
@@ -120,10 +126,10 @@ const AboutManagement = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative">
+        <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex items-center justify-center relative">
             <div className="w-20 h-20 border-4 border-gray-200 rounded-full"></div>
-            <div className="w-20 h-20 border-4 border-black border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+            <div className="w-20 h-20 border-4 border-black border-t-transparent rounded-full animate-spin absolute top-0 left-0 right-0 bottom-0"></div>
           </div>
           <h2 className="text-xl text-gray-700 mt-4 font-medium">
             Loading About Contents...
@@ -303,6 +309,16 @@ const AboutManagement = () => {
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
+                            onClick={() => {
+                              setSelectedAbout(about);
+                              setShowModal(true);
+                            }}
+                            className="p-1.5 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100"
+                            title="Edit"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
                             onClick={() => setShowDeleteModal(about._id)}
                             className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-gray-100 transition-colors"
                             title="Delete"
@@ -415,6 +431,16 @@ const AboutManagement = () => {
                             >
                               <Eye className="w-4 h-4" />
                             </button>
+                            <button
+                              onClick={() => {
+                                setSelectedAbout(about);
+                                setShowModal(true);
+                              }}
+                              className="p-1.5 text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100"
+                              title="Edit"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
 
                             <button
                               onClick={() => handleDeleteAbout(about._id)}
@@ -497,7 +523,7 @@ const AboutManagement = () => {
           <div className="fixed inset-0 z-50 overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen px-4">
               <div
-                className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+                className="fixed inset-0 bg-black/50  transition-opacity"
                 onClick={handleCloseModal}
               ></div>
               <div className="relative bg-white rounded-2xl max-w-3xl w-full mx-auto shadow-2xl">
