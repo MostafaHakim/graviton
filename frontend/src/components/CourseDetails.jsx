@@ -35,14 +35,6 @@ const CourseDetails = () => {
     }
   }, [dispatch, id]);
 
-  const handleEnroll = () => {
-    toast.success("কোর্সে এনরোল সফল হয়েছে");
-  };
-
-  const handleWishlist = () => {
-    toast.success("উইশলিস্টে যোগ করা হয়েছে");
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] to-white flex items-center justify-center">
@@ -120,7 +112,7 @@ const CourseDetails = () => {
 
               {/* Course Description */}
               {course.about && (
-                <p className="text-lg text-white/90 mb-8 font-kalpurush leading-relaxed">
+                <p className="text-lg text-white/90 mb-8 font-kalpurush leading-relaxed whitespace-pre-wrap">
                   {course.about}
                 </p>
               )}

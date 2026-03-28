@@ -104,7 +104,6 @@ const ChapterManagement = () => {
   }
 
   if (reduxError || (!loading && !chapter)) {
-    console.log(reduxError);
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6">
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-md border border-gray-200">
@@ -228,7 +227,7 @@ const ChapterManagement = () => {
                   <FileText size={20} className="text-gray-500" />
                   Chapter Overview
                 </h3>
-                <p className="text-gray-600 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <p className="text-gray-600 bg-gray-50 p-6 rounded-xl border border-gray-200 whitespace-pre-wrap">
                   {chapter.content.description}
                 </p>
               </div>

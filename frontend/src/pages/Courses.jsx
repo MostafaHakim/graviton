@@ -149,6 +149,7 @@ const Courses = () => {
           {/* Courses Grid */}
           {courses?.length > 0 ? (
             <motion.div
+              key={courses.length}
               variants={containerVariants}
               initial="hidden"
               animate="visible"

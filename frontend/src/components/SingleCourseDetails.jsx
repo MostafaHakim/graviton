@@ -3,8 +3,8 @@ import React from "react";
 
 const SingleCourseDetails = ({ course, onClose }) => {
   return (
-    <div className="min-h-screen bg-black/50 flex items-center justify-center p-6 absolute top-0 left-0 bottom-0 right-0 ">
-      <div className="bg-white max-w-4xl w-full rounded-2xl shadow-lg p-8 relative">
+    <div className="min-h-screen bg-black/50 flex items-center justify-center  absolute top-0 left-0 bottom-0 right-0 p-6">
+      <div className="bg-white max-w-4xl w-full rounded-2xl shadow-lg  relative p-6 ">
         <button
           onClick={() => onClose()}
           className="absolute top-0 right-0 p-4"
@@ -26,7 +26,7 @@ const SingleCourseDetails = ({ course, onClose }) => {
         </span>
 
         {/* About */}
-        <p className="text-gray-600 mt-6 leading-relaxed text-justify">
+        <p className="text-gray-600 mt-6 leading-relaxed text-justify whitespace-pre-wrap">
           {course.about}
         </p>
 
