@@ -4,7 +4,7 @@ import React from "react";
 const SingleCourseDetails = ({ course, onClose }) => {
   return (
     <div className="min-h-screen bg-black/50 flex items-center justify-center  absolute top-0 left-0 bottom-0 right-0 p-6">
-      <div className="bg-white max-w-4xl w-full rounded-2xl shadow-lg  relative p-6 ">
+      <div className="bg-white max-w-6xl w-full rounded-2xl shadow-lg  relative p-6 ">
         <button
           onClick={() => onClose()}
           className="absolute top-0 right-0 p-4"

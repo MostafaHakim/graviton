@@ -75,8 +75,8 @@ const CourseDetails = () => {
     <div className="min-h-screen ">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#134C45] to-[#3BD480] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="w-4/5 mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1  items-center">
             {/* Left Content */}
             <div>
               {/* Breadcrumb */}
@@ -85,7 +85,9 @@ const CourseDetails = () => {
                 <ChevronRight className="w-4 h-4" />
                 <span>কোর্স সমূহ</span>
                 <ChevronRight className="w-4 h-4" />
-                <span className="text-white font-semibold">{course.name}</span>
+                <span className="text-white font-semibold whitespace-pre-wrap">
+                  {course.name}
+                </span>
               </div>
 
               {/* Course Title */}
