@@ -12,7 +12,9 @@ const SingleCourseDetails = ({ course, onClose }) => {
           <X size={16} />{" "}
         </button>
         {/* Title */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">{course.name}</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-4 whitespace-pre-wrap">
+          {course.name}
+        </h1>
 
         {/* Status */}
         <span
