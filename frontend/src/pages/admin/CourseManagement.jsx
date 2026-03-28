@@ -20,6 +20,7 @@ import {
   Eye,
 } from "lucide-react";
 import SingleCourseDetails from "../../components/SingleCourseDetails";
+import { useNavigate } from "react-router-dom";
 
 const CourseManagement = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const CourseManagement = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState("all");
   const [viewingCourse, setViewingCourse] = useState(null);
-
+  const navigate = useNavigate();
   const handleViewDetails = () => {
     setViewingCourse(null);
   };
@@ -285,20 +286,28 @@ const CourseManagement = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end space-x-2">
                         <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleDeleteClick(course)}
-                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </motion.button>
-                        <motion.button
                           onClick={() => setViewingCourse(course)}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                         >
                           <Eye className="w-5 h-5" />
+                        </motion.button>
+                        <motion.button
+                          onClick={() => navigate(`edit/${course._id}`)}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                        >
+                          <Edit className="w-5 h-5" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleDeleteClick(course)}
+                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                        >
+                          <Trash2 className="w-5 h-5" />
                         </motion.button>
                       </div>
                     </td>

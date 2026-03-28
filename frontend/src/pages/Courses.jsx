@@ -200,11 +200,11 @@ const Courses = () => {
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center text-white/80 text-sm">
                         <Users className="w-4 h-4 mr-2 text-[#3BD480]" />
-                        <span>মোট ৪০টি ক্লাস</span>
+                        <span>{course.totalClass}</span>
                       </div>
                       <div className="flex items-center text-white/80 text-sm">
                         <Clock className="w-4 h-4 mr-2 text-[#3BD480]" />
-                        <span>প্রতি ক্লাস ২ ঘন্টা</span>
+                        <span>{course.classDuration}</span>
                       </div>
                     </div>
 

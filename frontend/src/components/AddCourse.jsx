@@ -1,18 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createCourse } from "../store/features/auth/courseSlice";
+import {
+  createCourse,
+  updateCourse,
+  getCourseById,
+} from "../store/features/auth/courseSlice";
 import { motion } from "framer-motion";
-import { Book, DollarSign, FileText, Plus, X } from "lucide-react";
+import {
+  Atom,
+  Book,
+  Clock1,
+  DollarSign,
+  FileText,
+  Plus,
+  X,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useParams } from "react-router-dom";
+
 const AddCourse = () => {
+  const { id } = useParams();
+  const isEdit = !!id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     courseName: "",
+    totalClass: "",
+    classDuration: "",
     about: "",
     fee: "",
   });
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getCourseById(id)).then((res) => {
+        const data = res.payload;
+        console.log(data);
+        setFormData({
+          courseName: data.name || "",
+          totalClass: data.totalClass || "",
+          classDuration: data.classDuration || "",
+          about: data.about || "",
+          fee: data.fee || "",
+        });
+      });
+    }
+  }, [id, dispatch]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,8 +60,14 @@ const AddCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(formData);
-    const res = await dispatch(createCourse(formData));
+
+    let res;
+
+    if (isEdit) {
+      res = await dispatch(updateCourse({ id, data: formData }));
+    } else {
+      res = await dispatch(createCourse(formData));
+    }
 
     setFormData({
       courseName: "",
@@ -115,6 +155,47 @@ const AddCourse = () => {
               </p>
             </div>
 
+            {/* Total Class Field */}
+            <div className="space-y-2 font-kalpurush">
+              <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                <Atom className="w-4 h-4 text-gray-900" />
+                <span>মোট ক্লাস</span>
+              </label>
+              <div className="relative">
+                <input
+                  name="totalClass"
+                  value={formData.totalClass}
+                  onChange={handleChange}
+                  rows="4"
+                  required
+                  placeholder="মোট ক্লাস ৮০ টি"
+                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-900 transition-colors duration-200 text-gray-900 placeholder-gray-400 resize-none"
+                />
+              </div>
+              <p className="text-xs text-gray-500 font-kalpurush">
+                মোট কয়টি ক্লাস থাকবে লিখুন
+              </p>
+            </div>
+
+            {/*  Class Duretion */}
+            <div className="space-y-2 font-kalpurush">
+              <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                <Clock1 className="w-4 h-4 text-gray-900" />
+                <span>প্রতিটি ক্লাসের সময়</span>
+              </label>
+              <div className="relative">
+                <input
+                  name="classDuration"
+                  value={formData.classDuration}
+                  onChange={handleChange}
+                  rows="4"
+                  required
+                  placeholder="প্রতিটি ক্লাস ৪৫ মিনিট"
+                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-900 transition-colors duration-200 text-gray-900 placeholder-gray-400 resize-none"
+                />
+              </div>
+            </div>
+
             {/* About Field */}
             <div className="space-y-2">
               <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 uppercase tracking-wider">
@@ -176,7 +257,15 @@ const AddCourse = () => {
                 }`}
               >
                 <Plus className="w-5 h-5" />
-                <span>{isSubmitting ? "Creating..." : "Create Course"}</span>
+                <span>
+                  {isSubmitting
+                    ? isEdit
+                      ? "Updating..."
+                      : "Creating..."
+                    : isEdit
+                      ? "Update Course"
+                      : "Create Course"}
+                </span>
               </motion.button>
 
               <motion.button

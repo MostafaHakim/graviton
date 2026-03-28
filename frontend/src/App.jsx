@@ -272,10 +272,11 @@ const AppRouter = () => {
           {/* =============================Course Management====================================== */}
           <Route path="course" element={<CourseManagement />} />
           <Route path="course/new-course" element={<AddCourse />} />
+          <Route path="course/edit/:id" element={<AddCourse />} />
           {/* =============================Talent Hunt Management====================================== */}
           <Route path="talent" element={<TalentManagement />} />
           <Route path="talent/:talentId" element={<AppliedStudentList />} />
-          <Route path="course/new-course" element={<AddCourse />} />
+          {/* <Route path="course/new-course" element={<AddCourse />} /> */}
 
           {/* ========================Made Easy Management with Class Subject=================== */}
 

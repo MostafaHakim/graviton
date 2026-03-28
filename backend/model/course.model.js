@@ -5,6 +5,8 @@ const courseSchema = mongoose.Schema(
     name: String,
     about: String,
     fee: Number,
+    totalClass: String,
+    classDuration: String,
     status: {
       type: String,
       enum: ["active", "inactive"],

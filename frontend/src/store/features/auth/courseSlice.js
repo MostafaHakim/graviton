@@ -43,6 +43,18 @@ export const getCourseById = createAsyncThunk(
   },
 );
 
+export const updateCourse = createAsyncThunk(
+  "course/updateCourse",
+  async ({ id, data }, thunkAPI) => {
+    try {
+      const res = await axios.put(`${API_URL}/${id}`, data);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 // DELETE COURSE
 export const deleteCourse = createAsyncThunk(
   "course/deleteCourse",
