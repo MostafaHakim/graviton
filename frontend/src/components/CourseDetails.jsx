@@ -95,6 +95,14 @@ const CourseDetails = () => {
                 {course.name}
               </h1>
 
+              <div className="py-6 flex flex-row items-center justify-start space-x-2">
+                <span className="font-kalpurush text-md rounded-full text-white bg-orange-500 px-6 py-1">
+                  {course.totalClass}
+                </span>
+                <span className="font-kalpurush text-md rounded-full text-white bg-lime-500 px-6 py-1 ">
+                  {course.classDuration}
+                </span>
+              </div>
               {/* Course Status Badge */}
               <div className="flex items-center gap-4 mb-6">
                 <span
