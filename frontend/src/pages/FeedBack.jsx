@@ -31,7 +31,7 @@ const FeedBack = () => {
   const [line, setLine] = useState(false);
   const navigate = useNavigate();
 
-  const { feedbacks, loading, error } = useSelector((state) => state.feedbacks);
+  const { feedbacks } = useSelector((state) => state.feedbacks);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -68,41 +68,6 @@ const FeedBack = () => {
       count: 10,
       icon: Sparkles,
       color: "text-blue-600",
-    },
-  ];
-
-  const testimonials = [
-    {
-      id: 1,
-      name: "আয়েশা রহমান",
-      role: "এইচএসসি শিক্ষার্থী",
-      course: "সাইন্স ফিনিশিং কোর্স",
-      rating: 5,
-      content:
-        "এখানে পড়ানোর পদ্ধতি অসাধারণ! জটিল বিষয়গুলো সহজে বুঝানো হয়। আমার ফলাফল উল্লেখযোগ্যভাবে উন্নতি হয়েছে।",
-      date: "২ দিন আগে",
-      avatar: "আর",
-    },
-    {
-      id: 2,
-      name: "সাকিব আহমেদ",
-      role: "বিশ্ববিদ্যালয় প্রার্থী",
-      course: "আইইএলটিএস প্রিপারেশন",
-      rating: 4,
-      content:
-        "মক টেস্ট ও স্পিকিং সেশনগুলো খুবই উপকারী ছিল। প্রথম চেষ্টাতেই ৭.৫ স্কোর!",
-      date: "১ সপ্তাহ আগে",
-      avatar: "সা",
-    },
-    {
-      id: 3,
-      name: "ফাতেমা জাহান",
-      role: "কর্মজীবী পেশাজীবী",
-      course: "ডিজিটাল মার্কেটিং",
-      rating: 5,
-      content:
-        "ব্যবহারিক অ্যাসাইনমেন্ট ও শিল্প-প্রাসঙ্গিক কারিকুলাম। কোর্স শেষ হওয়ার সাথে সাথেই মার্কেটিং চাকরি পেয়েছি!",
-      date: "৩ সপ্তাহ আগে",
     },
   ];
 

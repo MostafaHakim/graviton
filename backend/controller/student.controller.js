@@ -187,6 +187,77 @@ const deleteStudent = async (req, res) => {
   }
 };
 
+const updateStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = { ...req.body };
+
+    // পাসওয়ার্ড আলাদা এন্ডপয়েন্টে আপডেট হবে, এখানে বাদ দিন
+    if (updateData.password) {
+      delete updateData.password;
+    }
+
+    // Check if photo is being updated
+    const isPhotoUpdating =
+      updateData.photo && updateData.photo !== req.body.oldPhoto;
+
+    if (isPhotoUpdating) {
+      // Find existing student to get old photo public_id
+      const existingStudent = await Student.findById(id);
+
+      // Delete old photo from cloudinary if exists
+      if (existingStudent && existingStudent.public_id) {
+        try {
+          await cloudinary.uploader.destroy(existingStudent.public_id);
+          console.log(
+            "Old photo deleted from Cloudinary:",
+            existingStudent.public_id,
+          );
+        } catch (cloudinaryError) {
+          console.error("Cloudinary delete error:", cloudinaryError);
+          // Continue with update even if cloudinary delete fails
+        }
+      }
+    }
+
+    // Remove any undefined or null values
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key] === undefined || updateData[key] === null) {
+        delete updateData[key];
+      }
+    });
+
+    const updatedStudent = await Student.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).select("-password");
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Student updated successfully",
+      data: updatedStudent,
+    });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Update failed",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -195,4 +266,5 @@ module.exports = {
   updateStudentStatus,
   deleteStudent,
   updatePassword,
+  updateStudent,
 };

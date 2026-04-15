@@ -3,7 +3,7 @@ const Gallery = require("../model/gallery.model");
 // Get all gallery
 const getAllGallery = async (req, res) => {
   const { category } = req.query;
-
+  console.log("Category:", category);
   const filter = { isPublished: true };
   if (category && category !== "all") {
     filter.category = category;

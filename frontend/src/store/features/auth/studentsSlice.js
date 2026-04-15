@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -166,6 +167,31 @@ export const updatePassword = createAsyncThunk(
   },
 );
 
+export const updateStudent = createAsyncThunk(
+  "students/updateStudent",
+  async ({ formData, id }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/students/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Student update failed");
+      }
+
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const studentsSlice = createSlice({
   name: "students",
   initialState: {
@@ -266,6 +292,20 @@ const studentsSlice = createSlice({
         state.loading = false;
         state.student = null;
         state.error = action.payload;
+      })
+      //   Update
+      .addCase(updateStudent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateStudent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.student = action.payload;
+        toast.success("Profile updated successfully!");
+      })
+      .addCase(updateStudent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload || "Update failed");
       })
       //   Update password
       .addCase(updatePassword.pending, (state) => {

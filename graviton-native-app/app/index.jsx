@@ -1,14 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
+import { Link, Redirect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const Home = () => {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text>Home</Text>
-    </SafeAreaView>
-  );
+const index = () => {
+  return <Redirect href="/(auth)/welcome" />;
 };
 
-export default Home;
+export default index;
 
 const styles = StyleSheet.create({});

@@ -149,10 +149,10 @@ const approveAsStudent = async (req, res) => {
     // ====== APPROVED FLOW ======
 
     const lastUser = await Student.findOne().sort({ createdAt: -1 });
-
+    console.log(lastUser);
     let nextNumber = 2555;
     if (lastUser) {
-      const lastId = lastUser.studentId;
+      const lastId = lastUser?.studentId;
       const numberPart = parseInt(lastId.slice(1));
       nextNumber = numberPart + 1;
     }
