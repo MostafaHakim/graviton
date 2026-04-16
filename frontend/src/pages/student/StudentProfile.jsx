@@ -7,7 +7,7 @@ import {
 } from "../../store/features/auth/studentsSlice";
 import { checkExamByStudent } from "../../store/features/auth/attemptSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { Edit, LogOut, Save, User, Camera, X, Loader } from "lucide-react";
+import { LogOut, Save, User, Camera, X, Loader } from "lucide-react";
 import { logoutUser } from "../../store/features/auth/authSlice";
 import ChangePassword from "../../components/ChangePassword";
 import { toast } from "react-toastify";
@@ -33,7 +33,7 @@ const StudentProfile = () => {
   const [photoPreview, setPhotoPreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  const { student, loading } = useSelector((state) => state.students);
+  const { student } = useSelector((state) => state.students);
   const { check } = useSelector((state) => state.attempt);
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -103,6 +103,37 @@ const StudentManagement = () => {
         {/* Classes Grid */}
         {classes && classes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <Link
+              to="students"
+              key=""
+              className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+            >
+              {/* Card Accent Line */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+
+              <div className="p-6 flex flex-col items-center text-center">
+                {/* Class Icon */}
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-200 group-hover:border-gray-300 transition-colors">
+                  <span className="text-2xl font-light text-gray-600 capitalize">
+                    A
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-medium text-gray-900 mb-2 capitalize font-kalpurush">
+                  All Students
+                </h3>
+
+                <div className="w-12 h-0.5 bg-gray-200 rounded-full mb-4"></div>
+
+                <div className="inline-flex items-center gap-2 text-sm text-gray-500 group-hover/link:text-gray-700 transition-colors">
+                  <span className="font-kalpurush">সকল স্টুডেন্ট দেখুন</span>
+                  <ChevronRight
+                    size={16}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </div>
+              </div>
+            </Link>
             {classes.map((cls, i) => (
               <Link
                 to={cls._id}

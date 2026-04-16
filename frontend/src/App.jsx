@@ -96,6 +96,7 @@ import About from "./pages/About";
 import VisitorMessages from "./pages/VisitorMessages";
 import AboutManagement from "./pages/admin/AboutManagement";
 import FeedbackManagement from "./pages/admin/FeedbackManagement";
+import StudentList from "./pages/student/StudentList";
 
 // =======================Admin Student=======================
 
@@ -249,6 +250,7 @@ const AppRouter = () => {
           <Route path="settings" element={<SettingsPage />} />
 
           <Route path="student" element={<StudentManagement />} />
+          <Route path="student/students" element={<StudentList />} />
           <Route path="student/:classId" element={<StudentClassWise />} />
           <Route
             path="student/:classId/:studentId"

@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import ID from "../assets/idcard.png";
-import { Printer } from "lucide-react";
+import { Printer, X } from "lucide-react";
 
 import { useReactToPrint } from "react-to-print";
 
-const IdCard = ({ student }) => {
+const IdCard = ({ student, onClose }) => {
   const [flipped, setFlipped] = useState(false);
   const componentRef = useRef();
 
@@ -28,13 +28,23 @@ const IdCard = ({ student }) => {
       <p className="text-white/70 text-sm font-light tracking-widest uppercase">
         Click card to flip
       </p>
-      <button
-        onClick={() => handlePrint()}
-        className="transition-all duration-300 flex flex-row items-center justify-center space-x-2 px-6 py-2 border border-white text-white hover:bg-[#144F46] rounded-full cursor-pointer"
-      >
-        <Printer size={16} />
-        <span>Print</span>
-      </button>
+
+      <div className="flex flex-row space-x-2">
+        <button
+          onClick={() => onClose()}
+          className="transition-all duration-300 flex flex-row items-center justify-center space-x-2 px-6 py-2 border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white rounded-full cursor-pointer"
+        >
+          <X size={16} />
+          <span>Close</span>
+        </button>
+        <button
+          onClick={() => handlePrint()}
+          className="transition-all duration-300 flex flex-row items-center justify-center space-x-2 px-6 py-2 border border-white text-white hover:bg-[#144F46] rounded-full cursor-pointer"
+        >
+          <Printer size={16} />
+          <span>Print</span>
+        </button>
+      </div>
       {/* Card Container */}
       <div
         className="bg-white flex items-center justify-center"
