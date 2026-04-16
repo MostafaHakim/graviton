@@ -20,6 +20,7 @@ const StudentProfileManagement = () => {
   const [edit, setEdit] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [editData, setEditData] = useState({
+    studentId: "",
     studentName: "",
     fatherName: "",
     motherName: "",
@@ -251,7 +252,18 @@ const StudentProfileManagement = () => {
             <p className="text-gray-500 lowercase">{student?.email}</p>
             <p className="text-gray-600 mt-1">
               Student ID:{" "}
-              <span className="font-semibold">{student?.studentId}</span>
+              {edit ? (
+                <input
+                  name="studentId"
+                  value={editData.studentId}
+                  onChange={handleEditChange}
+                  className="font-semibold border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Student Id"
+                  disabled={uploading}
+                />
+              ) : (
+                <span className="font-semibold">{student?.studentId}</span>
+              )}
             </p>
 
             {/* Status */}
