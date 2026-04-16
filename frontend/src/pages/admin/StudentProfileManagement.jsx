@@ -50,6 +50,7 @@ const StudentProfileManagement = () => {
   useEffect(() => {
     if (student && edit) {
       setEditData({
+        studentId: student.studentId || "",
         studentName: student.studentName || "",
         fatherName: student.fatherName || "",
         motherName: student.motherName || "",
