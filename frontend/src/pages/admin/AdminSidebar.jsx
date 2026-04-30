@@ -133,9 +133,9 @@ const AdminSidebar = () => {
   };
 
   return (
-    <div className="w-64 hidden lg:flex flex-col bg-white border-r border-gray-200 min-h-screen font-kalpurush">
+    <div className="w-64 hidden lg:flex flex-col bg-white border-r border-gray-200 h-full font-kalpurush">
       {/* Profile Section */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center text-gray-700 font-bold">
             <img className="w-10 h-10 rounded-lg " src={user?.photo} alt="" />
@@ -150,7 +150,7 @@ const AdminSidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-3 overflow-y-auto">
+      <nav className="flex-1 p-3 overflow-y-auto min-h-0">
         <div className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -176,7 +176,7 @@ const AdminSidebar = () => {
       </nav>
 
       {/* Bottom Section */}
-      <div className="p-3 pb-28 border-t border-gray-200">
+      <div className="p-3 pb-6 border-t border-gray-200 flex-shrink-0">
         {/* Profile Link */}
         <NavLink
           to="/admin/profile"

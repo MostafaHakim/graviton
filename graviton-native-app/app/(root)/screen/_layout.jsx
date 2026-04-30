@@ -7,6 +7,10 @@ export default function Layout() {
         name="AdmissionForm"
         options={{ title: "Tabs", headerShown: false }}
       />
+      <Stack.Screen
+        name="dashboard"
+        options={{ title: "Dashboard", headerShown: false }}
+      />
     </Stack>
   );
 }

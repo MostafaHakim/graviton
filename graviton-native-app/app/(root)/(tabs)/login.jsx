@@ -1,8 +1,50 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Lock, LogIn, User } from "lucide-react-native";
+import { useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import Logo from "../../../assets/icon.png";
+import { loginUser } from "../../../store/auth/authSlice";
+
 const Login = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { user, token } = useSelector((state) => state.auth);
+
+  const [formData, setFormData] = useState({
+    userId: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    if (user && token) {
+      router.replace("/(root)/screen/dashboard");
+    }
+  }, [user, token]);
+
+  const handleLogin = async () => {
+    if (!formData.userId || !formData.password) {
+      Alert.alert("Error", "Please enter both User ID and Password");
+      return;
+    }
+
+    const res = await dispatch(loginUser(formData));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      router.push("/(root)/screen/dashboard");
+    } else {
+      Alert.alert("Login failed", res.payload || "Check your ID & Password");
+    }
+  };
+
   return (
     <View className="h-screen flex flex-col items-start justify-start bg-[#172330] py-10">
       <LinearGradient
@@ -29,8 +71,12 @@ const Login = () => {
                 <Text className="text-white ">ব্যবহারকারীর ইউজার আইডি</Text>
               </View>
               <TextInput
-                placeholder="Enter Your Login ID"
+                placeholder="Enter Your User ID"
                 className="bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/50"
+                value={formData.userId}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, userId: text })
+                }
               />
             </View>
             <View className="flex flex-col mb-4">
@@ -41,11 +87,19 @@ const Login = () => {
                 <Text className="text-white ">পাসওয়ার্ড</Text>
               </View>
               <TextInput
+                secureTextEntry
+                value={formData.password}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, password: text })
+                }
                 placeholder="Enter Your Password"
                 className="bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/50"
               />
             </View>
-            <TouchableOpacity className="flex flex-row items-center justify-center bg-[#38CC7C] rounded-lg py-3 mt-4">
+            <TouchableOpacity
+              className="flex flex-row items-center justify-center bg-[#38CC7C] rounded-lg py-3 mt-4"
+              onPress={handleLogin}
+            >
               <LogIn size={16} color="white" className="mx-auto mb-1" />
               <Text className="text-center text-white font-bold ml-2  ">
                 লগইন
